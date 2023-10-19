@@ -1,9 +1,7 @@
 const _ = require('lodash');
-const user = require('./user'); // Użyj względnej ścieżki do importu
+const user = require('./user');
 
-const grades = user.allGrades.reduce((acc, subject) => acc.concat(subject.grades), []);
-const mean = _.mean(grades);
+const subject_w1 = _.find(user.allGrades, { weight: 1 });
 
-console.log(`Imię: 	  ${user.name}`);
-console.log(`Nazwisko: ${user.surname}`)
-console.log('Średnia ważona:', mean);
+if (subject_w1) console.log(`Przedmiot o wadze 1: ${subject_w1.subjectName}`);
+else console.log('Nie znaleziono przedmiotu o wadze 1.');
