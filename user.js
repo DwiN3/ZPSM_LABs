@@ -17,6 +17,11 @@ const user = {
       grades: [5, 6, 4],
       weight: 5,
     },
+	{
+      subjectName: 'Plastyka',
+      grades: [6, 6, 6],
+      weight: 1,
+	},
   ],
 };
 
