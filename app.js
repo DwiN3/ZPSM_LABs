@@ -1,10 +1,9 @@
 const _ = require('lodash');
+const user = require('./user'); // Użyj względnej ścieżki do importu
 
-const numbers = [1, -4, 83, 15, -6];
-const min = _.min(numbers);
-const max = _.max(numbers);
-const mean = _.mean(numbers);
+const grades = user.allGrades.reduce((acc, subject) => acc.concat(subject.grades), []);
+const mean = _.mean(grades);
 
-console.log('Minimalna wartość:', min);
-console.log('Maksymalna wartość:', max);
-console.log('Średnia arytmetyczna:', mean);
+console.log(`Imię: 	  ${user.name}`);
+console.log(`Nazwisko: ${user.surname}`)
+console.log('Średnia ważona:', mean);
