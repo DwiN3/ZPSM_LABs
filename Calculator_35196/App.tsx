@@ -53,6 +53,39 @@ const App = () => {
       setDisplayText('Błąd');
     }
   };
+
+  const sqrt = (root: number | string) => {
+    try {
+      let result;
+      if (root === 'y') {
+        /*
+        const y = parseFloat(displayText);
+        const x = parseFloat(prompt('Podaj x:')); 
+        if (!isNaN(y) && !isNaN(x)) {
+          result = Math.pow(x, 1 / y);
+        }
+        */
+      } else {
+        const x = parseFloat(displayText);
+        if (!isNaN(x)) {
+          if (root === '√') {
+            result = Math.sqrt(x);
+          } else if (root === '³√') {
+            result = Math.pow(x, 1 / 3);
+          }
+        }
+      }
+  
+      if (result !== undefined) {
+        setDisplayText(result.toString());
+      } else {
+        setDisplayText('Błąd obliczeń');
+      }
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+  
   
   const procent = () => {
     try {
@@ -88,6 +121,8 @@ const App = () => {
       setDisplayText('Błąd');
     }
   };
+
+  
   
   const handleOrientationChange = () => {
     const { width, height } = Dimensions.get('window');
@@ -266,12 +301,13 @@ const App = () => {
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
               <Text style={styles.moreTextButtons}>1/x</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
-              <Text style={styles.moreTextButtons}>√x</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
-              <Text style={styles.moreTextButtons}>³√x</Text>
-            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => sqrt('√')}>
+  <Text style={styles.moreTextButtons}>√x</Text>
+</TouchableOpacity>
+<TouchableOpacity style={styles.moreButtons} onPress={() => sqrt('³√')}>
+  <Text style={styles.moreTextButtons}>³√x</Text>
+ </TouchableOpacity>
+
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
               <Text style={styles.moreTextButtons}>y√x</Text>
             </TouchableOpacity>
@@ -298,7 +334,7 @@ const App = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.moreButtons} onPress={silnia}>
+            <TouchableOpacity style={styles.moreButtons} onPress={factorial}>
               <Text style={styles.moreTextButtons}>x!</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
