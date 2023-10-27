@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
-import { clearDisplay, handleButtonPress, calculateResult } from './functions';
 
 const App = () => {
   const [displayText, setDisplayText] = useState('0');
@@ -9,10 +8,16 @@ const App = () => {
   );
 
   const handleButtonPress = (buttonValue) => {
-    if (displayText === '0' ) {
+    if (displayText === '0' && /[0-9]/.test(buttonValue)) {
       setDisplayText(buttonValue);
     } else {
-      setDisplayText((prevText) => prevText + buttonValue);
+      setDisplayText((prevText) => {
+        if (prevText === '0' && buttonValue === '(') {
+          return buttonValue;
+        } else {
+          return prevText + buttonValue;
+        }
+      });
     }
   };
 
@@ -28,6 +33,28 @@ const App = () => {
       setDisplayText('Błąd');
     }
   };
+
+  const power = (exponent: number | string) => {
+    try {
+      let result;
+      if (exponent === 'y') {
+        // Wprowadź obsługę niestandardowego eksponenta 'y' tutaj
+        // Na przykład, możesz poprosić użytkownika o podanie wartości 'y' i obliczyć wynik
+      } else {
+        result = Math.pow(parseFloat(displayText), exponent as number); // użyj "as number", aby poinformować TypeScript o zamianie typu
+      }
+      
+      if (result !== undefined) {
+        setDisplayText(result.toString());
+      } else {
+        setDisplayText('Błąd obliczeń');
+      }
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+  
+  
 
   
   const handleOrientationChange = () => {
@@ -172,13 +199,13 @@ const App = () => {
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
               <Text style={styles.moreTextButtons}>2nd</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => power(2)}>
               <Text style={styles.moreTextButtons}>x²</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => power(3)}>
               <Text style={styles.moreTextButtons}>x³</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => power('y')}>
               <Text style={styles.moreTextButtons}>x^y</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
