@@ -38,10 +38,9 @@ const App = () => {
     try {
       let result;
       if (exponent === 'y') {
-        // Wprowadź obsługę niestandardowego eksponenta 'y' tutaj
-        // Na przykład, możesz poprosić użytkownika o podanie wartości 'y' i obliczyć wynik
+        
       } else {
-        result = Math.pow(parseFloat(displayText), exponent as number); // użyj "as number", aby poinformować TypeScript o zamianie typu
+        result = Math.pow(parseFloat(displayText), exponent as number); 
       }
       
       if (result !== undefined) {
@@ -54,6 +53,24 @@ const App = () => {
     }
   };
   
+  const procent = () => {
+    try {
+      const currentText = eval(displayText);
+      const finalResult = currentText / 100;
+      setDisplayText(finalResult.toString());
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+
+  const minus_plus = () => {
+    const currentText = displayText;
+    if (currentText[0] === '-') {
+      setDisplayText(currentText.slice(1));
+    } else {
+      setDisplayText('-' + currentText);
+    }
+  };
   
 
   
@@ -182,10 +199,10 @@ const App = () => {
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
               <Text style={styles.moreTextButtons}>AC</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={minus_plus}>
               <Text style={styles.moreTextButtons}>+/-</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={procent}>
               <Text style={styles.moreTextButtons}>%</Text>
             </TouchableOpacity>
             <TouchableOpacity
