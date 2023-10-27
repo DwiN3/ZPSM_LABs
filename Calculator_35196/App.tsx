@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+const math = require('mathjs');
 
 const App = () => {
   const [displayText, setDisplayText] = useState('0');
@@ -72,7 +73,21 @@ const App = () => {
     }
   };
   
-
+  const factorial = () => {
+    try {
+      const currentText = displayText;
+      const number = parseFloat(currentText);
+  
+      if (!isNaN(number) && Number.isInteger(number) && number >= 0) {
+        const result = math.factorial(number);
+        setDisplayText(result.toString());
+      } else {
+        setDisplayText('Błąd');
+      }
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
   
   const handleOrientationChange = () => {
     const { width, height } = Dimensions.get('window');
@@ -283,7 +298,7 @@ const App = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={silnia}>
               <Text style={styles.moreTextButtons}>x!</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
