@@ -54,8 +54,8 @@ const App = () => {
       {orientation === 'portrait' ? (
         <View style={[styles.buttons, { flex: 4 }]}>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.buttonClear} onPress={clearDisplay}>
-              <Text style={[styles.buttonTextClear, { flex: 3 }]}>AC</Text>
+            <TouchableOpacity style={[styles.buttonClear, { flex: 3 }]} onPress={clearDisplay}>
+              <Text style={styles.buttonText}>AC</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonOperator}
@@ -151,8 +151,8 @@ const App = () => {
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
               <Text style={styles.moreTextButtons}>mr</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonClear} onPress={clearDisplay}>
-              <Text style={styles.buttonTextClear}>AC</Text>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>AC</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
               <Text style={styles.moreTextButtons}>+/-</Text>
@@ -164,72 +164,144 @@ const App = () => {
               style={styles.buttonOperator}
               onPress={() => handleButtonPress('/')}
             >
-              <Text style={styles.buttonTextOperator}>/</Text>
+              <Text style={[styles.buttonTextOperator, { fontSize: 25 }]}>/</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>2nd</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>x²</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>x³</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>x^y</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>e^x</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>10^x</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('7')}>
-              <Text style={styles.buttonText}>7</Text>
+              <Text style={styles.moreTextButtons}>7</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('8')}>
-              <Text style={styles.buttonText}>8</Text>
+              <Text style={styles.moreTextButtons}>8</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('9')}>
-              <Text style={styles.buttonText}>9</Text>
+              <Text style={styles.moreTextButtons}>9</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonOperator}
               onPress={() => handleButtonPress('*')}
             >
-              <Text style={styles.buttonTextOperator}>*</Text>
+              <Text style={[styles.buttonTextOperator, { fontSize: 25 }]}>*</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>1/x</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>√x</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>³√x</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>y√x</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>In</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>log10</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('4')}>
-              <Text style={styles.buttonText}>4</Text>
+              <Text style={styles.moreTextButtons}>4</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('5')}>
-              <Text style={styles.buttonText}>5</Text>
+              <Text style={styles.moreTextButtons}>5</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('6')}>
-              <Text style={styles.buttonText}>6</Text>
+              <Text style={styles.moreTextButtons}>6</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonOperator}
               onPress={() => handleButtonPress('-')}
             >
-              <Text style={styles.buttonTextOperator}>-</Text>
+              <Text style={[styles.buttonTextOperator, { fontSize: 25 }]}>-</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>x!</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>sin</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>con</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>tan</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>e</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>EE</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('1')}>
-              <Text style={styles.buttonText}>1</Text>
+              <Text style={styles.moreTextButtons}>1</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('2')}>
-              <Text style={styles.buttonText}>2</Text>
+              <Text style={styles.moreTextButtons}>2</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('3')}>
-              <Text style={styles.buttonText}>3</Text>
+              <Text style={styles.moreTextButtons}>3</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonOperator}
               onPress={() => handleButtonPress('+')}
             >
-              <Text style={styles.buttonTextOperator}>+</Text>
+              <Text style={[styles.buttonTextOperator, { fontSize: 25 }]}>+</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
+          <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>Rad</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>sinh</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>cosh</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>tanh</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>π</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+              <Text style={styles.moreTextButtons}>Rand</Text>
+            </TouchableOpacity>
             <TouchableOpacity style={styles.buttonZero} onPress={() => handleButtonPress('0')}>
-              <Text style={styles.buttonText}>0</Text>
+              <Text style={styles.moreTextButtons}>0</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress(',')}>
-              <Text style={styles.buttonText}>.</Text>
+              <Text style={styles.moreTextButtons}>.</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonOperator}
               onPress={calculateResult}
             >
-              <Text style={styles.buttonTextOperator}>=</Text>
+              <Text style={[styles.buttonTextOperator, { fontSize: 25 }]}>=</Text>
             </TouchableOpacity>
           </View>
         </View>
