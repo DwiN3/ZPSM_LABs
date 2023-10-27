@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+import { clearDisplay, handleButtonPress, calculateResult } from './functions';
 
 const App = () => {
   const [displayText, setDisplayText] = useState('0');
@@ -8,7 +9,7 @@ const App = () => {
   );
 
   const handleButtonPress = (buttonValue) => {
-    if (displayText === '0' && /[0-9]/.test(buttonValue)) {
+    if (displayText === '0' ) {
       setDisplayText(buttonValue);
     } else {
       setDisplayText((prevText) => prevText + buttonValue);
@@ -133,10 +134,10 @@ const App = () => {
       ) : (
         <View style={[styles.buttons, { flex: 10 }]}>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => handleButtonPress('(')}>
               <Text style={styles.moreTextButtons}>(</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => handleButtonPress(')')}>
               <Text style={styles.moreTextButtons}>)</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
