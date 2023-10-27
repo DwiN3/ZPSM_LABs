@@ -122,7 +122,53 @@ const App = () => {
     }
   };
 
+  const toRadians = (degrees: number) => {
+    return degrees * (Math.PI / 180);
+  };
   
+  const roundToTwoDecimalPlaces = (value: number) => {
+    return Math.round(value * 100) / 100;
+  };
+  
+  const trigFunction = (funcName: string) => {
+    try {
+      let result;
+      const degrees = parseFloat(displayText);
+      if (!isNaN(degrees)) {
+        const radians = toRadians(degrees);
+        switch (funcName) {
+          case 'sin':
+            result = Math.sin(radians);
+            break;
+          case 'cos':
+            result = Math.cos(radians);
+            break;
+          case 'tan':
+            result = Math.tan(radians);
+            break;
+          case 'sinh':
+            result = Math.sinh(radians);
+            break;
+          case 'cosh':
+            result = Math.cosh(radians);
+            break;
+          case 'tanh':
+            result = Math.tanh(radians);
+            break;
+          default:
+            break;
+        }
+      }
+  
+      if (result !== undefined) {
+        setDisplayText(roundToTwoDecimalPlaces(result).toString());
+      } else {
+        setDisplayText('Błąd obliczeń');
+      }
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
   
   const handleOrientationChange = () => {
     const { width, height } = Dimensions.get('window');
@@ -337,13 +383,13 @@ const App = () => {
             <TouchableOpacity style={styles.moreButtons} onPress={factorial}>
               <Text style={styles.moreTextButtons}>x!</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => trigFunction('sin')}>
               <Text style={styles.moreTextButtons}>sin</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
-              <Text style={styles.moreTextButtons}>con</Text>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => trigFunction('cos')}>
+              <Text style={styles.moreTextButtons}>cos</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => trigFunction('tan')}>
               <Text style={styles.moreTextButtons}>tan</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
@@ -372,13 +418,13 @@ const App = () => {
           <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
               <Text style={styles.moreTextButtons}>Rad</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => trigFunction('sinh')}>
               <Text style={styles.moreTextButtons}>sinh</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => trigFunction('cosh')}>
               <Text style={styles.moreTextButtons}>cosh</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => trigFunction('tanh')}>
               <Text style={styles.moreTextButtons}>tanh</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
