@@ -48,9 +48,9 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.display}>
-        <Text style={styles.displayText}>{displayText}</Text>
-      </View>
+      <View style={orientation === 'landscape' ? styles.displayLand : styles.display}>
+      <Text style={styles.displayText}>{displayText}</Text>
+</View>
       {orientation === 'portrait' ? (
         <View style={[styles.buttons, { flex: 4 }]}>
           <View style={styles.row}>
@@ -246,6 +246,13 @@ const styles = StyleSheet.create({
   },
   display: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    backgroundColor: '#535457',
+    padding: 10,
+  },
+  displayLand: {
+    flex: 3,
     justifyContent: 'center',
     alignItems: 'flex-end',
     backgroundColor: '#535457',
