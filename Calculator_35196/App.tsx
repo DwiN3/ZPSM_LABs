@@ -22,10 +22,12 @@ const App = () => {
     }
   };
 
+  // AC
   const clearDisplay = () => {
     setDisplayText('0');
   };
 
+  // =
   const calculateResult = () => {
     try {
       const text = displayText;
@@ -58,7 +60,7 @@ const App = () => {
   
   
   
-
+  // ^
   const power = (exponent: number | string) => {
     try {
       let result;
@@ -83,15 +85,7 @@ const App = () => {
     }
   };
   
-  
-  
-
-  const random = () => {
-    const randomValue = Math.random();
-    setDisplayText(randomValue.toString());
-  };
-  
-
+  // √
   const sqrt = (exponent: number | string) => {
     try {
       if (exponent === '√') {
@@ -122,12 +116,7 @@ const App = () => {
     }
   };
   
-  
-  
-  
-  
-  
-  
+  // %
   const procent = () => {
     try {
       const currentText = eval(displayText);
@@ -138,6 +127,7 @@ const App = () => {
     }
   };
 
+  // +/-
   const minus_plus = () => {
     const currentText = displayText;
     if (currentText[0] === '-') {
@@ -147,12 +137,13 @@ const App = () => {
     }
   };
 
+  // π
   const displayPi = () => {
     const piValue = Math.PI;
     setDisplayText(piValue.toString());
   };
   
-
+  // ln
   const ln = () => {
     try {
       const currentText = eval(displayText);
@@ -167,6 +158,7 @@ const App = () => {
     }
   };
 
+  // log10
   const log10 = () => {
     try {
       const currentText = eval(displayText);
@@ -181,6 +173,7 @@ const App = () => {
     }
   };
   
+  // 1/x
   const reciprocal = () => {
     try {
       const currentText = eval(displayText);
@@ -195,11 +188,13 @@ const App = () => {
     }
   };
 
+  // e
   const displayEuler = () => {
     const eValue = Math.E;
     setDisplayText(eValue.toString());
   };
   
+  // E
   const scientificNotation = () => {
     const currentText = displayText;
     const numberValue = parseFloat(currentText);
@@ -212,6 +207,7 @@ const App = () => {
     }
   };
 
+  // 10^x
   const powerOfTen = () => {
     try {
       const currentText = eval(displayText);
@@ -222,6 +218,7 @@ const App = () => {
     }
   };
 
+  // 2nd
   const power2nd = () => {
     try {
       const currentText = displayText;
@@ -238,6 +235,7 @@ const App = () => {
     }
   };
 
+  // e^x
   const expPower = () => {
     try {
       const currentText = displayText;
@@ -254,8 +252,7 @@ const App = () => {
     }
   };
   
-  
-  
+  // Rad
   const degreesToRadians = () => {
     try {
       const currentText = eval(displayText);
@@ -265,9 +262,17 @@ const App = () => {
       setDisplayText('Błąd');
     }
   };
-  
 
+  // Rand
+  const random = () => {
+    const randomValue = Math.random();
+    setDisplayText(randomValue.toString());
+  };
+  
+  // Memory functions
   const [memory, setMemory] = useState(0);
+
+  // m+
   const addToMemory = () => {
     try {
       const currentText = parseFloat(displayText);
@@ -277,7 +282,7 @@ const App = () => {
       setDisplayText('Błąd');
     }
   };
-
+  // m-
   const subtractFromMemory = () => {
     try {
       const currentText = parseFloat(displayText);
@@ -288,6 +293,7 @@ const App = () => {
     }
   };
 
+  // mr
   const recallFromMemory = () => {
     if (displayText === '0') {
       setDisplayText(memory.toString());
@@ -296,12 +302,12 @@ const App = () => {
     }
   };
   
-
+  // mc
   const clearMemory = () => {
     setMemory(0);
   };
   
-
+  // !x
   const factorial = () => {
     try {
       const currentText = displayText;
@@ -317,15 +323,14 @@ const App = () => {
       setDisplayText('Błąd');
     }
   };
-
-  const toRadians = (degrees: number) => {
-    return degrees * (Math.PI / 180);
-  };
-  
   const roundToTwoDecimalPlaces = (value: number) => {
     return Math.round(value * 100) / 100;
   };
   
+  // Trigonometric functions
+  const toRadians = (degrees: number) => {
+    return degrees * (Math.PI / 180);
+  };
   const trigFunction = (funcName: string) => {
     try {
       let result;
