@@ -28,63 +28,104 @@ const App = () => {
 
   const calculateResult = () => {
     try {
-      const result = eval(displayText);
-      setDisplayText(result.toString());
+      const text = displayText;
+      let result;
+  
+      if (text.includes("^")) {
+        result = eval(text.replace(/\^/g, "**"));
+      } else if (text.includes("√")) {
+        const parts = text.split("√");
+        if (parts.length === 2) {
+          const degree = parseFloat(parts[0]);
+          const operand = parseFloat(parts[1]);
+          if (!isNaN(degree) && !isNaN(operand)) {
+            result = Math.pow(operand, 1 / degree);
+          }
+        }
+      } else {
+        result = eval(text);
+      }
+      
+      if (!isNaN(result)) {
+        setDisplayText(result.toString());
+      } else {
+        setDisplayText('Błąd obliczeń');
+      }
     } catch (error) {
       setDisplayText('Błąd');
     }
   };
+  
+  
+  
 
   const power = (exponent: number | string) => {
     try {
       let result;
       if (exponent === 'y') {
-        
+        setDisplayText(displayText.toString() + "^" );
       } else {
-        result = Math.pow(parseFloat(displayText), exponent as number); 
-      }
-      
-      if (result !== undefined) {
-        setDisplayText(result.toString());
-      } else {
-        setDisplayText('Błąd obliczeń');
+        const base = parseFloat(displayText);
+        const exp = parseFloat(exponent as string);
+        if (!isNaN(base) && !isNaN(exp)) {
+          result = Math.pow(base, exp);
+          if (!isNaN(result)) {
+            setDisplayText(result.toString());
+          } else {
+            setDisplayText('Błąd obliczeń');
+          }
+        } else {
+          setDisplayText('Błąd obliczeń');
+        }
       }
     } catch (error) {
       setDisplayText('Błąd');
     }
   };
+  
+  
+  
 
-  const sqrt = (root: number | string) => {
+  const random = () => {
+    const randomValue = Math.random();
+    setDisplayText(randomValue.toString());
+  };
+  
+
+  const sqrt = (exponent: number | string) => {
     try {
-      let result;
-      if (root === 'y') {
-        /*
-        const y = parseFloat(displayText);
-        const x = parseFloat(prompt('Podaj x:')); 
-        if (!isNaN(y) && !isNaN(x)) {
-          result = Math.pow(x, 1 / y);
-        }
-        */
-      } else {
+      if (exponent === '√') {
         const x = parseFloat(displayText);
         if (!isNaN(x)) {
-          if (root === '√') {
-            result = Math.sqrt(x);
-          } else if (root === '³√') {
-            result = Math.pow(x, 1 / 3);
+          const result = Math.sqrt(x);
+          if (!isNaN(result)) {
+            setDisplayText(result.toString());
+          } else {
+            setDisplayText('Błąd obliczeń');
           }
         }
-      }
-  
-      if (result !== undefined) {
-        setDisplayText(result.toString());
-      } else {
-        setDisplayText('Błąd obliczeń');
+      } else if (exponent === '³√') {
+        const x = parseFloat(displayText);
+        if (!isNaN(x)) {
+          const result = Math.cbrt(x);
+          if (!isNaN(result)) {
+            setDisplayText(result.toString());
+          } else {
+            setDisplayText('Błąd obliczeń');
+          }
+        }
+      } else if (exponent === 'y√x') {
+        setDisplayText(displayText.toString() + "√");
       }
     } catch (error) {
       setDisplayText('Błąd');
     }
   };
+  
+  
+  
+  
+  
   
   
   const procent = () => {
@@ -105,7 +146,162 @@ const App = () => {
       setDisplayText('-' + currentText);
     }
   };
+
+  const displayPi = () => {
+    const piValue = Math.PI;
+    setDisplayText(piValue.toString());
+  };
   
+
+  const ln = () => {
+    try {
+      const currentText = eval(displayText);
+      if (currentText <= 0) {
+        setDisplayText('Błąd: ln z liczby nieujemnej');
+      } else {
+        const finalResult = Math.log(currentText);
+        setDisplayText(finalResult.toString());
+      }
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+
+  const log10 = () => {
+    try {
+      const currentText = eval(displayText);
+      if (currentText <= 0) {
+        setDisplayText('Błąd: log10 z liczby nieujemnej');
+      } else {
+        const finalResult = Math.log10(currentText);
+        setDisplayText(finalResult.toString());
+      }
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+  
+  const reciprocal = () => {
+    try {
+      const currentText = eval(displayText);
+      if (currentText === 0) {
+        setDisplayText('Błąd: Nie można obliczyć odwrotności z liczby zero');
+      } else {
+        const finalResult = 1 / currentText;
+        setDisplayText(finalResult.toString());
+      }
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+
+  const displayEuler = () => {
+    const eValue = Math.E;
+    setDisplayText(eValue.toString());
+  };
+  
+  const scientificNotation = () => {
+    const currentText = displayText;
+    const numberValue = parseFloat(currentText);
+  
+    if (!isNaN(numberValue)) {
+      const scientificValue = numberValue.toExponential();
+      setDisplayText(scientificValue);
+    } else {
+      setDisplayText('Błąd: Nieprawidłowa notacja naukowa');
+    }
+  };
+
+  const powerOfTen = () => {
+    try {
+      const currentText = eval(displayText);
+      const finalResult = Math.pow(10, currentText);
+      setDisplayText(finalResult.toString());
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+
+  const power2nd = () => {
+    try {
+      const currentText = displayText;
+      const number = parseFloat(currentText);
+  
+      if (!isNaN(number)) {
+        const result = Math.pow(number, 2);
+        setDisplayText(result.toString());
+      } else {
+        setDisplayText('Błąd obliczeń');
+      }
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+
+  const expPower = () => {
+    try {
+      const currentText = displayText;
+      const number = parseFloat(currentText);
+  
+      if (!isNaN(number)) {
+        const result = Math.exp(number);
+        setDisplayText(result.toString());
+      } else {
+        setDisplayText('Błąd obliczeń');
+      }
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+  
+  
+  
+  const degreesToRadians = () => {
+    try {
+      const currentText = eval(displayText);
+      const radians = (currentText * Math.PI) / 180;
+      setDisplayText(radians.toString());
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+  
+
+  const [memory, setMemory] = useState(0);
+  const addToMemory = () => {
+    try {
+      const currentText = parseFloat(displayText);
+      setMemory((prevMemory) => prevMemory + currentText);
+      setDisplayText('0');
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+
+  const subtractFromMemory = () => {
+    try {
+      const currentText = parseFloat(displayText);
+      setMemory((prevMemory) => prevMemory - currentText);
+      setDisplayText('0');
+    } catch (error) {
+      setDisplayText('Błąd');
+    }
+  };
+
+  const recallFromMemory = () => {
+    if (displayText === '0') {
+      setDisplayText(memory.toString());
+    } else {
+      setDisplayText(displayText + memory.toString());
+    }
+  };
+  
+
+  const clearMemory = () => {
+    setMemory(0);
+  };
+  
+
   const factorial = () => {
     try {
       const currentText = displayText;
@@ -280,16 +476,16 @@ const App = () => {
             <TouchableOpacity style={styles.moreButtons} onPress={() => handleButtonPress(')')}>
               <Text style={styles.moreTextButtons}>)</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={clearMemory}>
               <Text style={styles.moreTextButtons}>mc</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={addToMemory}>
               <Text style={styles.moreTextButtons}>m+</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={subtractFromMemory}>
               <Text style={styles.moreTextButtons}>m-</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={recallFromMemory}>
               <Text style={styles.moreTextButtons}>mr</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
@@ -309,7 +505,7 @@ const App = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={power2nd}>
               <Text style={styles.moreTextButtons}>2nd</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={() => power(2)}>
@@ -321,10 +517,10 @@ const App = () => {
             <TouchableOpacity style={styles.moreButtons} onPress={() => power('y')}>
               <Text style={styles.moreTextButtons}>x^y</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={expPower}>
               <Text style={styles.moreTextButtons}>e^x</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={powerOfTen}>
               <Text style={styles.moreTextButtons}>10^x</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('7')}>
@@ -344,7 +540,7 @@ const App = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={reciprocal}>
               <Text style={styles.moreTextButtons}>1/x</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={() => sqrt('√')}>
@@ -354,13 +550,13 @@ const App = () => {
   <Text style={styles.moreTextButtons}>³√x</Text>
  </TouchableOpacity>
 
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={() => sqrt('y√x')}>
               <Text style={styles.moreTextButtons}>y√x</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={ln}>
               <Text style={styles.moreTextButtons}>In</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={log10}>
               <Text style={styles.moreTextButtons}>log10</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('4')}>
@@ -392,10 +588,10 @@ const App = () => {
             <TouchableOpacity style={styles.moreButtons} onPress={() => trigFunction('tan')}>
               <Text style={styles.moreTextButtons}>tan</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={displayEuler}>
               <Text style={styles.moreTextButtons}>e</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={scientificNotation}>
               <Text style={styles.moreTextButtons}>EE</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('1')}>
@@ -415,7 +611,7 @@ const App = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.row}>
-          <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+          <TouchableOpacity style={styles.moreButtons} onPress={degreesToRadians}>
               <Text style={styles.moreTextButtons}>Rad</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.moreButtons} onPress={() => trigFunction('sinh')}>
@@ -427,10 +623,10 @@ const App = () => {
             <TouchableOpacity style={styles.moreButtons} onPress={() => trigFunction('tanh')}>
               <Text style={styles.moreTextButtons}>tanh</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={displayPi}>
               <Text style={styles.moreTextButtons}>π</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.moreButtons} onPress={clearDisplay}>
+            <TouchableOpacity style={styles.moreButtons} onPress={random}>
               <Text style={styles.moreTextButtons}>Rand</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonZero} onPress={() => handleButtonPress('0')}>
