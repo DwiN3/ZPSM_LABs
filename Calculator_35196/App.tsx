@@ -461,7 +461,7 @@ const App = () => {
             <TouchableOpacity style={styles.buttonZero} onPress={() => handleButtonPress('0')}>
               <Text style={styles.buttonText}>0</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress(',')}>
+            <TouchableOpacity style={styles.buttonNumber} onPress={() => handleButtonPress('.')}>
               <Text style={styles.buttonText}>.</Text>
             </TouchableOpacity>
             <TouchableOpacity
