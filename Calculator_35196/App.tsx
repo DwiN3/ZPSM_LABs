@@ -422,10 +422,10 @@ const App = () => {
     { title: '%', onPress: () => procent(), style: styles.buttonClear },
     { title: '/', onPress: () => handleButtonPress('/'), style: styles.buttonClear },
 
-    { title: '', onPress: () => power2nd(), style: styles.buttonClear },
-    { title: '', onPress: () => power2nd(), style: styles.buttonClear },
-    { title: '', onPress: () => power2nd(), style: styles.buttonClear },
     { title: '2nd', onPress: () => power2nd(), style: styles.buttonClear },
+    { title: 'x²', onPress: () => power(2), style: styles.buttonClear },
+    { title: 'x³', onPress: () => power(3), style: styles.buttonClear },
+    { title: 'x^y', onPress: () => power('y'), style: styles.buttonClear },
     { title: 'e^x', onPress: () => expPower(), style: styles.buttonClear },
     { title: '10^x', onPress: () => powerOfTen(), style: styles.buttonClear },
     { title: '7', onPress: () => handleButtonPress('7'), style: styles.buttonNumber },
