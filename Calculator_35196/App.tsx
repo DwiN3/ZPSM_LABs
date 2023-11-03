@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+<<<<<<< Updated upstream
 import SplashScreen from 'react-native-splash-screen'
+=======
+import SplashScreen from 'react-native-splash-screen';
+>>>>>>> Stashed changes
 const math = require('mathjs');
 
 const App = () => {
@@ -382,12 +386,12 @@ const App = () => {
   };
 
   useEffect(() => {
-    Dimensions.addEventListener('change', handleOrientationChange);
 
+
+    Dimensions.addEventListener('change', handleOrientationChange);
     return () => {
       Dimensions.removeEventListener('change', handleOrientationChange);
-    };
-  }, []);
+    }}, []);;
 
   const buttonsPortrait = [
     { title: 'AC', onPress: clearDisplay, style: styles.buttonClear },
