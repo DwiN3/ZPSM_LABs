@@ -388,7 +388,7 @@ const App = () => {
     };
   }, []);
 
-  const buttons = [
+  const buttonsPortrait = [
     { title: 'AC', onPress: clearDisplay, style: styles.buttonClear },
     { title: '', style: styles.buttonClear },
     { title: '', style: styles.buttonClear },
@@ -423,9 +423,7 @@ const App = () => {
     { title: '/', onPress: () => handleButtonPress('/'), style: styles.buttonOperator },
 
     { title: '2nd', onPress: power2nd, style: styles.buttonOperator },
-    { title: 'x²', onPress: power(2), style: styles.buttonOperator },
-    { title: 'x³', onPress: power(3), style: styles.buttonOperator },
-    { title: 'x^y', onPress: power('y'), style: styles.buttonOperator },
+
     { title: 'e^x', onPress: expPower, style: styles.buttonOperator },
     { title: '10^x', onPress: powerOfTen, style: styles.buttonOperator },
     { title: '7', onPress: () => handleButtonPress('7'), style: styles.buttonNumber },
@@ -455,12 +453,12 @@ const App = () => {
     { title: '3', onPress: () => handleButtonPress('3'), style: styles.buttonNumber },
     { title: '+', onPress: () => handleButtonPress('+'), style: styles.buttonOperator },
 
-    { title: '', onPress: , style: styles.buttonOperator },
-    { title: '', onPress: , style: styles.buttonOperator },
-    { title: '', onPress: , style: styles.buttonOperator },
-    { title: '', onPress: , style: styles.buttonOperator },
-    { title: '', onPress: , style: styles.buttonOperator },
-    { title: '', onPress: , style: styles.buttonOperator },
+    { title: 'Rad', onPress: degreesToRadians, style: styles.buttonOperator },
+    { title: 'sinh', onPress: trigFunction('sinh'), style: styles.buttonOperator },
+    { title: 'cosh', onPress: trigFunction('cosh'), style: styles.buttonOperator },
+    { title: 'tanh', onPress: trigFunction('tanh'), style: styles.buttonOperator },
+    { title: 'π', onPress: displayPi, style: styles.buttonOperator },
+    { title: 'Rand', onPress: random, style: styles.buttonOperator },
     { title: '0', onPress: () => handleButtonPress('0'), style: [ styles.buttonZero, { flex: 2 }]},
     { title: '.', onPress: () => handleButtonPress('.'), style: styles.buttonNumber },
     { title: '=', onPress: calculateResult, style: styles.buttonOperator },
@@ -474,13 +472,13 @@ const App = () => {
       <View style={styles.buttons}>
         {[0, 1, 2, 3, 4].map((row) => (
           <View key={row} style={styles.row}>
-            {buttons.slice(row * 4, (row + 1) * 4).map((button, index) => (
+            {buttonsPortrait.slice(row * 4, (row + 1) * 4).map((buttonsPortrait, index) => (
               <TouchableOpacity
                 key={index}
-                style={button.style}
-                onPress={button.onPress}
+                style={buttonsPortrait.style}
+                onPress={buttonsPortrait.onPress}
               >
-                <Text style={styles.buttonText}>{button.title}</Text>
+                <Text style={styles.buttonText}>{buttonsPortrait.title}</Text>
               </TouchableOpacity>
             ))}
           </View>
