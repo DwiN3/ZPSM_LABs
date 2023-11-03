@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+import SplashScreen from 'react-native-splash-screen'
 const math = require('mathjs');
 
 const App = () => {
@@ -381,6 +382,8 @@ const App = () => {
   };
 
   useEffect(() => {
+    if(Platform.OS=== 'android') SplashScreen.hide();
+    
     Dimensions.addEventListener('change', handleOrientationChange);
 
     return () => {
