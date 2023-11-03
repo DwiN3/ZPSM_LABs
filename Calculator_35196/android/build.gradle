@@ -15,6 +15,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        implementation project(':react-native-splash-screen')
         classpath("com.android.tools.build:gradle")
         classpath("com.facebook.react:react-native-gradle-plugin")
     }
