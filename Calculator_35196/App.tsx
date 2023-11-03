@@ -388,7 +388,7 @@ const App = () => {
     };
   }, []);
 
-  const buttonsPortrait = [
+  const buttonsPortrait2 = [
     { title: 'AC', onPress: clearDisplay, style: styles.buttonClear },
     { title: '', style: styles.buttonClear },
     { title: '', style: styles.buttonClear },
@@ -410,7 +410,7 @@ const App = () => {
     { title: '=', onPress: calculateResult, style: styles.buttonOperator },
   ];
 
-  const buttonsLand = [
+  const buttonsPortrait = [
     { title: '(', onPress: () => handleButtonPress('('), style: styles.buttonClear },
     { title: ')', onPress: () => handleButtonPress(')'), style: styles.buttonClear },
     { title: 'mc', onPress: () => clearMemory(), style: styles.buttonClear },
