@@ -8,8 +8,9 @@ export const clearDisplay = (setDisplayText) => {
 
 //  =
 export const calculateResult = (displayText,setDisplayText) => {
+  const text = displayText;
+
   try {
-    const text = displayText;
     let result;
 
     if (text.includes("^")) {
