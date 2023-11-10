@@ -1,14 +1,13 @@
-// functions.js
-import { useState, useEffect } from 'react';
 const math = require('mathjs');
 
-// AC
-export const clearDisplay = () => {
+//  AC
+export const clearDisplay = (setDisplayText) => {
   setDisplayText('0');
 };
 
-// =
-export const calculateResult = () => {
+
+//  =
+export const calculateResult = (displayText,setDisplayText) => {
   try {
     const text = displayText;
     let result;
@@ -39,14 +38,9 @@ export const calculateResult = () => {
 };
 
 
-
-// ^
-export const power = (exponent) => {
-  try {
+//  ^
+export const power = (displayText,setDisplayText, exponent) => {
     let result;
-    if (exponent === 'y') {
-      setDisplayText(displayText.toString() + "^" );
-    } else {
       const base = parseFloat(displayText);
       const exp = parseFloat(exponent);
       if (!isNaN(base) && !isNaN(exp)) {
@@ -59,45 +53,32 @@ export const power = (exponent) => {
       } else {
         setDisplayText('Błąd obliczeń');
       }
-    }
-  } catch (error) {
-    setDisplayText('Błąd');
+};
+
+
+//  sqrt
+export const sqrt = (displayText, setDisplayText, exponent) => {
+  let base = '';
+  let index = '';
+  if (exponent.includes('√')) {
+    base = displayText;
+    index = 2;
+  } else if (exponent.includes('³√')) {
+    base = displayText;
+    index = 3; 
+  }
+
+  if (base !== '' && !isNaN(index)) {
+    const result = Math.pow(parseFloat(base), 1 / index);
+    setDisplayText(result.toString());
+  } else {
+    setDisplayText('Invalid input');
   }
 };
 
-// √
-export const sqrt = (exponent) => {
-  try {
-    if (exponent === '√') {
-      const x = parseFloat(displayText);
-      if (!isNaN(x)) {
-        const result = Math.sqrt(x);
-        if (!isNaN(result)) {
-          setDisplayText(result.toString());
-        } else {
-          setDisplayText('Błąd obliczeń');
-        }
-      }
-    } else if (exponent === '³√') {
-      const x = parseFloat(displayText);
-      if (!isNaN(x)) {
-        const result = Math.cbrt(x);
-        if (!isNaN(result)) {
-          setDisplayText(result.toString());
-        } else {
-          setDisplayText('Błąd obliczeń');
-        }
-      }
-    } else if (exponent === 'y√x') {
-      setDisplayText(displayText.toString() + "√");
-    }
-  } catch (error) {
-    setDisplayText('Błąd');
-  }
-};
 
-// %
-export const procent = () => {
+//  %
+export const procent = (displayText,setDisplayText) => {
   try {
     const currentText = eval(displayText);
     const finalResult = currentText / 100;
@@ -107,8 +88,9 @@ export const procent = () => {
   }
 };
 
-// +/-
-export const minus_plus = () => {
+
+//  +/-
+export const minus_plus = (displayText,setDisplayText) => {
   const currentText = displayText;
   if (currentText[0] === '-') {
     setDisplayText(currentText.slice(1));
@@ -117,14 +99,16 @@ export const minus_plus = () => {
   }
 };
 
-// π
-export const displayPi = () => {
+
+//  π
+export const displayPi = (setDisplayText) => {
   const piValue = Math.PI;
   setDisplayText(piValue.toString());
 };
 
-// ln
-export const ln = () => {
+
+//  ln
+export const ln = (displayText,setDisplayText) => {
   try {
     const currentText = eval(displayText);
     if (currentText <= 0) {
@@ -138,8 +122,9 @@ export const ln = () => {
   }
 };
 
-// log10
-export const log10 = () => {
+
+//  log10
+export const log10 = (displayText,setDisplayText) => {
   try {
     const currentText = eval(displayText);
     if (currentText <= 0) {
@@ -153,8 +138,9 @@ export const log10 = () => {
   }
 };
 
-// 1/x
-export const reciprocal = () => {
+
+//  1/x
+export const reciprocal = (displayText,setDisplayText) => {
   try {
     const currentText = eval(displayText);
     if (currentText === 0) {
@@ -168,14 +154,16 @@ export const reciprocal = () => {
   }
 };
 
-// e
-export const displayEuler = () => {
+
+//  e
+export const displayEuler = (setDisplayText) => {
   const eValue = Math.E;
   setDisplayText(eValue.toString());
 };
 
-// E
-export const scientificNotation = () => {
+
+//  E
+export const scientificNotation = (displayText,setDisplayText) => {
   const currentText = displayText;
   const numberValue = parseFloat(currentText);
 
@@ -187,8 +175,9 @@ export const scientificNotation = () => {
   }
 };
 
-// 10^x
-export const powerOfTen = () => {
+
+//  10^x
+export const powerOfTen = (displayText,setDisplayText) => {
   try {
     const currentText = eval(displayText);
     const finalResult = Math.pow(10, currentText);
@@ -198,8 +187,9 @@ export const powerOfTen = () => {
   }
 };
 
-// 2nd
-export const power2nd = () => {
+
+//  2nd
+export const power2nd = (displayText,setDisplayText) => {
   try {
     const currentText = displayText;
     const number = parseFloat(currentText);
@@ -215,8 +205,9 @@ export const power2nd = () => {
   }
 };
 
-// e^x
-export const expPower = () => {
+
+//  e^x
+export const expPower = (displayText,setDisplayText) => {
   try {
     const currentText = displayText;
     const number = parseFloat(currentText);
@@ -232,8 +223,9 @@ export const expPower = () => {
   }
 };
 
-// Rad
-export const degreesToRadians = () => {
+
+//  Rad
+export const degreesToRadians = (displayText,setDisplayText) => {
   try {
     const currentText = eval(displayText);
     const radians = (currentText * Math.PI) / 180;
@@ -243,17 +235,16 @@ export const degreesToRadians = () => {
   }
 };
 
-// Rand
-export const random = () => {
+
+//  Rand
+export const random = (setDisplayText) => {
   const randomValue = Math.random();
   setDisplayText(randomValue.toString());
 };
 
-// Memory functions
-const [memory, setMemory] = useState(0);
 
-// m+
-export const addToMemory = () => {
+//  m+
+export const addToMemory = (displayText,setDisplayText) => {
   try {
     const currentText = parseFloat(displayText);
     setMemory((prevMemory) => prevMemory + currentText);
@@ -262,8 +253,8 @@ export const addToMemory = () => {
     setDisplayText('Błąd');
   }
 };
-// m-
-export const subtractFromMemory = () => {
+//  m-
+export const subtractFromMemory = (displayText,setDisplayText) => {
   try {
     const currentText = parseFloat(displayText);
     setMemory((prevMemory) => prevMemory - currentText);
@@ -273,8 +264,8 @@ export const subtractFromMemory = () => {
   }
 };
 
-// mr
-export const recallFromMemory = () => {
+//  mr
+export const recallFromMemory = (displayText,setDisplayText) => {
   if (displayText === '0') {
     setDisplayText(memory.toString());
   } else {
@@ -282,13 +273,13 @@ export const recallFromMemory = () => {
   }
 };
 
-// mc
+//  mc
 export const clearMemory = () => {
   setMemory(0);
 };
 
-// !x
-export const factorial = () => {
+//  !x
+export const factorial = (displayText,setDisplayText) => {
   try {
     const currentText = displayText;
     const number = parseFloat(currentText);
@@ -307,46 +298,39 @@ export const roundToTwoDecimalPlaces = () => {
   return Math.round(value * 100) / 100;
 };
 
- // Trigonometric functions
-export const toRadians = () => {
-  return degrees * (Math.PI / 180);
-};
-export const trigFunction = (funcName) => {
-  try {
-    let result;
-    const degrees = parseFloat(displayText);
-    if (!isNaN(degrees)) {
-      const radians = toRadians(degrees);
-      switch (funcName) {
-        case 'sin':
-          result = Math.sin(radians);
-          break;
-        case 'cos':
-          result = Math.cos(radians);
-          break;
-        case 'tan':
-          result = Math.tan(radians);
-          break;
-        case 'sinh':
-          result = Math.sinh(radians);
-          break;
-        case 'cosh':
-          result = Math.cosh(radians);
-          break;
-        case 'tanh':
-          result = Math.tanh(radians);
-          break;
-        default:
-          break;
-      }
-    }
 
-    if (result !== undefined) {
-      setDisplayText(roundToTwoDecimalPlaces(result).toString());
-    } else {
-      setDisplayText('Błąd obliczeń');
+//  Trigonometric functions
+
+export const trigFunction = (displayText, setDisplayText, funcName) => {
+  const input = parseFloat(displayText);
+  if (!isNaN(input)) {
+    let result;
+
+    switch (funcName) {
+      case 'sin':
+        result = Math.sin(input);
+        break;
+      case 'cos':
+        result = Math.cos(input);
+        break;
+      case 'tan':
+        result = Math.tan(input);
+        break;
+      case 'sinh':
+        result = Math.sinh(input);
+        break;
+      case 'cosh':
+        result = Math.cosh(input);
+        break;
+      case 'tanh':
+        result = Math.tanh(input);
+        break;
+      default:
+        console.error('Unknown trigonometric function');
+        return;
     }
-  } catch (error) {
-    setDisplayText('Błąd');
+    setDisplayText(result.toString());
+  } else {
+    console.error('Invalid input for trigonometric function');
   }
 };
