@@ -243,40 +243,43 @@ export const random = (setDisplayText) => {
 };
 
 
-//  m+
-export const addToMemory = (displayText,setDisplayText) => {
-  try {
-    const currentText = parseFloat(displayText);
-    setMemory((prevMemory) => prevMemory + currentText);
-    setDisplayText('0');
-  } catch (error) {
-    setDisplayText('Błąd');
-  }
-};
-//  m-
-export const subtractFromMemory = (displayText,setDisplayText) => {
-  try {
-    const currentText = parseFloat(displayText);
-    setMemory((prevMemory) => prevMemory - currentText);
-    setDisplayText('0');
-  } catch (error) {
-    setDisplayText('Błąd');
+// m+
+export const addToMemory = (displayText, setDisplayText, memory, setMemory) => {
+  const currentValue = parseFloat(displayText);
+  const currentMemory = parseFloat(memory);
+
+  if (!isNaN(currentValue)) {
+    const newMemory = currentMemory + currentValue;
+    setMemory(newMemory);
+    setDisplayText(`${newMemory}`);
   }
 };
 
-//  mr
-export const recallFromMemory = (displayText,setDisplayText) => {
-  if (displayText === '0') {
-    setDisplayText(memory.toString());
-  } else {
-    setDisplayText(displayText + memory.toString());
+// m-
+export const subtractFromMemory = (displayText, setDisplayText, memory, setMemory) => {
+  const currentValue = parseFloat(displayText);
+  const currentMemory = parseFloat(memory);
+
+  if (!isNaN(currentValue)) {
+    const newMemory = currentMemory - currentValue;
+    setMemory(newMemory);
+    setDisplayText(`${newMemory}`);
   }
 };
 
-//  mc
-export const clearMemory = () => {
+// mr
+export const recallFromMemory = (displayText, setDisplayText, memory) => {
+  const currentMemory = parseFloat(memory);
+  if (!isNaN(currentMemory)) {
+    setDisplayText(`${currentMemory}`);
+  }
+};
+
+// mc
+export const clearMemory = (setMemory) => {
   setMemory(0);
 };
+
 
 //  !x
 export const factorial = (displayText,setDisplayText) => {
@@ -300,7 +303,6 @@ export const roundToTwoDecimalPlaces = () => {
 
 
 //  Trigonometric functions
-
 export const trigFunction = (displayText, setDisplayText, funcName) => {
   const input = parseFloat(displayText);
   if (!isNaN(input)) {
