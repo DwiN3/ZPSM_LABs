@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
-import SplashScreen from 'react-native-splash-screen'
+import styles from './CalculatorStyles';
 import { clearDisplay, calculateResult, power, sqrt, procent, minus_plus, displayPi, ln, log10, reciprocal, displayEuler, scientificNotation, powerOfTen, power2nd, expPower, degreesToRadians, random, addToMemory, subtractFromMemory, recallFromMemory, clearMemory, factorial, trigFunction} from './CalculatorFunction';
+import SplashScreen from 'react-native-splash-screen'
 
 const App = () => {
   const [displayText, setDisplayText] = useState('0');
@@ -149,55 +150,5 @@ const App = () => {
     </View>
   );
 };
-
-const commonButtonStyle = {
-  flex: 1,
-  borderWidth: 1,
-  borderColor: '#434343',
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#535457',
-  },
-  display: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    backgroundColor: '#535457',
-    padding: 10,
-  },
-  displayText: {
-    fontSize: 65,
-    color: 'white',
-  },
-  buttons: {
-    flex: 4,
-    flexDirection: 'column',
-  },
-  row: {
-    flex: 2,
-    flexDirection: 'row',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 10,
-    paddingVertical: 20,
-    textAlign: 'center',
-  },
-  buttonMore: {
-    ...commonButtonStyle,
-    backgroundColor: '#646466',
-  },
-  buttonOperator: {
-    ...commonButtonStyle,
-    backgroundColor: 'orange',
-  },
-  buttonNumber: {
-    ...commonButtonStyle,
-    backgroundColor: '#7c7d7f',
-  },
-});
 
 export default App;
