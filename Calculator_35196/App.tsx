@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
 import styles from './CalculatorStyles';
-import SplashScreen from 'react-native-splash-screen'
 import { getButtonsPortrait, getButtonsLand} from './CalculatorButtons';
+import SplashScreen from 'react-native-splash-screen'
+
 
 const App = () => {
   const [displayText, setDisplayText] = useState('0');
-  const [memory, setMemory] = useState(0);
   const [orientation, setOrientation] = useState(
     Dimensions.get('window').width > Dimensions.get('window').height ? 'landscape' : 'portrait'
   );
+  const [memory, setMemory] = useState(0);
 
   const handleButtonPress = (buttonValue) => {
     if (displayText === '0' && /[0-9]/.test(buttonValue)) {
@@ -45,7 +46,7 @@ const App = () => {
   }, []);
 
   const buttonsPortrait = getButtonsPortrait(handleButtonPress, displayText, setDisplayText);
-  const buttonsLand = getButtonsLand(handleButtonPress, displayText, setDisplayText);
+  const buttonsLand = getButtonsLand(handleButtonPress, displayText, setDisplayText, memory, setMemory);
 
   const buttonsToRender = orientation === 'landscape' ? buttonsLand : buttonsPortrait;
   const sliceCount = orientation === 'landscape' ? 10 : 4;

@@ -7,8 +7,8 @@ export const clearDisplay = (setDisplayText) => {
 };
 
 
-//  =
-export const calculateResult = (displayText,setDisplayText) => {
+
+export const calculateResult = (displayText, setDisplayText) => {
   try {
     const text = displayText;
     let result;
@@ -22,12 +22,15 @@ export const calculateResult = (displayText,setDisplayText) => {
         const operand = parseFloat(parts[1]);
         if (!isNaN(degree) && !isNaN(operand)) {
           result = Math.pow(operand, 1 / degree);
+          if (!isNaN(result) && !isNaN(parts[0])) {
+            result *= parseFloat(parts[0]);
+          }
         }
       }
     } else {
       result = math.evaluate(text);
     }
-    
+
     if (!isNaN(result)) {
       setDisplayText(result.toString());
     } else {

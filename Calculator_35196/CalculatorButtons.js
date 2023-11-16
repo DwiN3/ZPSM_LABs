@@ -1,3 +1,4 @@
+//  CalculatorButtons.js
 import { clearDisplay, calculateResult, power, sqrt, procent, minus_plus, displayPi, ln, log10, reciprocal, displayEuler, scientificNotation, powerOfTen, power2nd, expPower, degreesToRadians, random, addToMemory, subtractFromMemory, recallFromMemory, clearMemory, factorial, trigFunction} from './CalculatorFunction';
 import styles from './CalculatorStyles';
 
@@ -30,7 +31,7 @@ export const getButtonsPortrait = (handleButtonPress, displayText, setDisplayTex
     }));
   };
 
-  export const getButtonsLand = (handleButtonPress, displayText, setDisplayText) => {
+  export const getButtonsLand = (handleButtonPress, displayText, setDisplayText, memory, setMemory) => {
     const buttonsLand = [
         { title: '(', onPress: () => handleButtonPress('('), style: styles.buttonMore },
         { title: ')', onPress: () => handleButtonPress(')'), style: styles.buttonMore },
