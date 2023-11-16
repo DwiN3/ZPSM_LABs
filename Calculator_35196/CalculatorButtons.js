@@ -61,7 +61,7 @@ export const getButtonsPortrait = (handleButtonPress, displayText, setDisplayTex
       
         { title: '1/x', onPress: () => reciprocal(displayText, setDisplayText), style: styles.buttonMore },
         { title: '√x', onPress: () => sqrt(displayText, setDisplayText,'√'), style: styles.buttonMore },
-        { title: '³√x', onPress: () => sqrt(displayText, setDisplayText,'³√'), style: styles.buttonMore },
+        { title: '³√x', onPress: () => sqrt(displayText, setDisplayText, '³√'), style: styles.buttonMore },
         { title: 'y√x', onPress: () => handleButtonPress('√'), style: styles.buttonMore },
         { title: 'In', onPress: () => ln(displayText, setDisplayText), style: styles.buttonMore },
         { title: 'log10', onPress: () => log10(displayText, setDisplayText), style: styles.buttonMore },

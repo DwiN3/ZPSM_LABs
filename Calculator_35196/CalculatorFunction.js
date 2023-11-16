@@ -60,20 +60,21 @@ export const power = (displayText,setDisplayText, exponent) => {
 };
 
 
-//  sqrt
+// √
 export const sqrt = (displayText, setDisplayText, exponent) => {
   let base = '';
   let index = '';
   if (exponent.includes('√')) {
     base = displayText;
     index = 2;
-  } else if (exponent.includes('³√')) {
+  } if (exponent.includes('³√')) {
     base = displayText;
     index = 3; 
   }
   if (base !== '' && !isNaN(index)) {
     const result = Math.pow(parseFloat(base), 1 / index);
-    setDisplayText(result.toString());
+    const roundedResult = Math.round(result * 1e8) / 1e8; // Zaokrąglenie do 8 miejsc dziesiętnych
+    setDisplayText(roundedResult.toString());
   } else {
     setDisplayText('Invalid input');
   }
@@ -93,12 +94,15 @@ export const procent = (displayText,setDisplayText) => {
 
 
 //  +/-
-export const minus_plus = (displayText,setDisplayText) => {
+export const minus_plus = (displayText, setDisplayText) => {
   const currentText = displayText;
-  if (currentText[0] === '-') {
-    setDisplayText(currentText.slice(1));
+
+  if (currentText.startsWith("-")) {
+    const finalResult = currentText.substring(1).replace(/\+/g, '-');
+    setDisplayText(finalResult);
   } else {
-    setDisplayText('-' + currentText);
+    const finalResult = "-" + currentText.replace(/-/g, '+');
+    setDisplayText(finalResult);
   }
 };
 
