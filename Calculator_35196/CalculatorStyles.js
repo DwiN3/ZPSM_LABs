@@ -1,4 +1,4 @@
-// CalculatorStyles.js
+//  CalculatorStyles.js
 import { StyleSheet } from 'react-native';
 
 const commonButtonStyle = {

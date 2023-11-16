@@ -7,7 +7,7 @@ export const clearDisplay = (setDisplayText) => {
 };
 
 
-
+//  =
 export const calculateResult = (displayText, setDisplayText) => {
   try {
     const text = displayText;
@@ -71,7 +71,6 @@ export const sqrt = (displayText, setDisplayText, exponent) => {
     base = displayText;
     index = 3; 
   }
-
   if (base !== '' && !isNaN(index)) {
     const result = Math.pow(parseFloat(base), 1 / index);
     setDisplayText(result.toString());
@@ -193,19 +192,13 @@ export const powerOfTen = (displayText,setDisplayText) => {
 
 
 //  2nd
-export const power2nd = (displayText,setDisplayText) => {
-  try {
-    const currentText = displayText;
-    const number = parseFloat(currentText);
-
-    if (!isNaN(number)) {
-      const result = Math.pow(number, 2);
-      setDisplayText(result.toString());
-    } else {
-      setDisplayText('Błąd obliczeń');
-    }
-  } catch (error) {
-    setDisplayText('Błąd');
+export const secondFunction = (displayText, setDisplayText) => {
+  const number = parseFloat(displayText);
+  if (!isNaN(number) && number !== 0) {
+    const reciprocal = 1 / number;
+    setDisplayText(reciprocal.toString());
+  } else {
+    setDisplayText('Błąd obliczeń');
   }
 };
 
@@ -247,6 +240,7 @@ export const random = (setDisplayText) => {
 };
 
 
+// MEMORY
 // m+
 export const addToMemory = (displayText, setDisplayText, memory, setMemory) => {
   const currentValue = parseFloat(displayText);
@@ -255,10 +249,8 @@ export const addToMemory = (displayText, setDisplayText, memory, setMemory) => {
   if (!isNaN(currentValue)) {
     const newMemory = currentMemory + currentValue;
     setMemory(newMemory);
-    setDisplayText(`${newMemory}`);
   }
 };
-
 // m-
 export const subtractFromMemory = (displayText, setDisplayText, memory, setMemory) => {
   const currentValue = parseFloat(displayText);
@@ -267,10 +259,8 @@ export const subtractFromMemory = (displayText, setDisplayText, memory, setMemor
   if (!isNaN(currentValue)) {
     const newMemory = currentMemory - currentValue;
     setMemory(newMemory);
-    setDisplayText(`${newMemory}`);
   }
 };
-
 // mr
 export const recallFromMemory = (displayText, setDisplayText, memory) => {
   const currentMemory = parseFloat(memory);
@@ -278,7 +268,6 @@ export const recallFromMemory = (displayText, setDisplayText, memory) => {
     setDisplayText(`${currentMemory}`);
   }
 };
-
 // mc
 export const clearMemory = (setMemory) => {
   setMemory(0);

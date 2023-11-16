@@ -1,9 +1,9 @@
+//  App.tsx
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
-import styles from './CalculatorStyles';
+import { View, TouchableOpacity, Text, Dimensions } from 'react-native';
 import { getButtonsPortrait, getButtonsLand} from './CalculatorButtons';
+import styles from './CalculatorStyles';
 import SplashScreen from 'react-native-splash-screen'
-
 
 const App = () => {
   const [displayText, setDisplayText] = useState('0');
@@ -47,7 +47,6 @@ const App = () => {
 
   const buttonsPortrait = getButtonsPortrait(handleButtonPress, displayText, setDisplayText);
   const buttonsLand = getButtonsLand(handleButtonPress, displayText, setDisplayText, memory, setMemory);
-
   const buttonsToRender = orientation === 'landscape' ? buttonsLand : buttonsPortrait;
   const sliceCount = orientation === 'landscape' ? 10 : 4;
   const sizeFont = orientation === 'landscape'

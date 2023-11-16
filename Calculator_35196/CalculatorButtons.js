@@ -1,5 +1,5 @@
 //  CalculatorButtons.js
-import { clearDisplay, calculateResult, power, sqrt, procent, minus_plus, displayPi, ln, log10, reciprocal, displayEuler, scientificNotation, powerOfTen, power2nd, expPower, degreesToRadians, random, addToMemory, subtractFromMemory, recallFromMemory, clearMemory, factorial, trigFunction} from './CalculatorFunction';
+import { clearDisplay, calculateResult, power, sqrt, procent, minus_plus, displayPi, ln, log10, reciprocal, displayEuler, scientificNotation, powerOfTen, secondFunction, expPower, degreesToRadians, random, addToMemory, subtractFromMemory, recallFromMemory, clearMemory, factorial, trigFunction} from './CalculatorFunction';
 import styles from './CalculatorStyles';
 
 export const getButtonsPortrait = (handleButtonPress, displayText, setDisplayText) => {
@@ -8,18 +8,22 @@ export const getButtonsPortrait = (handleButtonPress, displayText, setDisplayTex
         { title: '', style: styles.buttonMore },
         { title: '', style: styles.buttonMore },
         { title: '÷', onPress: () => handleButtonPress('/'), style: styles.buttonOperator },
+
         { title: '7', onPress: () => handleButtonPress('7'), style: styles.buttonNumber },
         { title: '8', onPress: () => handleButtonPress('8'), style: styles.buttonNumber },
         { title: '9', onPress: () => handleButtonPress('9'), style: styles.buttonNumber },
         { title: '×', onPress: () => handleButtonPress('*'), style: styles.buttonOperator },
+
         { title: '4', onPress: () => handleButtonPress('4'), style: styles.buttonNumber },
         { title: '5', onPress: () => handleButtonPress('5'), style: styles.buttonNumber },
         { title: '6', onPress: () => handleButtonPress('6'), style: styles.buttonNumber },
         { title: '-', onPress: () => handleButtonPress('-'), style: styles.buttonOperator },
+
         { title: '1', onPress: () => handleButtonPress('1'), style: styles.buttonNumber },
         { title: '2', onPress: () => handleButtonPress('2'), style: styles.buttonNumber },
         { title: '3', onPress: () => handleButtonPress('3'), style: styles.buttonNumber },
         { title: '+', onPress: () => handleButtonPress('+'), style: styles.buttonOperator },
+
         { title: '0', onPress: () => handleButtonPress('0'), style: [ styles.buttonNumber, { flex: 2 }]},
         { title: '.', onPress: () => handleButtonPress('.'), style: styles.buttonNumber },
         { title: '=', onPress: () => calculateResult(displayText, setDisplayText), style: styles.buttonOperator },
@@ -44,7 +48,7 @@ export const getButtonsPortrait = (handleButtonPress, displayText, setDisplayTex
         { title: '%', onPress: () => procent(displayText, setDisplayText), style: styles.buttonMore },
         { title: '÷', onPress: () => handleButtonPress('/'), style: styles.buttonMore },
       
-        { title: '2nd', onPress: () => power2nd(displayText, setDisplayText), style: styles.buttonMore },
+        { title: '2nd', onPress: () => secondFunction(displayText, setDisplayText), style: styles.buttonMore },
         { title: 'x²', onPress: () => power(displayText, setDisplayText,2), style: styles.buttonMore },
         { title: 'x³', onPress: () => power(displayText, setDisplayText,3), style: styles.buttonMore },
         { title: 'x^y', onPress: () => handleButtonPress('^'), style: styles.buttonMore },
