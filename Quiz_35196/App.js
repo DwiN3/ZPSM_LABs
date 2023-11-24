@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
   },
   navigationContainer: {
     backgroundColor: '#ecf0f1',
+    padding: 20,
   },
   drawerTitle: {
     fontSize: 25,
@@ -192,6 +193,24 @@ const styles = StyleSheet.create({
     marginTop: 15,
     width: '100%', 
     flexDirection: 'column',
+  },
+  divider: {
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 2,
+    marginBottom: 10,
+    marginTop: 4,
+  },
+  drawerButton: {
+    backgroundColor: '#808080',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginVertical: 10,
+    borderRadius: 2,
+  },
+  drawerButtonText: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: 'white',
   },
   buttonSpacer: {
     marginVertical: 10, 
@@ -223,28 +242,10 @@ const styles = StyleSheet.create({
     marginTop: 11,
     fontSize: 14,
   },
-  drawerButton: {
-    backgroundColor: '#808080',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginVertical: 10,
-    borderRadius: 2,
-  },
-  drawerButtonText: {
-    fontSize: 14,
-    textAlign: 'center',
-    color: 'white',
-  },
   scrollContainer: {
     flexGrow: 1,
   },
-  divider: {
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 2,
-    width: '100%',
-    marginBottom: 10,
-    marginTop: 4,
-  },
+  
 });
 
 export default App;
