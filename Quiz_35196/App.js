@@ -1,6 +1,7 @@
 // App.js
+
 import React, { useRef } from 'react';
-import { ScrollView, Button, Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { ScrollView, Button, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { TestsList } from './data/Tests';

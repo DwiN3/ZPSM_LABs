@@ -1,4 +1,5 @@
 // UserScore.js
+
 class UserScores {
     constructor(nick, point, type, date) {
       this.nick = nick;
