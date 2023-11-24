@@ -25,7 +25,7 @@ const DrawerContent = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <View style={[styles.container, styles.navigationContainer]}>
+      <View style={[styles.containerDrawer, styles.navigationContainer]}>
         <Text style={styles.drawerTitle}>Quiz App</Text>
         <Image source={require('./assets/icon_choose.png')} style={styles.drawerIcon} />
         <View style={styles.buttonContainer}>
