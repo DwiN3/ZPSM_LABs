@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View, Text } from 'react-native';
-import styles from '../QuizStyles';
+import styles from '../styles/QuizStyles';
 
 const ResultsScreen = () => (
   <View style={styles.containerResults}>

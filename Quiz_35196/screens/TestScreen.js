@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import styles from '../QuizStyles';
+import styles from '../styles/QuizStyles';
 
 const TestScreen = ({ route }) => {
   const { test } = route.params;

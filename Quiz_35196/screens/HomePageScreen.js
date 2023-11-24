@@ -3,7 +3,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { TestsList } from '../data/Tests';
-import styles from '../QuizStyles';
+import styles from '../styles/QuizStyles';
 
 const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {

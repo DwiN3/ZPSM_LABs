@@ -8,7 +8,7 @@ import { TestsList } from './data/Tests';
 import HomePageScreen from './screens/HomePageScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import TestScreen from './screens/TestScreen';
-import styles from './QuizStyles';
+import styles from './styles/QuizStyles';
 
 const Drawer = createDrawerNavigator();
 
