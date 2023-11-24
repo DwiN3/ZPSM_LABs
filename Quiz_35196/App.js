@@ -1,5 +1,3 @@
-// App.js
-
 import React, { useRef } from 'react';
 import { ScrollView, Button, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -15,7 +13,10 @@ const Drawer = createDrawerNavigator();
 const DrawerContent = ({ navigation }) => {
   const renderTestButtons = () => {
     return TestsList.map((test, index) => (
-      <TouchableOpacity key={index} onPress={() => navigation.navigate('Test', { test })}>
+      <TouchableOpacity
+        key={index}
+        onPress={() => navigation.navigate('Test', { test, titleTest: test.titleTest })}
+      >
         <View style={styles.drawerButton}>
           <Text style={styles.drawerButtonText}>{test.titleTest}</Text>
         </View>

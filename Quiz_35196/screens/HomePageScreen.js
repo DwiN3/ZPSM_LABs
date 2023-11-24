@@ -1,5 +1,3 @@
-// HomePageScreen.js
-
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { TestsList } from '../data/Tests';
@@ -30,7 +28,11 @@ const HomePageScreen = ({ navigation }) => {
       );
     } else {
       return (
-        <TouchableOpacity onPress={() => navigation.navigate('Test', { test: item })}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('Test', { test: item, titleTest: item.titleTest })
+          }
+        >
           <View style={[styles.testItem, styles.regularItem]}>
             <Text style={styles.titleTest}>{item.titleTest}</Text>
             <View style={styles.tagsContainer}>
