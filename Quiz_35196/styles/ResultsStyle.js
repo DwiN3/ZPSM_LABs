@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#808080',
   },
   evenRow: {
-    backgroundColor: '#fff', // biały kolor tła
+    backgroundColor: '#fff', 
   },
   oddRow: {
-    backgroundColor: '#f2f2f2', // jasno szary kolor tła
+    backgroundColor: '#f2f2f2',
   },
   cell: {
     flex: 1,

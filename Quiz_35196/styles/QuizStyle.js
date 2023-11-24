@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   questionContainer: {
     marginTop: 5,
     //backgroundColor: 'pink',
-    height: 150, // Fixed height
+    height: 150, 
   },
   questionText: {
     marginTop: 18,

@@ -16,7 +16,8 @@ const QuizScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (titleTest) {
-      navigation.setOptions({ title: titleTest }); 
+      navigation.setOptions({ title: titleTest });
+      resetTimer(); 
     }
   }, [titleTest]);
 
@@ -44,8 +45,6 @@ const QuizScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    startTimer();
-
     return () => clearInterval(interval);
   }, [questionTime]);
 
