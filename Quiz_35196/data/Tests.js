@@ -1,4 +1,5 @@
-// ./data/Test.js
+// Tests.js
+
 class Tests {
   constructor(titleNumber, tags, description) {
     this.titleTest = `Title test #${titleNumber}`;
