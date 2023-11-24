@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity} from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import styles from '../styles/QuizStyle';
 
 const QuizScreen = ({ navigation }) => {
   const [progress, setProgress] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [questionTime, setQuestionTime] = useState(15);
-  let interval; // Declare interval here
+  let interval; 
+  const route = useRoute(); 
+  const { params } = route;
+  const titleTest = params ? params.titleTest : null;
+
+  useEffect(() => {
+    if (titleTest) {
+      navigation.setOptions({ title: titleTest }); 
+    }
+  }, [titleTest]);
 
   const startTimer = () => {
     interval = setInterval(() => {
