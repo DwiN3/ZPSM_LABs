@@ -2,21 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '../styles/QuizStyle';
 
-const QuizScreen = ({}) => {
+const QuizScreen = () => {
   const [progress, setProgress] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
+  const [questionTime, setQuestionTime] = useState(15); 
 
   useEffect(() => {
     let interval;
-    let quizTime = 10;
 
     const startTimer = () => {
       interval = setInterval(() => {
         setTimeElapsed((prevTime) => {
           const newTime = prevTime + 1;
-          setProgress((prevProgress) => newTime / quizTime);
+          setProgress((prevProgress) => newTime / questionTime);
 
-          if (newTime === quizTime) {
+          if (newTime === questionTime) {
             clearInterval(interval);
             console.log('Koniec czasu');
           }
@@ -29,13 +29,13 @@ const QuizScreen = ({}) => {
     startTimer();
 
     return () => clearInterval(interval); 
-  }, []);
+  }, [questionTime]); 
 
   return (
     <View style={styles.containerQuiz}>
       <View style={styles.textContainer}>
         <Text style={styles.questionNumbersText}>Question 3 of 10</Text>
-        <Text style={styles.timeText}>Time: {10 - timeElapsed} sec</Text>
+        <Text style={styles.timeText}>Time: {questionTime - timeElapsed} sec</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <View style={{ backgroundColor: 'yellow', height: 10, width: `${progress * 100}%` }} />
