@@ -7,8 +7,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { TestsList } from './data/Tests';
 import HomePageScreen from './screens/HomePageScreen';
 import ResultsScreen from './screens/ResultsScreen';
-import TestScreen from './screens/TestScreen';
-import styles from './styles/QuizStyles';
+import TestScreen from './screens/QuizScreen';
+import styles from './styles/AppStyle';
 
 const Drawer = createDrawerNavigator();
 
