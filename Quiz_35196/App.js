@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { TestsList } from './data/Tests';
 import HomePageScreen from './screens/HomePageScreen';
 import ResultsScreen from './screens/ResultsScreen';
-import TestScreen from './screens/QuizScreen';
+import QuizScreen from './screens/QuizScreen';
 import styles from './styles/DrawerStyle';
 
 const Drawer = createDrawerNavigator();
@@ -48,7 +48,7 @@ const App = () => {
       <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
         <Drawer.Screen name="Home Page" component={HomePageScreen} />
         <Drawer.Screen name="Results" component={ResultsScreen} />
-        <Drawer.Screen name="Test" component={TestScreen} />
+        <Drawer.Screen name="Test" component={QuizScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

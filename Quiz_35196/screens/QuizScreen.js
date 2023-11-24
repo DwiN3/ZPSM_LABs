@@ -1,25 +1,44 @@
 // QuizScreen.js
 
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Button } from 'react-native';
 import styles from '../styles/QuizStyle';
 
-const TestScreen = ({ route }) => {
-  const { test } = route.params;
-
+const QuizScreen = ({ }) => {
   return (
-    <View style={styles.containerDrawer}>
-      <Text style={styles.centeredText}>{test.titleTest}</Text>
-      <View style={styles.tagsContainer}>
-        {test.tags.map((tag, index) => (
-          <TouchableOpacity key={index} onPress={() => console.log(`Pressed ${tag}`)}>
-            <Text style={styles.tag}>{tag}</Text>
-          </TouchableOpacity>
-        ))}
+    <View style={styles.containerQuiz}>
+      <View style={styles.textContainer}>
+        <Text style={styles.questionNumbersText}>Question 3 of 10</Text>
+        <Text style={styles.timeText}>Time: 28 sec</Text>
+      </View >
+      <View style={styles.questionContainer}>
+        <Text style={styles.questionText}>
+          This is some example of a long question to fill the content?
+        </Text>
+        <Text style={styles.descriptionText}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit. vulputate eu pharetra nec, mattis ac neque. Duis vulputate commod...
+        </Text>
       </View>
-      <Text style={styles.description}>{test.description}</Text>
+      <View style={styles.answersContainer}>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity style={styles.answersButton}>
+            <Text style={styles.answersButtonText}>Answer A</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.answersButton}>
+            <Text style={styles.answersButtonText}>Answer B</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity style={styles.answersButton}>
+            <Text style={styles.answersButtonText}>Answer C</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.answersButton}>
+            <Text style={styles.answersButtonText}>Answer D</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
 
-export default TestScreen;
+export default QuizScreen;
