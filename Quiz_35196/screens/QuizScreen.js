@@ -2,23 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '../styles/QuizStyle';
 
-const QuizScreen = ({ }) => {
+const QuizScreen = ({}) => {
   const [progress, setProgress] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeElapsed((prevTime) => prevTime + 1);
-      setProgress((prevProgress) => (prevProgress + 1) / 10);
-    }, 1000);
+    let interval;
 
-    // Clear interval after 10 seconds
-    setTimeout(() => {
-      clearInterval(interval);
-    }, 10000);
+    const startTimer = () => {
+      interval = setInterval(() => {
+        setTimeElapsed((prevTime) => {
+          const newTime = prevTime + 1;
+          setProgress((prevProgress) => newTime / 10);
+
+          if (newTime === 10) {
+            clearInterval(interval);
+            console.log('Koniec czasu');
+          }
+
+          return newTime;
+        });
+      }, 1000);
+    };
+
+    startTimer();
 
     return () => clearInterval(interval); // Cleanup on unmount
-  }, []);
+  }, []); // No need for timeElapsed as a dependency in this case
 
   return (
     <View style={styles.containerQuiz}>
@@ -34,7 +44,8 @@ const QuizScreen = ({ }) => {
           This is some example of a long question to fill the content?
         </Text>
         <Text style={styles.descriptionText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit. vulputate eu pharetra nec, mattis ac neque. Duis vulputate commod...
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit. vulputate eu
+          pharetra nec, mattis ac neque. Duis vulputate commod...
         </Text>
       </View>
       <View style={styles.answersContainer}>

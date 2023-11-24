@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     marginBottom: 10,
-    height: 50, // Fixed height
+    height: 50, 
   },
   questionNumbersText: {
     marginTop: 25,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   progressBarContainer:{
     marginTop: 20,
     width: '80%',
-    borderWidth: 1,
+    borderWidth: 2,
     borderBlockColor: 'black',
     borderRadius: 30,
     alignSelf: 'center',
