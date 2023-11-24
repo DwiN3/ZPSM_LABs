@@ -70,7 +70,7 @@ const DrawerContent = ({ navigation }) => {
           <Button title="Home Page" onPress={() => navigation.navigate('Home Page')} color="#808080" />
           <View style={styles.buttonSpacer} />
           <Button title="Results" onPress={() => navigation.navigate('Results')} color="#808080" />
-          <View style={styles.buttonSpacer} />
+          <Text style={styles.divider}></Text>
           {renderTestButtons()}
         </View>
       </View>
@@ -186,6 +186,13 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
+  },
+  divider: {
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 2,
+    width: '100%',
+    marginBottom: 10,
+    marginTop: 4,
   },
 });
 
