@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import { Button, Text, View, StyleSheet, Image, FlatList, TouchableOpacity } from 'react-native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import React from 'react';
+import { Button, Text, View, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { TestsList } from './data/Tests';
 
@@ -51,26 +51,22 @@ const Results = ({ navigation }) => (
 );
 
 const DrawerContent = ({ navigation }) => (
-  <View style={[styles.container, styles.navigationContainer]}>
-    <Text style={styles.drawerTitle}>Quiz App</Text>
-    <Image
-      source={require('./assets/icon_choose.png')}
-      style={styles.drawerIcon}
-    />
-    <View style={styles.buttonContainer}>
-      <Button
-        title="Home Page"
+  <DrawerContentScrollView style={styles.navigationContainer}>
+    <View style={styles.drawerContent}>
+      <Text style={styles.drawerTitle}>Quiz App</Text>
+      <Image source={require('./assets/icon_choose.png')} style={styles.drawerIcon} />
+      <DrawerItem
+        label="Home Page"
         onPress={() => navigation.navigate('Home Page')}
-        color="#808080"
+        labelStyle={styles.drawerItem}
       />
-      <View style={styles.buttonSpacer} />
-      <Button
-        title="Results"
+      <DrawerItem
+        label="Results"
         onPress={() => navigation.navigate('Results')}
-        color="#808080" 
+        labelStyle={styles.drawerItem}
       />
     </View>
-  </View>
+  </DrawerContentScrollView>
 );
 
 const TestDetails = ({ route }) => {
@@ -91,8 +87,6 @@ const TestDetails = ({ route }) => {
 };
 
 const App = () => {
-  const drawer = useRef(null);
-
   return (
     <NavigationContainer>
       <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
@@ -166,6 +160,22 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 11,
     fontSize: 14,
+  },
+  drawerContent: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#ecf0f1',
+  },
+  drawerItem: {
+    fontSize: 18,
+    color: '#fff',
+    marginVertical: 10,
+    textAlign: 'center',
+    backgroundColor: '#808080',
+    paddingVertical: 15,  // Increase vertical padding for a wider button
+    borderRadius: 5,
+    width: '100%',  // Set the width of the button
+    alignSelf: 'center',  // Center the button
   },
 });
 
