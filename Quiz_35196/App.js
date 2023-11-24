@@ -15,33 +15,53 @@ const HomePage = ({ navigation }) => {
     }
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('Test', { test: item })}>
-      <View style={styles.testItem}>
-        <Text style={styles.titleTest}>{item.titleTest}</Text>
-        <View style={styles.tagsContainer}>
-          {item.tags.map((tag, index) => (
-            <TouchableOpacity key={index} onPress={() => console.log(`Pressed ${tag}`)}>
-              <Text style={styles.tag}>{tag}</Text>
-            </TouchableOpacity>
-          ))}
+  const TestsListWithNewItem = [...TestsList, { specialItem: true }];
+
+  const renderItem = ({ item }) => {
+    if (item.specialItem) {
+      // Render the special item with text and a button
+      return (
+        <View style={styles.specialItem}>
+          <Text style={styles.specialItemText}>Get to know your ranking result</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Results')}>
+            <View style={styles.specialItemButton}>
+              <Text style={styles.specialItemButtonText}>Check!</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-        <Text style={styles.description}>{truncateText(item.description, 100)}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+      );
+    } else {
+      // Render regular test item with padding
+      return (
+        <TouchableOpacity onPress={() => navigation.navigate('Test', { test: item })}>
+          <View style={[styles.testItem, styles.regularItem]}>
+            <Text style={styles.titleTest}>{item.titleTest}</Text>
+            <View style={styles.tagsContainer}>
+              {item.tags.map((tag, index) => (
+                <TouchableOpacity key={index} onPress={() => console.log(`Pressed ${tag}`)}>
+                  <Text style={styles.tag}>{tag}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <Text style={styles.description}>{truncateText(item.description, 100)}</Text>
+          </View>
+        </TouchableOpacity>
+      );
+    }
+  };
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={TestsList}
+        data={TestsListWithNewItem}
         renderItem={renderItem}
-        keyExtractor={(item) => item.titleTest}
+        keyExtractor={(item) => item.titleTest || 'specialItem'}
         contentContainerStyle={styles.flatListContainer}
       />
     </View>
   );
 };
+
 
 
 const Results = ({ navigation }) => (
@@ -111,13 +131,44 @@ const App = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
     flex: 1,
     alignItems: 'center',
-    padding: 16,
   },
   flatListContainer: {
     flexGrow: 1,
+    padding: 20,
+  },
+  regularItem: {
+    marginBottom: 10,
+  },
+  specialItem: {
+    width: '111%',
+    height: 120,
+    borderWidth: 2,
+    borderColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    marginTop: 10,
+    marginBottom: -14,
+    marginLeft: -21, 
+    marginRight: -10, 
+  },
+  specialItemText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  specialItemButton: {
+    backgroundColor: 'grey',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginVertical: 10,
+    borderRadius: 2,
+  },
+  specialItemButtonText: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: 'white',
   },
   navigationContainer: {
     backgroundColor: '#ecf0f1',
