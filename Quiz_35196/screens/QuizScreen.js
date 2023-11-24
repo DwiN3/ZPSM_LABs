@@ -1,16 +1,34 @@
-// QuizScreen.js
-
-import React from 'react';
-import { View, Text, TouchableOpacity, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import styles from '../styles/QuizStyle';
 
 const QuizScreen = ({ }) => {
+  const [progress, setProgress] = useState(0);
+  const [timeElapsed, setTimeElapsed] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeElapsed((prevTime) => prevTime + 1);
+      setProgress((prevProgress) => (prevProgress + 1) / 10);
+    }, 1000);
+
+    // Clear interval after 10 seconds
+    setTimeout(() => {
+      clearInterval(interval);
+    }, 10000);
+
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+
   return (
     <View style={styles.containerQuiz}>
       <View style={styles.textContainer}>
         <Text style={styles.questionNumbersText}>Question 3 of 10</Text>
-        <Text style={styles.timeText}>Time: 28 sec</Text>
-      </View >
+        <Text style={styles.timeText}>Time: {10 - timeElapsed} sec</Text>
+      </View>
+      <View style={styles.progressBarContainer}>
+        <View style={{ backgroundColor: 'yellow', height: 10, width: `${progress * 100}%` }} />
+      </View>
       <View style={styles.questionContainer}>
         <Text style={styles.questionText}>
           This is some example of a long question to fill the content?

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   textContainer: {
-    backgroundColor: 'blue',
+    //backgroundColor: 'blue',
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
@@ -25,30 +25,40 @@ const styles = StyleSheet.create({
     marginRight: 25,
     fontSize: 18,
   },
+  progressBarContainer:{
+    marginTop: 20,
+    width: '80%',
+    borderWidth: 1,
+    borderBlockColor: 'black',
+    borderRadius: 30,
+    alignSelf: 'center',
+  },
   questionContainer: {
-    backgroundColor: 'yellow',
+    marginTop: 5,
+    //backgroundColor: 'pink',
     height: 150, // Fixed height
   },
   questionText: {
+    marginTop: 18,
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   descriptionText: {
-    marginTop: 10,
+    marginTop: 12,
     fontSize: 13,
-    textAlign: 'center',
+    textAlign: 'justify',
+    marginLeft: 10,
+    marginRight: 10,
   },
   answersContainer: {
     borderWidth: 2,
     borderColor: 'black',
     borderRadius: 3,
-    marginTop: 20,
+    marginTop: 50,
     marginLeft: 20,
     marginRight: 20,
-    padding: 20,
-    backgroundColor: "red",
-    height: 180, // Fixed height
+    padding: 40,
   },
   answersButton: {
     backgroundColor: '#808080',
@@ -56,9 +66,10 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 3,
     padding: 10,
-    margin: 15,
+    margin: 20,
     alignItems: 'center',
-    height: 40, // Fixed height
+    height: 45,
+    width: 110,
   },
   answersButtonText: {
     fontSize: 15,
@@ -67,6 +78,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
+  
 });
 
 export default styles;
