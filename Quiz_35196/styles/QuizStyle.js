@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
-    marginBottom: 10, // Dodaj margin na dole
+    marginBottom: 10,
+    height: 50, // Fixed height
   },
   questionNumbersText: {
     marginTop: 25,
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
   },
   questionContainer: {
     backgroundColor: 'yellow',
+    height: 150, // Fixed height
   },
   questionText: {
     fontSize: 20,
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     textAlign: 'center',
   },
-  answersContainer:{
+  answersContainer: {
     borderWidth: 2,
     borderColor: 'black',
     borderRadius: 3,
@@ -45,7 +47,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     padding: 20,
-    backgroundColor: "red"
+    backgroundColor: "red",
+    height: 180, // Fixed height
   },
   answersButton: {
     backgroundColor: '#808080',
@@ -53,8 +56,9 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 3,
     padding: 10,
-    margin: 15, 
+    margin: 15,
     alignItems: 'center',
+    height: 40, // Fixed height
   },
   answersButtonText: {
     fontSize: 15,
