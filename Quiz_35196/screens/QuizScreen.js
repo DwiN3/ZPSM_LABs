@@ -1,35 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import styles from '../styles/QuizStyle';
 
-const QuizScreen = () => {
+const QuizScreen = ({ navigation }) => {
   const [progress, setProgress] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
-  const [questionTime, setQuestionTime] = useState(15); 
+  const [questionTime, setQuestionTime] = useState(15);
+  let interval; // Declare interval here
+
+  const startTimer = () => {
+    interval = setInterval(() => {
+      setTimeElapsed((prevTime) => {
+        const newTime = prevTime + 1;
+        setProgress((prevProgress) => newTime / questionTime);
+
+        if (newTime === questionTime) {
+          clearInterval(interval);
+          console.log('Koniec czasu');
+        }
+
+        return newTime;
+      });
+    }, 1000);
+  };
+
+  const resetTimer = () => {
+    clearInterval(interval);
+    setTimeElapsed(0);
+    setProgress(0);
+    startTimer();
+  };
 
   useEffect(() => {
-    let interval;
-
-    const startTimer = () => {
-      interval = setInterval(() => {
-        setTimeElapsed((prevTime) => {
-          const newTime = prevTime + 1;
-          setProgress((prevProgress) => newTime / questionTime);
-
-          if (newTime === questionTime) {
-            clearInterval(interval);
-            console.log('Koniec czasu');
-          }
-
-          return newTime;
-        });
-      }, 1000);
-    };
-
     startTimer();
 
-    return () => clearInterval(interval); 
-  }, [questionTime]); 
+    return () => clearInterval(interval);
+  }, [questionTime]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      resetTimer();
+      return () => {
+        clearInterval(interval);
+      };
+    }, [])
+  );
 
   return (
     <View style={styles.containerQuiz}>
