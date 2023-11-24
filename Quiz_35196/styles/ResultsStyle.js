@@ -1,4 +1,4 @@
-// Quizstyles.js
+// ResultsStyle.js
 
 import { StyleSheet } from 'react-native';
 

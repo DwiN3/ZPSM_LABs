@@ -1,4 +1,4 @@
-// Quizstyles.js
+// DrawerStyle.js
 
 import { StyleSheet } from 'react-native';
 

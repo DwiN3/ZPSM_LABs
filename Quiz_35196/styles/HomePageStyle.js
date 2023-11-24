@@ -1,4 +1,4 @@
-// Quizstyles.js
+// HomePageStyle.js
 
 import { StyleSheet } from 'react-native';
 
