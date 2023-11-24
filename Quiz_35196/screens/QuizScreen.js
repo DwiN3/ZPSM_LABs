@@ -1,7 +1,7 @@
 // QuizScreen.js
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import styles from '../styles/QuizStyle';
 
@@ -9,8 +9,10 @@ const QuizScreen = ({ navigation }) => {
   const [progress, setProgress] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [questionTime, setQuestionTime] = useState(15);
-  let interval; 
-  const route = useRoute(); 
+  const [shouldStartTimer, setShouldStartTimer] = useState(true);
+  const intervalRef = useRef(null);
+
+  const route = useRoute();
   const { params } = route;
   const titleTest = params ? params.titleTest : null;
 
@@ -19,19 +21,36 @@ const QuizScreen = ({ navigation }) => {
       navigation.setOptions({ title: titleTest });
       resetTimer();
       return () => {
-        clearInterval(interval);
+        clearInterval(intervalRef.current);
       };
     }
   }, [titleTest]);
 
+  useEffect(() => {
+    if (shouldStartTimer) {
+      resetTimer();
+      setShouldStartTimer(false);
+    }
+    return () => clearInterval(intervalRef.current);
+  }, [questionTime, shouldStartTimer]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setShouldStartTimer(true);
+      return () => {
+        clearInterval(intervalRef.current);
+      };
+    }, [])
+  );
+
   const startTimer = () => {
-    interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setTimeElapsed((prevTime) => {
         const newTime = prevTime + 1;
         setProgress((prevProgress) => newTime / questionTime);
 
         if (newTime === questionTime) {
-          clearInterval(interval);
+          clearInterval(intervalRef.current);
           console.log('Koniec czasu');
         }
 
@@ -41,25 +60,11 @@ const QuizScreen = ({ navigation }) => {
   };
 
   const resetTimer = () => {
-    clearInterval(interval);
+    clearInterval(intervalRef.current);
     setTimeElapsed(0);
     setProgress(0);
     startTimer();
   };
-
-  useEffect(() => {
-    resetTimer(); 
-    return () => clearInterval(interval);
-  }, [questionTime]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      resetTimer();
-      return () => {
-        clearInterval(interval);
-      };
-    }, [])
-  );
 
   return (
     <View style={styles.containerQuiz}>
