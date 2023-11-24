@@ -8,14 +8,15 @@ const QuizScreen = ({}) => {
 
   useEffect(() => {
     let interval;
+    let quizTime = 10;
 
     const startTimer = () => {
       interval = setInterval(() => {
         setTimeElapsed((prevTime) => {
           const newTime = prevTime + 1;
-          setProgress((prevProgress) => newTime / 10);
+          setProgress((prevProgress) => newTime / quizTime);
 
-          if (newTime === 10) {
+          if (newTime === quizTime) {
             clearInterval(interval);
             console.log('Koniec czasu');
           }
@@ -27,8 +28,8 @@ const QuizScreen = ({}) => {
 
     startTimer();
 
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, []); // No need for timeElapsed as a dependency in this case
+    return () => clearInterval(interval); 
+  }, []);
 
   return (
     <View style={styles.containerQuiz}>
