@@ -14,16 +14,16 @@ const truncateText = (text, maxLength) => {
 };
 
 const HomePageScreen = ({ navigation }) => {
-  const TestsListWithNewItem = [...TestsList, { specialItem: true }];
+  const TestsListWithNewItem = [...TestsList, { resultsItem: true }];
 
-  const renderItem = ({ item }) => {
-    if (item.specialItem) {
+  const renderResultsItem = ({ item }) => {
+    if (item.resultsItem) {
       return (
-        <View style={styles.specialItem}>
-          <Text style={styles.specialItemText}>Get to know your ranking result</Text>
+        <View style={styles.resultsItem}>
+          <Text style={styles.resultsItemText}>Get to know your ranking result</Text>
           <TouchableOpacity onPress={() => navigation.navigate('Results')}>
-            <View style={styles.specialItemButton}>
-              <Text style={styles.specialItemButtonText}>Check!</Text>
+            <View style={styles.resultsItemButton}>
+              <Text style={styles.resultsItemButtonText}>Check!</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -51,8 +51,8 @@ const HomePageScreen = ({ navigation }) => {
     <View style={styles.containerHome}>
       <FlatList
         data={TestsListWithNewItem}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.titleTest || 'specialItem'}
+        renderItem={renderResultsItem}
+        keyExtractor={(item) => item.titleTest || 'resultsItem'}
         contentContainerStyle={styles.flatListContainer}
       />
     </View>

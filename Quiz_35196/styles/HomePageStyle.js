@@ -3,7 +3,7 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  specialItem: {
+  resultsItem: {
     width: '111%',
     height: 120,
     borderWidth: 2,
@@ -16,18 +16,18 @@ const styles = StyleSheet.create({
     marginLeft: -21, 
     marginRight: -10, 
   },
-  specialItemText: {
+  resultsItemText: {
     fontSize: 18,
     fontWeight: 'bold',
   },
-  specialItemButton: {
+  resultsItemButton: {
     backgroundColor: 'grey',
     paddingVertical: 10,
     paddingHorizontal: 15,
     marginVertical: 10,
     borderRadius: 2,
   },
-  specialItemButtonText: {
+  resultsItemButtonText: {
     fontSize: 14,
     textAlign: 'center',
     color: 'white',
