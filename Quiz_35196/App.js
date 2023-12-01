@@ -82,6 +82,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
+<<<<<<< Updated upstream
       <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
         {initialLaunch ? (
           <Drawer.Screen
@@ -97,6 +98,17 @@ const App = () => {
           </>
         )}
       </Drawer.Navigator>
+=======
+      {true ? (
+        <WelcomeScreen onRegulationAccepted={handleRegulationAccepted} />
+      ) : (
+        <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
+          <Drawer.Screen name="Home Page" component={HomePageScreen} />
+          <Drawer.Screen name="Results" component={ResultsScreen} />
+          <Drawer.Screen name="Test" component={QuizScreen} />
+        </Drawer.Navigator>
+      )}
+>>>>>>> Stashed changes
     </NavigationContainer>
   );
 };

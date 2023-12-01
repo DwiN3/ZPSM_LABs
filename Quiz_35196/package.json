@@ -9,7 +9,11 @@
     "web": "expo start --web"
   },
   "dependencies": {
+<<<<<<< Updated upstream
     "@react-native-async-storage/async-storage": "^1.18.2",
+=======
+    "@react-native-async-storage/async-storage": "^1.21.0",
+>>>>>>> Stashed changes
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/material-top-tabs": "^6.6.5",

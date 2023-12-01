@@ -1,4 +1,5 @@
 // WelcomeScreen.js
+<<<<<<< Updated upstream
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
@@ -6,6 +7,15 @@ import styles from '../styles/WelcomeStyle.js';
 
 const WelcomeScreen = ({ route, navigation }) => {
   const [isRegulationAccepted, setIsRegulationAccepted] = useState(false);
+=======
+import React from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import styles from '../styles/WelcomeStyle.js';
+
+const WelcomeScreen = () => {
+  const navigation = useNavigation();
+>>>>>>> Stashed changes
 
   useEffect(() => {
     checkRegulationStatus();
@@ -28,9 +38,10 @@ const WelcomeScreen = ({ route, navigation }) => {
   };
 
   const handleAcceptanceToggle = () => {
-    setIsRegulationAccepted(!isRegulationAccepted);
+    // Add your logic for handling acceptance toggle
   };
 
+<<<<<<< Updated upstream
   const handleContinuePress = async () => {
     if (isRegulationAccepted) {
       try {
@@ -55,6 +66,29 @@ const WelcomeScreen = ({ route, navigation }) => {
           <Text>Dalej</Text>
         </View>
       </TouchableOpacity>
+=======
+  const handleContinuePress = () => {
+    // Navigate to the Home page
+    navigation.navigate('Home');
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.contentContainer}>
+        <Text style={styles.label}>Aby korzystać z aplikacji musisz zaakceptować regulamin</Text>
+        <TouchableOpacity onPress={handleAcceptanceToggle}>
+          <View style={styles.checkboxContainer}>
+            <View style={[styles.checkbox, isRegulationAccepted && styles.checkedBox]} />
+            <Text>Akceptuje regulamin</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleContinuePress} disabled={!isRegulationAccepted}>
+          <View style={[styles.continueButton, !isRegulationAccepted && styles.disabledButton]}>
+            <Text>Dalej</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+>>>>>>> Stashed changes
     </View>
   );
 };
