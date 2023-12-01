@@ -26,7 +26,7 @@ const QuizScreen = ({ navigation }) => {
       navigation.setOptions({ title: titleTest });
       setResetQuizFlag(true);
       prevTitleRef.current = titleTest;
-      resetQuiz(); 
+      resetQuiz();
     }
     setQuestionTime(tasks[currentQuestion]?.duration || 0);
     resetTimerFunction(); 
@@ -35,7 +35,7 @@ const QuizScreen = ({ navigation }) => {
   useEffect(() => {
     if (shouldStartTimer) {
       resetTimer();
-      setShouldStartTimer(false);
+      setShouldStartTimer(true);
     }
     return () => clearInterval(intervalRef.current);
   }, [questionTime, shouldStartTimer]);
