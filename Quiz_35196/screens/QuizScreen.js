@@ -12,7 +12,9 @@ const QuizScreen = ({ navigation }) => {
   const [shouldStartTimer, setShouldStartTimer] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [resetQuizFlag, setResetQuizFlag] = useState(false); // New state variable
   const intervalRef = useRef(null);
+  const prevTitleRef = useRef(null); 
 
   const route = useRoute();
   const { params } = route;
@@ -20,12 +22,15 @@ const QuizScreen = ({ navigation }) => {
   const tasks = params ? params.tasks : [];
 
   useEffect(() => {
-    if (titleTest) {
+    if (titleTest && titleTest !== prevTitleRef.current) {
       navigation.setOptions({ title: titleTest });
-      setQuestionTime(tasks[currentQuestion]?.duration || 0);
-      resetTimerFunction();
+      setResetQuizFlag(true);
+      prevTitleRef.current = titleTest;
+      resetQuiz(); 
     }
-  }, [titleTest, currentQuestion, tasks]);
+    setQuestionTime(tasks[currentQuestion]?.duration || 0);
+    resetTimerFunction(); 
+  }, [titleTest, currentQuestion, tasks, resetQuizFlag]);
 
   useEffect(() => {
     if (shouldStartTimer) {
