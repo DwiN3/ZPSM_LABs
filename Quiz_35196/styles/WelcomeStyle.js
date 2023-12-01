@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   checkedBox: {
-    backgroundColor: '#fff',
+    backgroundColor: '#3498db',
   },
   continueButton: {
     marginTop: 'auto', 
