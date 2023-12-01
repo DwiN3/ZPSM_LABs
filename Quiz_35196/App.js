@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { ScrollView, Button, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { navigationRef } from './navigationRef';
 import { NavigationContainer } from '@react-navigation/native';
 import { TestsList } from './data/Tests';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
@@ -11,6 +12,7 @@ import HomePageScreen from './screens/HomePageScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import QuizScreen from './screens/QuizScreen';
 import styles from './styles/DrawerStyle';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -47,10 +49,9 @@ const DrawerContent = ({ navigation }) => {
 
 const App = () => {
   const drawer = useRef(null);
-  const [showWelcome, setShowWelcome] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
-    // Check if the regulation has been accepted
     const checkRegulationAccepted = async () => {
       const isRegulationAccepted = await AsyncStorage.getItem('isRegulationAccepted');
       setShowWelcome(isRegulationAccepted !== 'true');
@@ -60,13 +61,15 @@ const App = () => {
   }, []);
 
   const handleRegulationAccepted = async () => {
-    // Set the flag in AsyncStorage
     await AsyncStorage.setItem('isRegulationAccepted', 'true');
     setShowWelcome(false);
+
+    // Manualna nawigacja po zaakceptowaniu regulaminu
+    navigate('Home Page');
   };
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       {showWelcome ? (
         <WelcomeScreen onRegulationAccepted={handleRegulationAccepted} />
       ) : (
