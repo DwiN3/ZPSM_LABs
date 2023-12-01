@@ -44,11 +44,14 @@ const WelcomeScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View contentContainer={styles.container}>
-      <Text>Aby korzystać z aplikacji musisz zaznaczyć regulamin</Text>
+    <View style={styles.container}>
+    <View style={styles.contentContainer}>
+      <Text style={styles.label}>Aby korzystać z aplikacji musisz zaakceptować regulamin</Text>
       <TouchableOpacity onPress={handleAcceptanceToggle}>
-        <View style={[styles.checkbox, isRegulationAccepted && styles.checkedBox]} />
-        <Text>Akceptuje regulamin</Text>
+        <View style={styles.checkboxContainer}>
+          <View style={[styles.checkbox, isRegulationAccepted && styles.checkedBox]} />
+          <Text>Akceptuje regulamin</Text>
+        </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleContinuePress} disabled={!isRegulationAccepted}>
         <View style={[styles.continueButton, !isRegulationAccepted && styles.disabledButton]}>
@@ -56,6 +59,7 @@ const WelcomeScreen = ({ route, navigation }) => {
         </View>
       </TouchableOpacity>
     </View>
+  </View>
   );
 };
 
