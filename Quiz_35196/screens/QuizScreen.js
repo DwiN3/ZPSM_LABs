@@ -91,7 +91,7 @@ const QuizScreen = ({ navigation }) => {
         {
           text: 'Go to Results',
           onPress: () => {
-            navigation.navigate('Result Quiz', { correctAnswers, totalQuestions: tasks.length });
+            navigation.navigate('ResultsQuiz', { textTitle: titleTest, correctAnswers, totalQuestions: tasks.length });
           },
         },
       ],
