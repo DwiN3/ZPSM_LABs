@@ -1,16 +1,30 @@
-// WelcomeScreen
-
-import styles from '../styles/WelcomeStyle.js';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import styles from '../styles/WelcomeStyle.js';
 
-const WelcomeScreen = ({ handleAcceptanceToggle }) => (
+const WelcomeScreen = ({ onRegulationAccepted }) => {
+  const [isRegulationAccepted, setIsRegulationAccepted] = useState(false);
+
+  const handleAcceptanceToggle = () => {
+    setIsRegulationAccepted(!isRegulationAccepted);
+  };
+
+  const handleContinuePress = async () => {
+    if (isRegulationAccepted) {
+      // If the regulation is accepted, call the provided callback
+      await onRegulationAccepted();
+    }
+  };
+
+  return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.label}>Aby korzystać z aplikacji musisz zaakceptować regulamin</Text>
+        <Text style={styles.label}>Aby korzystać z aplikacji, musisz zaakceptować regulamin</Text>
         <TouchableOpacity onPress={handleAcceptanceToggle}>
           <View style={styles.checkboxContainer}>
             <View style={[styles.checkbox, isRegulationAccepted && styles.checkedBox]} />
-            <Text>Akceptuje regulamin</Text>
+            <Text>Akceptuję regulamin</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleContinuePress} disabled={!isRegulationAccepted}>
@@ -21,5 +35,6 @@ const WelcomeScreen = ({ handleAcceptanceToggle }) => (
       </View>
     </View>
   );
-  
-  export default WelcomeScreen;
+};
+
+export default WelcomeScreen;
