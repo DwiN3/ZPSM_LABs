@@ -21,7 +21,7 @@ const tasks = [
           "isCorrect": false
         }
       ],
-      "duration": 30
+      "duration": 5
     },
     {
       "question": "Kto był pierwszym królem Polski?",

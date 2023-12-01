@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import styles from '../styles/QuizStyle';
 
+
 const QuizScreen = ({ navigation }) => {
   const [progress, setProgress] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
@@ -77,7 +78,7 @@ const QuizScreen = ({ navigation }) => {
       </View>
       <View style={styles.questionContainer}>
         <Text style={styles.questionText}>
-          This is some example of a long question to fill the content?
+          tes
         </Text>
         <Text style={styles.descriptionText}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit. vulputate eu
