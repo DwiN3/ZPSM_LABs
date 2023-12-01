@@ -50,7 +50,7 @@ const App = () => {
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
-    resetApp();  // Resetowanie kliknięcia
+    //  resetApp();  // Resetowanie kliknięcia
     const checkRegulationAccepted = async () => {
       const isRegulationAccepted = await AsyncStorage.getItem('isRegulationAccepted');
       setShowWelcome(isRegulationAccepted !== 'true');

@@ -6,7 +6,6 @@ import styles from '../styles/ResultsQuizStyle';
 import { userScores } from '../data/UserScores';
 
 const ResultsQuiz = () => (
-
   <View style={styles.container}>
     <Text>Koniec Quizu {TitleTest}</Text>
     <Text>Poprawne odpowiedzi: </Text>
