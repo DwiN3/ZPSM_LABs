@@ -139,7 +139,9 @@ const QuizScreen = ({ navigation }) => {
       <View style={styles.questionContainer}>
         <Text style={styles.questionText}>{tasks[currentQuestion]?.question}</Text>
       </View>
-      <Text style={styles.descriptionText}>{description}</Text>
+      <View style={styles.descriptionContainer}>
+        <Text style={styles.descriptionText}>{description}</Text>
+      </View>
       <View style={styles.answersContainer}>
         <View style={styles.buttonRow}>
           {tasks[currentQuestion]?.answers.map((answer, index) => (

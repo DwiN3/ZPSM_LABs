@@ -44,8 +44,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  descriptionContainer: {
+    height: 100,
+    maxHeight: 100, 
+    backgroundColor: 'red',
+  },
   descriptionText: {
-    marginTop: -50,
+    marginTop: 0,  
     fontSize: 13,
     textAlign: 'justify',
     marginLeft: 10,
