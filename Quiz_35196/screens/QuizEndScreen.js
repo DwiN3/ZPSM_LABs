@@ -1,10 +1,10 @@
-// ResultsQuizScreen.js
+// QuizEndScreen.js
 
 import React from 'react';
 import { View, Text } from 'react-native';
-import styles from '../styles/ResultsQuizStyle';
+import styles from '../styles/QuizEndStyle';
 
-const ResultsQuizScreen = ({ route }) => {
+const QuizEndScreen = ({ route }) => {
   const { textTitle, correctAnswers, totalQuestions } = route.params;
 
   return (
@@ -16,4 +16,4 @@ const ResultsQuizScreen = ({ route }) => {
   );
 };
 
-export default ResultsQuizScreen;
+export default QuizEndScreen;

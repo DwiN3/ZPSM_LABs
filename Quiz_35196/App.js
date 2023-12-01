@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import WelcomeScreen from './screens/WelcomeScreen'; 
 import HomePageScreen from './screens/HomePageScreen';
 import ResultsScreen from './screens/ResultsScreen';
-import ResultsQuizScreen from './screens/ResultsQuizScreen';
+import QuizEndScreen from './screens/QuizEndScreen';
 import QuizScreen from './screens/QuizScreen';
 import styles from './styles/DrawerStyle';
 
@@ -84,7 +84,7 @@ const App = () => {
           <Drawer.Screen name="Home Page" component={HomePageScreen} />
           <Drawer.Screen name="Results" component={ResultsScreen} />
           <Drawer.Screen name="Test" component={QuizScreen} />
-          <Drawer.Screen name="ResultsQuiz" component={ResultsQuizScreen} />
+          <Drawer.Screen name="Quiz End" component={QuizEndScreen} />
         </Drawer.Navigator>
       )}
     </NavigationContainer>
