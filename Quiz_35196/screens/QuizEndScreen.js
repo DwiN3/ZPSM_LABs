@@ -9,9 +9,9 @@ const QuizEndScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text>Koniec Quizu</Text>
+      <Text style={styles.title}>Quiz Completed</Text>
       <Text>{textTitle}</Text>
-      <Text>Poprawne odpowiedzi: {correctAnswers} z {totalQuestions}</Text>
+      <Text style={styles.text}>Correct Answers: {correctAnswers} out of {totalQuestions}</Text>
     </View>
   );
 };
