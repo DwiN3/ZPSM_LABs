@@ -1,5 +1,3 @@
-// ResultsStyle.js
-
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -16,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#808080',
   },
   evenRow: {
-    backgroundColor: '#fff', 
+    backgroundColor: '#fff',
   },
   oddRow: {
     backgroundColor: '#f2f2f2',
@@ -25,6 +23,8 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'black',
     textAlign: 'center',
+    fontWeight: 'bold', 
+    padding: 8, 
   },
 });
 
