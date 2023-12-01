@@ -75,6 +75,14 @@ const QuizScreen = ({ navigation }) => {
     startTimer();
   };
 
+  const resetQuiz = () => {
+    setProgress(0);
+    setTimeElapsed(0);
+    setShouldStartTimer(true);
+    setCurrentQuestion(0);
+    setCorrectAnswers(0);
+  };
+
   const handleAnswer = (selectedAnswer) => {
     clearInterval(intervalRef.current); 
     moveToNextQuestion(selectedAnswer);
