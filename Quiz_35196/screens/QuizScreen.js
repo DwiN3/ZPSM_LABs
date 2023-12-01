@@ -120,7 +120,7 @@ const QuizScreen = ({ navigation }) => {
   
     setCorrectAnswers((prevCorrectAnswers) => {
       const newCorrectAnswers = isCorrect ? prevCorrectAnswers + 1 : prevCorrectAnswers;
-      console.log('Wartość zmiennej isCorrect:', isCorrect, newCorrectAnswers);
+      //console.log('Wartość zmiennej isCorrect:', isCorrect, newCorrectAnswers);
       globalCorrectAnswers = newCorrectAnswers;
   
       return newCorrectAnswers;
