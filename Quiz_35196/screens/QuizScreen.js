@@ -8,20 +8,23 @@ import styles from '../styles/QuizStyle';
 const QuizScreen = ({ navigation }) => {
   const [progress, setProgress] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
-  const [questionTime, setQuestionTime] = useState(15);
+  const [questionTime, setQuestionTime] = useState(0); // Update initial value to 0
   const [shouldStartTimer, setShouldStartTimer] = useState(true);
+  const [currentQuestion, setCurrentQuestion] = useState(0); // Track the current question
   const intervalRef = useRef(null);
 
   const route = useRoute();
   const { params } = route;
   const titleTest = params ? params.titleTest : null;
+  const tasks = params ? params.tasks : [];
 
   useEffect(() => {
     if (titleTest) {
       navigation.setOptions({ title: titleTest });
-      resetTimerFunction()
+      setQuestionTime(tasks[currentQuestion]?.duration || 0); // Set initial question time
+      resetTimerFunction();
     }
-  }, [titleTest]);
+  }, [titleTest, currentQuestion, tasks]);
 
   useEffect(() => {
     if (shouldStartTimer) {
@@ -42,10 +45,10 @@ const QuizScreen = ({ navigation }) => {
 
   const resetTimerFunction = () => {
     resetTimer();
-      return () => {
-        clearInterval(intervalRef.current);
-      };
-  }
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  };
 
   const startTimer = () => {
     intervalRef.current = setInterval(() => {
@@ -56,6 +59,7 @@ const QuizScreen = ({ navigation }) => {
         if (newTime === questionTime) {
           clearInterval(intervalRef.current);
           console.log('Koniec czasu');
+          moveToNextQuestion();
         }
 
         return newTime;
@@ -70,41 +74,32 @@ const QuizScreen = ({ navigation }) => {
     startTimer();
   };
 
+  const moveToNextQuestion = () => {
+    setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+    setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
+    resetTimerFunction();
+  };
+
   return (
     <View style={styles.containerQuiz}>
       <View style={styles.textContainer}>
-        <Text style={styles.questionNumbersText}>Question 3 of 10</Text>
+        <Text style={styles.questionNumbersText}>{`Question ${currentQuestion + 1} of ${tasks.length}`}</Text>
         <Text style={styles.timeText}>Time: {questionTime - timeElapsed} sec</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <View style={{ backgroundColor: 'yellow', height: 10, width: `${progress * 100}%` }} />
       </View>
       <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>
-          This is some example of a long question to fill the content?
-        </Text>
-        <Text style={styles.descriptionText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit. vulputate eu
-          pharetra nec, mattis ac neque. Duis vulputate commod...
-        </Text>
+        <Text style={styles.questionText}>{tasks[currentQuestion]?.question}</Text>
       </View>
       <View style={styles.answersContainer}>
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.answersButton}>
-            <Text style={styles.answersButtonText } onPress={() => resetTimerFunction()}>Answer A</Text>
+        {tasks[currentQuestion]?.answers.map((answer, index) => (
+          <TouchableOpacity key={index} style={styles.answersButton}>
+            <Text style={styles.answersButtonText} onPress={() => resetTimerFunction()}>
+              {`Answer ${String.fromCharCode(65 + index)}`}
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.answersButton}>
-            <Text style={styles.answersButtonText} onPress={() => resetTimerFunction()}>Answer B</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.answersButton}>
-            <Text style={styles.answersButtonText} onPress={() => resetTimerFunction()}>Answer C</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.answersButton}>
-            <Text style={styles.answersButtonText} onPress={() => resetTimerFunction()}>Answer D</Text>
-          </TouchableOpacity>
-        </View>
+        ))}
       </View>
     </View>
   );
