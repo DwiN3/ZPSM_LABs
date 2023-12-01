@@ -66,7 +66,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {false ? (
+      {showWelcomeScreen ? (
         <WelcomeScreen handleAcceptanceToggle={handleAcceptanceToggle} />
       ) : (
         <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
