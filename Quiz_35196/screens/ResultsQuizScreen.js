@@ -1,15 +1,18 @@
 // ResultsQuizScreen.js
 
 import React from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import styles from '../styles/ResultsQuizStyle';
-import { userScores } from '../data/UserScores';
 
-const ResultsQuiz = () => (
-  <View style={styles.container}>
-    <Text>Koniec Quizu {TitleTest}</Text>
-    <Text>Poprawne odpowiedzi: </Text>
-  </View>
-);
+const ResultsQuizScreen = ({ route }) => {
+  const { correctAnswers, totalQuestions } = route.params;
 
-export default ResultsQuiz;
+  return (
+    <View style={styles.container}>
+      <Text>Koniec Quizu</Text>
+      <Text>Poprawne odpowiedzi: {correctAnswers} z {totalQuestions}</Text>
+    </View>
+  );
+};
+
+export default ResultsQuizScreen;

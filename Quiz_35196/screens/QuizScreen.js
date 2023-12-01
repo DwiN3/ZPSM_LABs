@@ -11,6 +11,7 @@ const QuizScreen = ({ navigation }) => {
   const [questionTime, setQuestionTime] = useState(0);
   const [shouldStartTimer, setShouldStartTimer] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
   const intervalRef = useRef(null);
 
   const route = useRoute();
@@ -76,7 +77,7 @@ const QuizScreen = ({ navigation }) => {
 
   const handleAnswer = (selectedAnswer) => {
     clearInterval(intervalRef.current); 
-    moveToNextQuestion();
+    moveToNextQuestion(selectedAnswer);
   };
 
   const alertEnd = () => {
@@ -90,22 +91,27 @@ const QuizScreen = ({ navigation }) => {
         {
           text: 'Go to Results',
           onPress: () => {
-            // Handle navigation to the results screen or any other actions
+            navigation.navigate('Result Quiz', { correctAnswers, totalQuestions: tasks.length });
           },
         },
       ],
     );
   };
 
-    const moveToNextQuestion = () => {
-    if (currentQuestion + 1 < tasks.length) {
-      setCurrentQuestion((prevQuestion) => prevQuestion + 1);
-      setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
-      resetTimerFunction();
-    } else {
-      alertEnd();
-    }
-  };
+    const moveToNextQuestion = (selectedAnswer) => {
+      const isCorrect = tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
+      if (isCorrect) {
+        setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
+      }
+
+      if (currentQuestion + 1 < tasks.length) {
+        setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+        setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
+        resetTimerFunction();
+      } else {
+        alertEnd();
+      }
+    };
 
   return (
     <View style={styles.containerQuiz}>
