@@ -1,3 +1,5 @@
+// WelcomeScreen.js
+
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
@@ -12,7 +14,6 @@ const WelcomeScreen = ({ onRegulationAccepted }) => {
 
   const handleContinuePress = async () => {
     if (isRegulationAccepted) {
-      // If the regulation is accepted, call the provided callback
       await onRegulationAccepted();
     }
   };

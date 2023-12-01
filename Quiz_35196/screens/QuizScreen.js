@@ -1,7 +1,7 @@
 // QuizScreen.js
 
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native'; // Import Alert for displaying feedback
+import { View, Text, TouchableOpacity, Alert } from 'react-native'; 
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import styles from '../styles/QuizStyle';
 
@@ -66,7 +66,7 @@ const QuizScreen = ({ navigation }) => {
         if (newTime === questionTime) {
           clearInterval(intervalRef.current);
           console.log('Koniec czasu');
-          handleAnswer(null); // Handle the case when the time runs out
+          handleAnswer(null);
         }
 
         return newTime;
@@ -95,8 +95,7 @@ const QuizScreen = ({ navigation }) => {
   };
 
   const alertEnd = () => {
-    // Handle the selected answer
-    clearInterval(intervalRef.current); // Stop the timer
+    clearInterval(intervalRef.current); 
 
     Alert.alert(
       'Quiz Finish',

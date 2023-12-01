@@ -53,7 +53,6 @@ const App = () => {
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
-    //resetApp();  // Resetowanie kliknięcia
     const checkRegulationAccepted = async () => {
       const isRegulationAccepted = await AsyncStorage.getItem('isRegulationAccepted');
       setShowWelcome(isRegulationAccepted !== 'true');
@@ -63,15 +62,12 @@ const App = () => {
   }, []);
 
   const handleRegulationAccepted = async () => {
-    // Set the flag in AsyncStorage
     await AsyncStorage.setItem('isRegulationAccepted', 'true');
     setShowWelcome(false);
   };
 
   const resetApp = async () => {
-    // Reset AsyncStorage
     await AsyncStorage.removeItem('isRegulationAccepted');
-    // Reset component state
     setShowWelcome(true);
   };
 

@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#fff', // Adjust background color as needed
+    backgroundColor: '#fff',
   },
   title: {
     marginTop: 20,
@@ -23,6 +23,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
   },
+  button: {
+    marginTop: 300,
+    borderWidth: 2,
+    borderColor: 'black',
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: 'grey',
+  }
 });
 
 export default styles;
