@@ -1,8 +1,13 @@
 // QuizScreen.js
 
 import React, { useState, useEffect, useRef } from 'react';
+<<<<<<< Updated upstream
 import { View, Text, TouchableOpacity } from 'react-native';
+=======
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
+>>>>>>> Stashed changes
 import { useFocusEffect, useRoute } from '@react-navigation/native';
+import ResultsQuizScreen from '../screens/ResultsQuizScreen';
 import styles from '../styles/QuizStyle';
 
 const QuizScreen = ({ navigation }) => {
@@ -10,6 +15,11 @@ const QuizScreen = ({ navigation }) => {
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [questionTime, setQuestionTime] = useState(15);
   const [shouldStartTimer, setShouldStartTimer] = useState(true);
+<<<<<<< Updated upstream
+=======
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+>>>>>>> Stashed changes
   const intervalRef = useRef(null);
 
   const route = useRoute();
@@ -66,6 +76,47 @@ const QuizScreen = ({ navigation }) => {
     startTimer();
   };
 
+<<<<<<< Updated upstream
+=======
+  const handleAnswer = (selectedAnswer) => {
+    clearInterval(intervalRef.current); 
+    moveToNextQuestion(selectedAnswer);
+  };
+
+  const alertEnd = () => {
+    // Handle the selected answer
+    clearInterval(intervalRef.current); // Stop the timer
+
+    Alert.alert(
+      'Quiz Finish',
+      'Congratulations! You have completed the quiz.',
+      [
+        {
+          text: 'Go to Results',
+          onPress: () => {
+            navigation.navigate('ResultsQuizScreen', { correctAnswers });
+          },
+        },
+      ],
+    );
+  };
+
+  const moveToNextQuestion = (selectedAnswer) => {
+    const isCorrect = tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
+    if (isCorrect) {
+      setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
+    }
+
+    if (currentQuestion + 1 < tasks.length) {
+      setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+      setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
+      resetTimerFunction();
+    } else {
+      alertEnd();
+    }
+  };
+
+>>>>>>> Stashed changes
   return (
     <View style={styles.containerQuiz}>
       <View style={styles.textContainer}>
