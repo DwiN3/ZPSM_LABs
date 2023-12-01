@@ -19,7 +19,9 @@ const DrawerContent = ({ navigation }) => {
     return TestsList.map((test, index) => (
       <TouchableOpacity
         key={index}
-        onPress={() => navigation.navigate('Test', { test, titleTest: test.titleTest })}
+        onPress={() =>
+          navigation.navigate('Test', { test, titleTest: test.titleTest, tasks: test.tasks })
+        }
       >
         <View style={styles.drawerButton}>
           <Text style={styles.drawerButtonText}>{test.titleTest}</Text>
@@ -50,7 +52,7 @@ const App = () => {
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
-    //  resetApp();  // Resetowanie kliknięcia
+    //resetApp();  // Resetowanie kliknięcia
     const checkRegulationAccepted = async () => {
       const isRegulationAccepted = await AsyncStorage.getItem('isRegulationAccepted');
       setShowWelcome(isRegulationAccepted !== 'true');
