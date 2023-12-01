@@ -5,6 +5,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { TestsList } from './data/Tests';
 import HomePageScreen from './screens/HomePageScreen';
 import ResultsScreen from './screens/ResultsScreen';
+<<<<<<< Updated upstream
+=======
+import QuizEndScreen from './screens/QuizEndScreen';
+>>>>>>> Stashed changes
 import QuizScreen from './screens/QuizScreen';
 import styles from './styles/DrawerStyle';
 
@@ -46,11 +50,24 @@ const App = () => {
 
   return (
     <NavigationContainer>
+<<<<<<< Updated upstream
       <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
         <Drawer.Screen name="Home Page" component={HomePageScreen} />
         <Drawer.Screen name="Results" component={ResultsScreen} />
         <Drawer.Screen name="Test" component={QuizScreen} />
       </Drawer.Navigator>
+=======
+      {showWelcome ? (
+        <WelcomeScreen onRegulationAccepted={handleRegulationAccepted} />
+      ) : (
+        <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
+          <Drawer.Screen name="Home Page" component={HomePageScreen} />
+          <Drawer.Screen name="Results" component={ResultsScreen} />
+          <Drawer.Screen name="Test" component={QuizScreen} />
+          <Drawer.Screen name="QuizEnd" component={QuizEndScreen} />
+        </Drawer.Navigator>
+      )}
+>>>>>>> Stashed changes
     </NavigationContainer>
   );
 };
