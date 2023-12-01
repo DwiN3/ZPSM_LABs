@@ -1,18 +1,45 @@
 // WelcomeScreen.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
 import styles from '../styles/WelcomeStyle.js';
 
-const WelcomeScreen = ({ navigation }) => {
+const WelcomeScreen = ({ route, navigation }) => {
   const [isRegulationAccepted, setIsRegulationAccepted] = useState(false);
+
+  useEffect(() => {
+    checkRegulationStatus();
+  }, []);
+
+  const checkRegulationStatus = async () => {
+    try {
+      // Check if the regulation has been accepted before
+      const storedStatus = await AsyncStorage.getItem('regulationAccepted');
+      if (storedStatus !== null) {
+        setIsRegulationAccepted(JSON.parse(storedStatus));
+        // If regulation is accepted, navigate to Home Page directly
+        if (JSON.parse(storedStatus)) {
+          navigation.navigate('Home Page');
+        }
+      }
+    } catch (error) {
+      console.error('Error reading regulation status from AsyncStorage:', error);
+    }
+  };
 
   const handleAcceptanceToggle = () => {
     setIsRegulationAccepted(!isRegulationAccepted);
   };
 
-  const handleContinuePress = () => {
+  const handleContinuePress = async () => {
     if (isRegulationAccepted) {
-      navigation.navigate('Home Page');
+      try {
+        // Save the regulation acceptance status to AsyncStorage
+        await AsyncStorage.setItem('regulationAccepted', JSON.stringify(true));
+        navigation.navigate('Home Page');
+      } catch (error) {
+        console.error('Error saving regulation status to AsyncStorage:', error);
+      }
     }
   };
 

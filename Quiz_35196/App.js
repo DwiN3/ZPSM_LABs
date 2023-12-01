@@ -1,10 +1,12 @@
 // App.js
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ScrollView, Button, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { TestsList } from './data/Tests';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
+import WelcomeScreen from './screens/WelcomeScreen';
 import HomePageScreen from './screens/HomePageScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import QuizScreen from './screens/QuizScreen';
@@ -43,15 +45,57 @@ const DrawerContent = ({ navigation }) => {
   );
 };
 
+
 const App = () => {
   const drawer = useRef(null);
+  const [initialLaunch, setInitialLaunch] = React.useState(null);
+
+  useEffect(() => {
+    checkInitialLaunch();
+  }, []);
+
+  const checkInitialLaunch = async () => {
+    try {
+      const hasLaunched = await AsyncStorage.getItem('hasLaunched');
+      if (hasLaunched === null) {
+        setInitialLaunch(true);
+      } else {
+        setInitialLaunch(false);
+      }
+    } catch (error) {
+      console.error('Error checking initial launch:', error);
+    }
+  };
+
+  const handleInitialLaunch = async () => {
+    try {
+      await AsyncStorage.setItem('hasLaunched', 'true');
+      setInitialLaunch(false);
+    } catch (error) {
+      console.error('Error setting initial launch:', error);
+    }
+  };
+
+  if (initialLaunch === null) {
+    return null;
+  }
 
   return (
     <NavigationContainer>
       <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
-        <Drawer.Screen name="Home Page" component={HomePageScreen} />
-        <Drawer.Screen name="Results" component={ResultsScreen} />
-        <Drawer.Screen name="Test" component={QuizScreen} />
+        {initialLaunch ? (
+          <Drawer.Screen
+            name="Welcome"
+            component={WelcomeScreen}
+            initialParams={{ handleInitialLaunch: true }} // Replace with serializable data
+          />
+        ) : (
+          <>
+            <Drawer.Screen name="Home Page" component={HomePageScreen} />
+            <Drawer.Screen name="Results" component={ResultsScreen} />
+            <Drawer.Screen name="Test" component={QuizScreen} />
+          </>
+        )}
       </Drawer.Navigator>
     </NavigationContainer>
   );
