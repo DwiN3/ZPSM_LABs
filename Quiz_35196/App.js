@@ -50,7 +50,7 @@ const App = () => {
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
-    // Check if the regulation has been accepted
+    resetApp();  // Resetowanie kliknięcia
     const checkRegulationAccepted = async () => {
       const isRegulationAccepted = await AsyncStorage.getItem('isRegulationAccepted');
       setShowWelcome(isRegulationAccepted !== 'true');
@@ -65,9 +65,16 @@ const App = () => {
     setShowWelcome(false);
   };
 
+  const resetApp = async () => {
+    // Reset AsyncStorage
+    await AsyncStorage.removeItem('isRegulationAccepted');
+    // Reset component state
+    setShowWelcome(true);
+  };
+
   return (
     <NavigationContainer>
-      {false ? (
+      {showWelcome ? (
         <WelcomeScreen onRegulationAccepted={handleRegulationAccepted} />
       ) : (
         <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
