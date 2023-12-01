@@ -94,6 +94,7 @@ const QuizScreen = ({ navigation }) => {
     moveToNextQuestion(selectedAnswer);
   };
 
+  let globalCorrectAnswers = 0;
   const alertEnd = () => {
     clearInterval(intervalRef.current); 
 
@@ -104,27 +105,35 @@ const QuizScreen = ({ navigation }) => {
         {
           text: 'Go to Results',
           onPress: () => {
-            navigation.navigate('Quiz Completed', { textTitle: titleTest, correctAnswers, totalQuestions: tasks.length });
+            navigation.navigate('Quiz Completed', { 
+              textTitle: titleTest,
+              globalCorrectAnswers: globalCorrectAnswers,
+              totalQuestions: tasks.length });
           },
         },
       ],
     );
   };
 
-    const moveToNextQuestion = (selectedAnswer) => {
-      const isCorrect = tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
-      if (isCorrect) {
-        setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
-      }
-
-      if (currentQuestion + 1 < tasks.length) {
-        setCurrentQuestion((prevQuestion) => prevQuestion + 1);
-        setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
-        resetTimerFunction();
-      } else {
-        alertEnd();
-      }
-    };
+  const moveToNextQuestion = (selectedAnswer) => {
+    const isCorrect = tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
+  
+    setCorrectAnswers((prevCorrectAnswers) => {
+      const newCorrectAnswers = isCorrect ? prevCorrectAnswers + 1 : prevCorrectAnswers;
+      console.log('Wartość zmiennej isCorrect:', isCorrect, newCorrectAnswers);
+      globalCorrectAnswers = newCorrectAnswers;
+  
+      return newCorrectAnswers;
+    });
+  
+    if (currentQuestion + 1 < tasks.length) {
+      setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+      setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
+      resetTimerFunction();
+    } else {
+      alertEnd();
+    }
+  };
 
   return (
     <View style={styles.containerQuiz}>

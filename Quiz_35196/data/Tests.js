@@ -267,11 +267,11 @@ const languageTest = [
       },
       {
         "content": "Polski",
-        "isCorrect": false
+        "isCorrect": true
       },
       {
         "content": "Hiszpański",
-        "isCorrect": true
+        "isCorrect": false
       },
       {
         "content": "Niemiecki",
@@ -287,7 +287,7 @@ const languageTest = [
 const TestsList = [
   new Tests("Show test", ['#Tag1', '#Tag2'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
   new Tests("Animal Quiz", ['#Tag3', '#Tag4'], 'Test wiedzy o zwierzętach\nWitaj w teście wiedzy o zwierzętach! Sprawdź, ile wiesz na temat różnorodnego świata fauny. Odpowiedz na pytania dotyczące różnych gatunków zwierząt, ich cech charakterystycznych i ciekawostek związanych z ich życiem. Czy uda Ci się osiągnąć doskonały wynik?', animalTest),
-  new Tests("Language Quiz", ['#Tag5', '#Tag6'], 'Test Wiedzy Językowej\nRozwiń swoje umiejętności językowe poprzez udział w naszym fascynującym teście wiedzy językowej! Ta kategoria skupia się na różnorodnych aspektach języków, od ich pochodzenia po ciekawostki związane z konkretnymi słowami czy zwrotami. Sprawdź swoją erudycję lingwistyczną, odpowiadając na pytania dotyczące języków z różnych regionów i rodzin językowych. Czy potrafisz rozróżnić języki romańskie od innych grup językowych?', tasks),
+  new Tests("Language Quiz", ['#Tag5', '#Tag6'], 'Test Wiedzy Językowej\nRozwiń swoje umiejętności językowe poprzez udział w naszym fascynującym teście wiedzy językowej! Ta kategoria skupia się na różnorodnych aspektach języków, od ich pochodzenia po ciekawostki związane z konkretnymi słowami czy zwrotami. Sprawdź swoją erudycję lingwistyczną, odpowiadając na pytania dotyczące języków z różnych regionów i rodzin językowych. Czy potrafisz rozróżnić języki romańskie od innych grup językowych?', languageTest),
   new Tests(4, ['#Tag7', '#Tag8'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
   new Tests(5, ['#Tag7', '#Tag8'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
   new Tests(6, ['#Tag7', '#Tag8'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),

@@ -53,6 +53,7 @@ const App = () => {
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
+    //resetApp();
     const checkRegulationAccepted = async () => {
       const isRegulationAccepted = await AsyncStorage.getItem('isRegulationAccepted');
       setShowWelcome(isRegulationAccepted !== 'true');
