@@ -75,22 +75,23 @@ const QuizScreen = ({ navigation }) => {
   };
 
   const handleAnswer = (selectedAnswer) => {
+    clearInterval(intervalRef.current); 
+    moveToNextQuestion();
+  };
+
+  const alertEnd = () => {
     // Handle the selected answer
     clearInterval(intervalRef.current); // Stop the timer
 
-    const isCorrect = tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
-    const feedbackMessage = isCorrect ? 'Correct!' : 'Incorrect.';
-
     Alert.alert(
-      'Answer Feedback',
+      'Quiz Finish',
       feedbackMessage,
       [
         {
-          text: 'Next Question',
-          onPress: () => moveToNextQuestion(),
+          text: 'Go to Results',
+          onPress: () => {},
         },
       ],
-      { cancelable: false }
     );
   };
 
