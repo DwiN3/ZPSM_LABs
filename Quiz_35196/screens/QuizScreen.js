@@ -16,24 +16,20 @@ const QuizScreen = ({ navigation }) => {
   const { params } = route;
   const titleTest = params ? params.titleTest : null;
 
- // Inside the useEffect block
-useEffect(() => {
-  console.log("Title Test:", titleTest);
-  if (titleTest) {
-    const currentTest = TestsList.find((test) => test.titleTest === titleTest);
-    console.log("Current Test:", currentTest);
-    if (currentTest) {
-      navigation.setOptions({ title: titleTest });
-      const currentQuestion = currentTest.tasks[currentQuestionIndex];
-      if (currentQuestion) {
-        setQuestionTime(currentQuestion.duration);
+  useEffect(() => {
+    console.log("Title Test:", titleTest);
+    if (titleTest) {
+      const currentTest = TestsList.find((test) => test.titleTest === titleTest);
+      console.log("Current Test:", currentTest);
+      if (currentTest) {
+        navigation.setOptions({ title: titleTest });
+        setQuestionTime(currentTest.tasks[currentQuestionIndex].duration);
       }
+      return () => {
+        clearInterval(intervalRef.current);
+      };
     }
-    return () => {
-      clearInterval(intervalRef.current);
-    };
-  }
-}, [titleTest, currentQuestionIndex]);
+  }, [titleTest, currentQuestionIndex]);
 
   useEffect(() => {
     if (shouldStartTimer) {
@@ -82,7 +78,7 @@ useEffect(() => {
   };
 
   if (currentQuestionIndex >= TestsList.length) {
-    // All questions answered, navigate to result screen or handle accordingly
+    // All questions answered, navigate to the result screen or handle accordingly
     return (
       <View style={styles.containerQuiz}>
         <Text>Quiz Completed!</Text>
@@ -97,7 +93,7 @@ useEffect(() => {
     <View style={styles.containerQuiz}>
       <View style={styles.textContainer}>
         <Text style={styles.questionNumbersText}>{`Question ${currentQuestionIndex + 1} of ${TestsList.length}`}</Text>
-        <Text style={styles.timeText}>{`Time: ${questionTime - timeElapsed} sec`}</Text>
+        <Text style={styles.timeText}>{`Time: ${Math.max(0, questionTime - timeElapsed)} sec`}</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <View style={{ backgroundColor: 'yellow', height: 10, width: `${progress * 100}%` }} />
