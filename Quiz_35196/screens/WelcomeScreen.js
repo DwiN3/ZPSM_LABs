@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from 'react';
+// WelcomeScreen
+
 import styles from '../styles/WelcomeStyle.js';
 import { View, Text, TouchableOpacity } from 'react-native';
 
-const WelcomeStyle = () => (
+const WelcomeScreen = ({ handleAcceptanceToggle }) => (
     <View style={styles.container}>
-        <View style={styles.contentContainer}>
+      <View style={styles.contentContainer}>
         <Text style={styles.label}>Aby korzystać z aplikacji musisz zaakceptować regulamin</Text>
         <TouchableOpacity onPress={handleAcceptanceToggle}>
-            <View style={styles.checkboxContainer}>
+          <View style={styles.checkboxContainer}>
             <View style={[styles.checkbox, isRegulationAccepted && styles.checkedBox]} />
             <Text>Akceptuje regulamin</Text>
-            </View>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleContinuePress} disabled={!isRegulationAccepted}>
-            <View style={[styles.continueButton, !isRegulationAccepted && styles.disabledButton]}>
+          <View style={[styles.continueButton, !isRegulationAccepted && styles.disabledButton]}>
             <Text>Dalej</Text>
-            </View>
+          </View>
         </TouchableOpacity>
-        </View>
+      </View>
     </View>
   );
   
-  export default WelcomeStyle;
+  export default WelcomeScreen;
