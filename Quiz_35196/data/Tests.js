@@ -1,8 +1,8 @@
 // Tests.js
 
 class Tests {
-  constructor(titleNumber, tags, description, tasks) {
-    this.titleTest = `Title test #${titleNumber}`;
+  constructor(title, tags, description, tasks) {
+    this.titleTest = title;
     this.tags = tags;
     this.description = description;
     this.tasks = tasks;
@@ -100,10 +100,194 @@ const tasks = [
   }
 ];
 
+const animalTest = [
+  {
+    "question": "Ile nóg ma pająk?",
+    "answers": [
+      {
+        "content": "Cztery",
+        "isCorrect": false
+      },
+      {
+        "content": "Sześć",
+        "isCorrect": true
+      },
+      {
+        "content": "Osiem",
+        "isCorrect": false
+      },
+      {
+        "content": "Dziesięć",
+        "isCorrect": false
+      }
+    ],
+    "duration": 20
+  },
+  {
+    "question": "Które zwierzę jest największe na świecie?",
+    "answers": [
+      {
+        "content": "Słoń afrykański",
+        "isCorrect": false
+      },
+      {
+        "content": "Błękitny wieloryb",
+        "isCorrect": true
+      },
+      {
+        "content": "Girafa",
+        "isCorrect": false
+      },
+      {
+        "content": "Hipopotam",
+        "isCorrect": false
+      }
+    ],
+    "duration": 30
+  },
+  {
+    "question": "Jaki jest największy gatunek wśród kotowatych?",
+    "answers": [
+      {
+        "content": "Lew",
+        "isCorrect": false
+      },
+      {
+        "content": "Tygrys syberyjski",
+        "isCorrect": true
+      },
+      {
+        "content": "Puma",
+        "isCorrect": false
+      },
+      {
+        "content": "Pantera",
+        "isCorrect": false
+      }
+    ],
+    "duration": 25
+  },
+  {
+    "question": "Które zwierzę jest symbolem Australii?",
+    "answers": [
+      {
+        "content": "Kangur",
+        "isCorrect": true
+      },
+      {
+        "content": "Koala",
+        "isCorrect": false
+      },
+      {
+        "content": "Emu",
+        "isCorrect": false
+      },
+      {
+        "content": "Wombat",
+        "isCorrect": false
+      }
+    ],
+    "duration": 20, 
+  },
+  {
+    "question": "Ile kości ma dorosły człowiek?",
+    "answers": [
+      {
+        "content": "206",
+        "isCorrect": true
+      },
+      {
+        "content": "180",
+        "isCorrect": false
+      },
+      {
+        "content": "250",
+        "isCorrect": false
+      },
+      {
+        "content": "300",
+        "isCorrect": false
+      }
+    ],
+    "duration": 25
+  }
+];
+
+const languageTest = [
+  {
+    "question": "Które z poniższych języków należy do grupy języków romańskich?",
+    "answers": [
+      {
+        "content": "Rosyjski",
+        "isCorrect": false
+      },
+      {
+        "content": "Hiszpański",
+        "isCorrect": true
+      },
+      {
+        "content": "Arabski",
+        "isCorrect": false
+      },
+      {
+        "content": "Chiński",
+        "isCorrect": false
+      }
+    ],
+    "duration": 30
+  },
+  {
+    "question": "Który alfabet jest używany w języku greckim?",
+    "answers": [
+      {
+        "content": "Łaciński",
+        "isCorrect": false
+      },
+      {
+        "content": "Cyrylica",
+        "isCorrect": false
+      },
+      {
+        "content": "Grecki alfabet",
+        "isCorrect": true
+      },
+      {
+        "content": "Arabski",
+        "isCorrect": false
+      }
+    ],
+    "duration": 25
+  },
+  {
+    "question": "Który język ma popularne przekleństwo na literę K?",
+    "answers": [
+      {
+        "content": "Francuski",
+        "isCorrect": false
+      },
+      {
+        "content": "Polski",
+        "isCorrect": false
+      },
+      {
+        "content": "Hiszpański",
+        "isCorrect": true
+      },
+      {
+        "content": "Niemiecki",
+        "isCorrect": false
+      }
+    ],
+    "duration": 10
+  }
+];
+
+
+
 const TestsList = [
-  new Tests(1, ['#Tag1', '#Tag2'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
-  new Tests(2, ['#Tag3', '#Tag4'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
-  new Tests(3, ['#Tag5', '#Tag6'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
+  new Tests("Show test", ['#Tag1', '#Tag2'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
+  new Tests("Animal Quiz", ['#Tag3', '#Tag4'], 'Test wiedzy o zwierzętach\nWitaj w teście wiedzy o zwierzętach! Sprawdź, ile wiesz na temat różnorodnego świata fauny. Odpowiedz na pytania dotyczące różnych gatunków zwierząt, ich cech charakterystycznych i ciekawostek związanych z ich życiem. Czy uda Ci się osiągnąć doskonały wynik?', animalTest),
+  new Tests("Language Quiz", ['#Tag5', '#Tag6'], 'Test Wiedzy Językowej\nRozwiń swoje umiejętności językowe poprzez udział w naszym fascynującym teście wiedzy językowej! Ta kategoria skupia się na różnorodnych aspektach języków, od ich pochodzenia po ciekawostki związane z konkretnymi słowami czy zwrotami. Sprawdź swoją erudycję lingwistyczną, odpowiadając na pytania dotyczące języków z różnych regionów i rodzin językowych. Czy potrafisz rozróżnić języki romańskie od innych grup językowych?', tasks),
   new Tests(4, ['#Tag7', '#Tag8'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
   new Tests(5, ['#Tag7', '#Tag8'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
   new Tests(6, ['#Tag7', '#Tag8'], 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...', tasks),
