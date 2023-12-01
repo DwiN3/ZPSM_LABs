@@ -85,24 +85,25 @@ const QuizScreen = ({ navigation }) => {
 
     Alert.alert(
       'Quiz Finish',
-      feedbackMessage,
+      'Congratulations! You have completed the quiz.',
       [
         {
           text: 'Go to Results',
-          onPress: () => {},
+          onPress: () => {
+            // Handle navigation to the results screen or any other actions
+          },
         },
       ],
     );
   };
 
-  const moveToNextQuestion = () => {
+    const moveToNextQuestion = () => {
     if (currentQuestion + 1 < tasks.length) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
       setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
       resetTimerFunction();
     } else {
-      // End of the quiz, you can navigate to a summary screen or take other actions
-      console.log('End of the quiz');
+      alertEnd();
     }
   };
 
