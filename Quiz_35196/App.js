@@ -21,7 +21,7 @@ const DrawerContent = ({ navigation }) => {
       <TouchableOpacity
         key={index}
         onPress={() =>
-          navigation.navigate('Test', { test, titleTest: test.titleTest, tasks: test.tasks })
+          navigation.navigate('Test', { test, titleTest: test.titleTest, tasks: test.tasks, description: test.description })
         }
       >
         <View style={styles.drawerButton}>

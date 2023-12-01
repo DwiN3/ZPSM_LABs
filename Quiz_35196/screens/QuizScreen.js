@@ -19,6 +19,7 @@ const QuizScreen = ({ navigation }) => {
   const route = useRoute();
   const { params } = route;
   const titleTest = params ? params.titleTest : null;
+  const description = params ? params.description : null;
   const tasks = params ? params.tasks : [];
 
   useEffect(() => {
@@ -138,10 +139,7 @@ const QuizScreen = ({ navigation }) => {
       <View style={styles.questionContainer}>
         <Text style={styles.questionText}>{tasks[currentQuestion]?.question}</Text>
       </View>
-      <Text style={styles.descriptionText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit. vulputate eu
-          pharetra nec, mattis ac neque. Duis vulputate commod...
-        </Text>
+      <Text style={styles.descriptionText}>{description}</Text>
       <View style={styles.answersContainer}>
         <View style={styles.buttonRow}>
           {tasks[currentQuestion]?.answers.map((answer, index) => (
