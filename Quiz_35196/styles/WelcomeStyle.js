@@ -1,4 +1,3 @@
-// WelcomeStyle.js
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -6,7 +5,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    borderColor: '#000',   
+    borderStyle: 'solid',  
+    padding: 10,
+    width: '100%', 
+  },
+  label: {
+    fontWeight: 'bold',
+  },
+  checkboxContainer: {
+    marginTop: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   checkbox: {
     width: 20,
@@ -20,7 +31,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   continueButton: {
-    marginTop: 20,
+    marginTop: 'auto', 
+    marginBottom: 20,  
     padding: 10,
     backgroundColor: '#3498db',
     borderRadius: 5,

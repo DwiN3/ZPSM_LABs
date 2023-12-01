@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { ScrollView, Button, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { TestsList } from './data/Tests';
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage
@@ -12,6 +13,7 @@ import ResultsScreen from './screens/ResultsScreen';
 import QuizScreen from './screens/QuizScreen';
 import styles from './styles/DrawerStyle';
 
+const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const DrawerContent = ({ navigation }) => {
@@ -85,7 +87,7 @@ const App = () => {
       <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
         {initialLaunch ? (
           <Drawer.Screen
-            name="Welcome"
+            name="Witaj"
             component={WelcomeScreen}
             initialParams={{ handleInitialLaunch: true }} // Replace with serializable data
           />
