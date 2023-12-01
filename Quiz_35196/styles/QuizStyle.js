@@ -55,10 +55,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'black',
     borderRadius: 3,
-    marginTop: 50,
-    marginLeft: 20,
-    marginRight: 20,
-    padding: 40,
+    marginTop: 80,
+    padding: 25,
+    marginLeft: 5,
+    marginRight: 5,
   },
   answersButton: {
     backgroundColor: '#808080',
@@ -66,19 +66,19 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderRadius: 3,
     padding: 10,
-    margin: 20,
+    margin: 5,
     alignItems: 'center',
     height: 45,
-    width: 110,
+    width: 160,
   },
   answersButtonText: {
     fontSize: 15,
   },
   buttonRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between', 
+    flexWrap: 'wrap',
   },
-  
 });
 
 export default styles;

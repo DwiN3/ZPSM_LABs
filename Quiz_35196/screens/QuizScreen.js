@@ -118,12 +118,14 @@ const QuizScreen = ({ navigation }) => {
         <Text style={styles.questionText}>{tasks[currentQuestion]?.question}</Text>
       </View>
       <View style={styles.answersContainer}>
-  {tasks[currentQuestion]?.answers.map((answer, index) => (
-    <TouchableOpacity key={index} style={styles.answersButton} onPress={() => handleAnswer(index)}>
-      <Text style={styles.answersButtonText}>{`${answer.content}`}</Text>
-    </TouchableOpacity>
-  ))}
-    </View>
+        <View style={styles.buttonRow}>
+          {tasks[currentQuestion]?.answers.map((answer, index) => (
+            <TouchableOpacity key={index} style={styles.answersButton} onPress={() => handleAnswer(index)}>
+              <Text style={styles.answersButtonText}>{`${answer.content}`}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
     </View>
   );
 };
