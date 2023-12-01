@@ -1,12 +1,11 @@
-// QuizScreen.js
-
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import styles from '../styles/QuizStyle';
-
+import { TestsList } from '../data/Tests';
 
 const QuizScreen = ({ navigation }) => {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [timeElapsed, setTimeElapsed] = useState(0);
   const [questionTime, setQuestionTime] = useState(15);
@@ -17,15 +16,24 @@ const QuizScreen = ({ navigation }) => {
   const { params } = route;
   const titleTest = params ? params.titleTest : null;
 
-  useEffect(() => {
-    if (titleTest) {
+ // Inside the useEffect block
+useEffect(() => {
+  console.log("Title Test:", titleTest);
+  if (titleTest) {
+    const currentTest = TestsList.find((test) => test.titleTest === titleTest);
+    console.log("Current Test:", currentTest);
+    if (currentTest) {
       navigation.setOptions({ title: titleTest });
-      resetTimer();
-      return () => {
-        clearInterval(intervalRef.current);
-      };
+      const currentQuestion = currentTest.tasks[currentQuestionIndex];
+      if (currentQuestion) {
+        setQuestionTime(currentQuestion.duration);
+      }
     }
-  }, [titleTest]);
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  }
+}, [titleTest, currentQuestionIndex]);
 
   useEffect(() => {
     if (shouldStartTimer) {
@@ -53,6 +61,7 @@ const QuizScreen = ({ navigation }) => {
         if (newTime === questionTime) {
           clearInterval(intervalRef.current);
           console.log('Koniec czasu');
+          handleNextQuestion();
         }
 
         return newTime;
@@ -67,41 +76,49 @@ const QuizScreen = ({ navigation }) => {
     startTimer();
   };
 
+  const handleNextQuestion = () => {
+    setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    setShouldStartTimer(true);
+  };
+
+  if (currentQuestionIndex >= TestsList.length) {
+    // All questions answered, navigate to result screen or handle accordingly
+    return (
+      <View style={styles.containerQuiz}>
+        <Text>Quiz Completed!</Text>
+      </View>
+    );
+  }
+
+  const currentTest = TestsList.find((test) => test.titleTest === titleTest);
+  const currentQuestion = currentTest.tasks[currentQuestionIndex];
+
   return (
     <View style={styles.containerQuiz}>
       <View style={styles.textContainer}>
-        <Text style={styles.questionNumbersText}>Question 3 of 10</Text>
-        <Text style={styles.timeText}>Time: {questionTime - timeElapsed} sec</Text>
+        <Text style={styles.questionNumbersText}>{`Question ${currentQuestionIndex + 1} of ${TestsList.length}`}</Text>
+        <Text style={styles.timeText}>{`Time: ${questionTime - timeElapsed} sec`}</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <View style={{ backgroundColor: 'yellow', height: 10, width: `${progress * 100}%` }} />
       </View>
       <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>
-          tes
-        </Text>
-        <Text style={styles.descriptionText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit. vulputate eu
-          pharetra nec, mattis ac neque. Duis vulputate commod...
-        </Text>
+        <Text style={styles.questionText}>{currentQuestion.question}</Text>
+        <Text style={styles.descriptionText}>{currentTest.description}</Text>
       </View>
       <View style={styles.answersContainer}>
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.answersButton}>
-            <Text style={styles.answersButtonText}>Answer A</Text>
+        {currentQuestion.answers.map((answer, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.answersButton}
+            onPress={() => {
+              clearInterval(intervalRef.current);
+              handleNextQuestion();
+            }}
+          >
+            <Text style={styles.answersButtonText}>{`Answer ${String.fromCharCode(65 + index)}`}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.answersButton}>
-            <Text style={styles.answersButtonText}>Answer B</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.answersButton}>
-            <Text style={styles.answersButtonText}>Answer C</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.answersButton}>
-            <Text style={styles.answersButtonText}>Answer D</Text>
-          </TouchableOpacity>
-        </View>
+        ))}
       </View>
     </View>
   );
