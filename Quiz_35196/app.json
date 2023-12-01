@@ -4,10 +4,10 @@
     "slug": "Quiz_35196",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon_choose.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash_choose.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
