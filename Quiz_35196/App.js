@@ -84,7 +84,7 @@ const App = () => {
           <Drawer.Screen name="Home Page" component={HomePageScreen} />
           <Drawer.Screen name="Results" component={ResultsScreen} />
           <Drawer.Screen name="Test" component={QuizScreen} />
-          <Drawer.Screen name="Quiz End" component={QuizEndScreen} />
+          <Drawer.Screen name="Quiz Completed" component={QuizEndScreen} />
         </Drawer.Navigator>
       )}
     </NavigationContainer>
