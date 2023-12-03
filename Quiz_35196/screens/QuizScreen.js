@@ -13,13 +13,9 @@ const QuizScreen = ({ navigation }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [resetQuizFlag, setResetQuizFlag] = useState(false);
   const intervalRef = useRef(null);
-  const prevTitleRef = useRef(null); 
+  const prevTitleRef = useRef(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
-  const route = useRoute();
-  const { params } = route;
-  const titleTest = params ? params.titleTest : null;
-  const description = params ? params.description : null;
-  const tasks = params ? params.tasks : [];
+  const { titleTest, description, tasks } = useRoute().params || {};
 
   useEffect(() => {
     if (titleTest && titleTest !== prevTitleRef.current) {
@@ -29,7 +25,7 @@ const QuizScreen = ({ navigation }) => {
       resetQuiz();
     }
     setQuestionTime(tasks[currentQuestion]?.duration || 0);
-    resetTimer(true) 
+    resetTimer(true);
   }, [titleTest, currentQuestion, tasks, resetQuizFlag]);
 
   useEffect(() => {
