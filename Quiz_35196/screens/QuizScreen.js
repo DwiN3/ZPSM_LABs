@@ -18,6 +18,7 @@ const QuizScreen = ({ navigation }) => {
 <<<<<<< Updated upstream
 =======
   const [currentQuestion, setCurrentQuestion] = useState(0);
+<<<<<<< Updated upstream
   const [correctAnswers, setCorrectAnswers] = useState(0);
 >>>>>>> Stashed changes
   const intervalRef = useRef(null);
@@ -25,16 +26,39 @@ const QuizScreen = ({ navigation }) => {
   const route = useRoute();
   const { params } = route;
   const titleTest = params ? params.titleTest : null;
+=======
+  const [resetQuizFlag, setResetQuizFlag] = useState(false);
+  const [resetTest, setResetTest] = useState(false);
+  const intervalRef = useRef(null);
+  const prevTitleRef = useRef(null);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const { titleTest, description, tasks, startTest } = useRoute().params || {};
+>>>>>>> Stashed changes
 
   useEffect(() => {
     if (titleTest) {
       navigation.setOptions({ title: titleTest });
+<<<<<<< Updated upstream
       resetTimer();
       return () => {
         clearInterval(intervalRef.current);
       };
     }
   }, [titleTest]);
+=======
+      setResetQuizFlag(true);
+      prevTitleRef.current = titleTest;
+      resetQuiz();
+    } else if (resetTest) {
+      // Check if resetTest flag is true
+      setResetTest(false);
+      setResetQuizFlag(true);
+      resetQuiz();
+    }
+    setQuestionTime(tasks[currentQuestion]?.duration || 0);
+    resetTimer();
+  }, [titleTest, currentQuestion, tasks, resetQuizFlag, resetTest]);
+>>>>>>> Stashed changes
 
   useEffect(() => {
     if (shouldStartTimer) {

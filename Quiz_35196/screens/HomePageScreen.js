@@ -30,7 +30,11 @@ const HomePageScreen = ({ navigation }) => {
       return (
         <TouchableOpacity
           onPress={() =>
+<<<<<<< Updated upstream
             navigation.navigate('Test', { test: item, titleTest: item.titleTest })
+=======
+            navigation.navigate('Test', { test: item, titleTest: item.titleTest, tasks: item.tasks, description: item.description, startTest: true  })
+>>>>>>> Stashed changes
           }
         >
           <View style={[styles.testItem, styles.regularItem]}>

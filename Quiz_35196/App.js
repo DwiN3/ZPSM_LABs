@@ -19,7 +19,13 @@ const DrawerContent = ({ navigation }) => {
     return TestsList.map((test, index) => (
       <TouchableOpacity
         key={index}
+<<<<<<< Updated upstream
         onPress={() => navigation.navigate('Test', { test, titleTest: test.titleTest })}
+=======
+        onPress={() =>
+          navigation.navigate('Test', { test, titleTest: test.titleTest, tasks: test.tasks, description: test.description, startTest: true })
+        }
+>>>>>>> Stashed changes
       >
         <View style={styles.drawerButton}>
           <Text style={styles.drawerButtonText}>{test.titleTest}</Text>
