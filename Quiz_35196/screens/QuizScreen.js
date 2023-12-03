@@ -11,11 +11,10 @@ const QuizScreen = ({ navigation }) => {
   const [questionTime, setQuestionTime] = useState(0);
   const [shouldStartTimer, setShouldStartTimer] = useState(true);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [correctAnswers, setCorrectAnswers] = useState(0);
-  const [resetQuizFlag, setResetQuizFlag] = useState(false); // New state variable
+  const [resetQuizFlag, setResetQuizFlag] = useState(false);
   const intervalRef = useRef(null);
   const prevTitleRef = useRef(null); 
-
+  const [correctAnswers, setCorrectAnswers] = useState(0);
   const route = useRoute();
   const { params } = route;
   const titleTest = params ? params.titleTest : null;
@@ -30,12 +29,12 @@ const QuizScreen = ({ navigation }) => {
       resetQuiz();
     }
     setQuestionTime(tasks[currentQuestion]?.duration || 0);
-    resetTimerFunction(); 
+    resetTimer(true) 
   }, [titleTest, currentQuestion, tasks, resetQuizFlag]);
 
   useEffect(() => {
     if (shouldStartTimer) {
-      resetTimer();
+      resetTimer(false);
       setShouldStartTimer(true);
     }
     return () => clearInterval(intervalRef.current);
@@ -49,13 +48,6 @@ const QuizScreen = ({ navigation }) => {
       };
     }, [])
   );
-
-  const resetTimerFunction = () => {
-    resetTimer();
-    return () => {
-      clearInterval(intervalRef.current);
-    };
-  };
 
   const startTimer = () => {
     intervalRef.current = setInterval(() => {
@@ -74,11 +66,16 @@ const QuizScreen = ({ navigation }) => {
     }, 1000);
   };
 
-  const resetTimer = () => {
+  const resetTimer = (reset) => {
     clearInterval(intervalRef.current);
     setTimeElapsed(0);
     setProgress(0);
     startTimer();
+    if (reset == true){
+      return () => {
+        clearInterval(intervalRef.current);
+      };
+    }
   };
 
   const resetQuiz = () => {
@@ -94,7 +91,7 @@ const QuizScreen = ({ navigation }) => {
     moveToNextQuestion(selectedAnswer);
   };
 
-  let globalCorrectAnswers = 0;
+  let correctAnswersScore = 0;
   const alertEnd = () => {
     clearInterval(intervalRef.current); 
 
@@ -107,7 +104,7 @@ const QuizScreen = ({ navigation }) => {
           onPress: () => {
             navigation.navigate('Quiz Completed', { 
               textTitle: titleTest,
-              globalCorrectAnswers: globalCorrectAnswers,
+              correctAnswersScore: correctAnswersScore,
               totalQuestions: tasks.length });
           },
         },
@@ -121,7 +118,7 @@ const QuizScreen = ({ navigation }) => {
     setCorrectAnswers((prevCorrectAnswers) => {
       const newCorrectAnswers = isCorrect ? prevCorrectAnswers + 1 : prevCorrectAnswers;
       //console.log('Wartość zmiennej isCorrect:', isCorrect, newCorrectAnswers);
-      globalCorrectAnswers = newCorrectAnswers;
+      correctAnswersScore = newCorrectAnswers;
   
       return newCorrectAnswers;
     });
@@ -129,7 +126,7 @@ const QuizScreen = ({ navigation }) => {
     if (currentQuestion + 1 < tasks.length) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
       setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
-      resetTimerFunction();
+      resetTimer(true);
     } else {
       alertEnd();
     }
