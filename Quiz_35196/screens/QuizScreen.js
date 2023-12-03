@@ -25,12 +25,12 @@ const QuizScreen = ({ navigation }) => {
       resetQuiz();
     }
     setQuestionTime(tasks[currentQuestion]?.duration || 0);
-    resetTimer(true);
+    resetTimer();
   }, [titleTest, currentQuestion, tasks, resetQuizFlag]);
 
   useEffect(() => {
     if (shouldStartTimer) {
-      resetTimer(false);
+      resetTimer();
       setShouldStartTimer(true);
     }
     return () => clearInterval(intervalRef.current);
@@ -62,16 +62,11 @@ const QuizScreen = ({ navigation }) => {
     }, 1000);
   };
 
-  const resetTimer = (reset) => {
+  const resetTimer = () => {
     clearInterval(intervalRef.current);
     setTimeElapsed(0);
     setProgress(0);
     startTimer();
-    if (reset == true){
-      return () => {
-        clearInterval(intervalRef.current);
-      };
-    }
   };
 
   const resetQuiz = () => {
@@ -122,7 +117,7 @@ const QuizScreen = ({ navigation }) => {
     if (currentQuestion + 1 < tasks.length) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
       setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
-      resetTimer(true);
+      resetTimer();
     } else {
       alertEnd();
     }
