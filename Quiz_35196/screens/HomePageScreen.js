@@ -1,8 +1,7 @@
 // HomePageScreen.js
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
-import { TestsList } from '../data/Tests';
 import styles from '../styles/HomePageStyle';
 
 const truncateText = (text, maxLength) => {
@@ -14,7 +13,21 @@ const truncateText = (text, maxLength) => {
 };
 
 const HomePageScreen = ({ navigation }) => {
-  const TestsListWithNewItem = [...TestsList, { resultsItem: true }];
+  const [testsList, setTestsList] = useState([]);
+
+  useEffect(() => {
+    const fetchTests = async () => {
+      try {
+        const response = await fetch('https://tgryl.pl/quiz/tests');
+        const data = await response.json();
+        setTestsList([...data, { resultsItem: true }]);
+      } catch (error) {
+        console.error('Error fetching tests:', error);
+      }
+    };
+
+    fetchTests();
+  }, []);
 
   const renderResultsItem = ({ item }) => {
     if (item.resultsItem) {
@@ -32,11 +45,15 @@ const HomePageScreen = ({ navigation }) => {
       return (
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('Test', { test: item, titleTest: item.titleTest, tasks: item.tasks, description: item.description })
+            navigation.navigate('Test', {
+              testId: item.id,
+              titleTest: item.name,
+            })
+            //console.log(`Pressed ${item.id}`)
           }
         >
           <View style={[styles.testItem, styles.regularItem]}>
-            <Text style={styles.titleTest}>{item.titleTest}</Text>
+            <Text style={styles.titleTest}>{item.name}</Text>
             <View style={styles.tagsContainer}>
               {item.tags.map((tag, index) => (
                 <TouchableOpacity key={index} onPress={() => console.log(`Pressed ${tag}`)}>
@@ -54,9 +71,9 @@ const HomePageScreen = ({ navigation }) => {
   return (
     <View style={styles.containerHome}>
       <FlatList
-        data={TestsListWithNewItem}
+        data={testsList}
         renderItem={renderResultsItem}
-        keyExtractor={(item) => item.titleTest || 'resultsItem'}
+        keyExtractor={(item) => item.name || 'resultsItem'}
         contentContainerStyle={styles.flatListContainer}
       />
     </View>

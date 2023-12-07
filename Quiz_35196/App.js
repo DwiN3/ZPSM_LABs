@@ -4,7 +4,6 @@ import React, { useRef, useState, useEffect } from 'react';
 import { ScrollView, Button, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import { TestsList } from './data/Tests';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import WelcomeScreen from './screens/WelcomeScreen'; 
 import HomePageScreen from './screens/HomePageScreen';
@@ -16,36 +15,55 @@ import styles from './styles/DrawerStyle';
 const Drawer = createDrawerNavigator();
 
 const DrawerContent = ({ navigation }) => {
+  const [testsList, setTestsList] = useState([]);
+
+  useEffect(() => {
+    const fetchTests = async () => {
+      try {
+        const response = await fetch('https://tgryl.pl/quiz/tests');
+        const data = await response.json();
+        setTestsList(data);
+      } catch (error) {
+        console.error('Error fetching tests:', error);
+      }
+    };
+
+    fetchTests();
+  }, []);
+
   const renderTestButtons = () => {
-    return TestsList.map((test, index) => (
+    return testsList.map((test) => (
       <TouchableOpacity
-        key={index}
+        key={test.id}
         onPress={() =>
-          navigation.navigate('Test', { test, titleTest: test.titleTest, tasks: test.tasks, description: test.description })
+          navigation.navigate('Test', {
+            testId: test.id,
+            titleTest: test.name,
+          })
         }
       >
         <View style={styles.drawerButton}>
-          <Text style={styles.drawerButtonText}>{test.titleTest}</Text>
+          <Text style={styles.drawerButtonText}>{test.name}</Text>
         </View>
       </TouchableOpacity>
     ));
   };
 
-    return (
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={[styles.containerDrawer, styles.navigationContainer]}>
-          <Text style={styles.drawerTitle}>Quiz App</Text>
-          <Image source={require('./assets/icon_choose.png')} style={styles.drawerIcon} />
-          <View style={styles.buttonContainer}>
-            <Button title="Home Page" onPress={() => navigation.navigate('Home Page')} color="#808080" />
-            <View style={styles.buttonSpacer} />
-            <Button title="Results" onPress={() => navigation.navigate('Results')} color="#808080" />
-            <Text style={styles.divider}></Text>
-            {renderTestButtons()}
-          </View>
+  return (
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={[styles.containerDrawer, styles.navigationContainer]}>
+        <Text style={styles.drawerTitle}>Quiz App</Text>
+        <Image source={require('./assets/icon_choose.png')} style={styles.drawerIcon} />
+        <View style={styles.buttonContainer}>
+          <Button title="Home Page" onPress={() => navigation.navigate('Home Page')} color="#808080" />
+          <View style={styles.buttonSpacer} />
+          <Button title="Results" onPress={() => navigation.navigate('Results')} color="#808080" />
+          <Text style={styles.divider}></Text>
+          {renderTestButtons()}
         </View>
-      </ScrollView>
-    );
+      </View>
+    </ScrollView>
+  );
 };
 
 const App = () => {
@@ -53,7 +71,6 @@ const App = () => {
   const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
-    //resetApp();
     const checkRegulationAccepted = async () => {
       const isRegulationAccepted = await AsyncStorage.getItem('isRegulationAccepted');
       setShowWelcome(isRegulationAccepted !== 'true');
@@ -65,11 +82,6 @@ const App = () => {
   const handleRegulationAccepted = async () => {
     await AsyncStorage.setItem('isRegulationAccepted', 'true');
     setShowWelcome(false);
-  };
-
-  const resetApp = async () => {
-    await AsyncStorage.removeItem('isRegulationAccepted');
-    setShowWelcome(true);
   };
 
   return (
