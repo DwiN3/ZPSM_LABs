@@ -16,9 +16,10 @@ const QuizScreen = ({ navigation }) => {
   const intervalRef = useRef(null);
   const prevTitleRef = useRef(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
-  const { titleTest, description, tasks } = useRoute().params || {};
+  const { titleTest } = useRoute().params || {};
   const [quizData, setQuizData] = useState(null);
   const [ quizDescription, setQuizDescription] = useState(null);
+  const [ totalQuestions, setTotalQuestions ] = useState(null)
 
 
   // Utwórz adres URL dla zapytania GET
@@ -30,10 +31,11 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
     try {
       const response = await fetch(apiUrl);
       const data = await response.json();
-      if (data.name && data.tags && data.description && data.tasks) {
+      if (data.name && data.tags && data.description) {
         setQuizData(data); // Set the entire data received from the API
         navigation.setOptions({ title: data.name });
         setQuizDescription(data.description)
+        setTotalQuestions(quizData?.tasks.length)
         //console.log(data.name);
       } else {
         console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
@@ -123,7 +125,8 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
             navigation.navigate('Quiz Completed', { 
               textTitle: titleTest,
               correctAnswersScore: correctAnswersScore,
-              totalQuestions: tasks.length });
+              totalQuestions: totalQuestions,
+            });
           },
         },
       ],
@@ -151,7 +154,7 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
   return (
     <View style={styles.containerQuiz}>
       <View style={styles.textContainer}>
-        <Text style={styles.questionNumbersText}>{`Question ${currentQuestion + 1} of ${tasks.length}`}</Text>
+        <Text style={styles.questionNumbersText}>{`Question ${currentQuestion + 1} of ${totalQuestions}`}</Text>
         <Text style={styles.timeText}>Time: {questionTime - timeElapsed} sec</Text>
       </View>
       <View style={styles.progressBarContainer}>
