@@ -1,21 +1,29 @@
-// ResultsScreen.js
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, View, Text, RefreshControl } from 'react-native';
 import styles from '../styles/ResultsStyle';
-import { userScores } from '../data/UserScores';
 
 const ResultsScreen = () => {
-  const [data, setData] = useState(userScores);
+  const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('https://tgryl.pl/quiz/results');
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   const onRefresh = () => {
     setRefreshing(true);
-    setTimeout(() => {
-      setData(userScores);
-      setRefreshing(false);
-    }, 1000);
+    fetchData().finally(() => setRefreshing(false));
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <FlatList
@@ -26,7 +34,7 @@ const ResultsScreen = () => {
           <Text style={styles.cell}>{item.nick}</Text>
           <Text style={styles.cell}>{item.score}/{item.total}</Text>
           <Text style={styles.cell}>{item.type}</Text>
-          <Text style={styles.cell}>{item.date}</Text>
+          <Text style={styles.cell}>{item.createdOn}</Text>
         </View>
       )}
       ListHeaderComponent={() => (
@@ -37,9 +45,7 @@ const ResultsScreen = () => {
           <Text style={styles.cell}>Date</Text>
         </View>
       )}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
+      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     />
   );
 };
