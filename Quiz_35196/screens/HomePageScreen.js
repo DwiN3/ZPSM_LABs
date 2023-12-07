@@ -45,7 +45,13 @@ const HomePageScreen = ({ navigation }) => {
       return (
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('Test', { test: item, titleTest: item.name, tasks: item.tasks, description: item.description })
+            navigation.navigate('Test', {
+              testId: item.id,
+              test: item,
+              titleTest: item.name,
+              tasks: item.tasks,
+              description: item.description,
+            })
           }
         >
           <View style={[styles.testItem, styles.regularItem]}>

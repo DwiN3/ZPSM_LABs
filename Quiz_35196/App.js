@@ -32,11 +32,16 @@ const DrawerContent = ({ navigation }) => {
   }, []);
 
   const renderTestButtons = () => {
-    return testsList.map((test, index) => (
+    return testsList.map((test) => (
       <TouchableOpacity
-        key={index}
+        key={test.id}
         onPress={() =>
-          navigation.navigate('Test', { test, titleTest: test.name, tasks: test.tasks, description: test.description })
+          navigation.navigate('Test', {
+            testId: test.id,
+            titleTest: test.name,
+            tasks: test.tasks,
+            description: test.description,
+          })
         }
       >
         <View style={styles.drawerButton}>
