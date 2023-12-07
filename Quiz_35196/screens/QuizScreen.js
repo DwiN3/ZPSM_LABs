@@ -1,8 +1,8 @@
-// QuizScreen.js
-
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native'; 
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { useFocusEffect, useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import Tests from '../data/Tests'; // Adjust the path accordingly
 import styles from '../styles/QuizStyle';
 
 const QuizScreen = ({ navigation }) => {
@@ -15,23 +15,56 @@ const QuizScreen = ({ navigation }) => {
   const intervalRef = useRef(null);
   const prevTitleRef = useRef(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
-  const { titleTest, description, tasks } = useRoute().params || {};
+  const [quizData, setQuizData] = useState(null);
+
+  async function fetchQuizData() {
+    try {
+      const response = await axios.get('https://tgryl.pl/quiz/test/62032610069ef9b2616c761e');
+      const quizData = response.data;
+
+      console.log('Received Quiz Data:', quizData);
+
+      const testsObject = new Tests(
+        quizData.name,
+        quizData.tags,
+        quizData.description,
+        quizData.tasks.map(task => ({
+          question: task.question,
+          answers: task.answers.map(answer => ({
+            content: answer.content,
+            isCorrect: answer.isCorrect,
+          })),
+          duration: task.duration,
+        }))
+      );
+
+      setQuizData(testsObject);
+
+    } catch (error) {
+      console.error('Error fetching data:', error.message);
+    }
+  }
 
   useEffect(() => {
-    if (titleTest && titleTest !== prevTitleRef.current) {
-      navigation.setOptions({ title: titleTest });
+    // Fetch quiz data when the component mounts
+    fetchQuizData();
+  }, []);
+
+  useEffect(() => {
+    if (quizData && quizData.titleTest && quizData.titleTest !== prevTitleRef.current) {
+      navigation.setOptions({ title: quizData.titleTest });
       setResetQuizFlag(true);
-      prevTitleRef.current = titleTest;
+      prevTitleRef.current = quizData.titleTest;
       resetQuiz();
     }
-    setQuestionTime(tasks[currentQuestion]?.duration || 0);
+    setQuestionTime(quizData?.tasks[currentQuestion]?.duration || 0);
     resetTimer();
-  }, [titleTest, currentQuestion, tasks, resetQuizFlag]);
+  }, [quizData, currentQuestion, resetQuizFlag]);
 
   useEffect(() => {
     if (shouldStartTimer) {
       resetTimer();
-      setShouldStartTimer(true);
+      setShouldStartTimer(false); // Fixed typo, setShouldStartTimer(false) instead of setShouldStartTimer(true)
     }
     return () => clearInterval(intervalRef.current);
   }, [questionTime, shouldStartTimer]);
@@ -78,13 +111,13 @@ const QuizScreen = ({ navigation }) => {
   };
 
   const handleAnswer = (selectedAnswer) => {
-    clearInterval(intervalRef.current); 
+    clearInterval(intervalRef.current);
     moveToNextQuestion(selectedAnswer);
   };
 
   let correctAnswersScore = 0;
   const alertEnd = () => {
-    clearInterval(intervalRef.current); 
+    clearInterval(intervalRef.current);
 
     Alert.alert(
       'Quiz Finish',
@@ -93,10 +126,11 @@ const QuizScreen = ({ navigation }) => {
         {
           text: 'Go to Results',
           onPress: () => {
-            navigation.navigate('Quiz Completed', { 
-              textTitle: titleTest,
+            navigation.navigate('Quiz Completed', {
+              textTitle: quizData?.titleTest || '',
               correctAnswersScore: correctAnswersScore,
-              totalQuestions: tasks.length });
+              totalQuestions: quizData?.tasks.length || 0,
+            });
           },
         },
       ],
@@ -104,19 +138,18 @@ const QuizScreen = ({ navigation }) => {
   };
 
   const moveToNextQuestion = (selectedAnswer) => {
-    const isCorrect = tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
-  
+    const isCorrect = quizData?.tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
+
     setCorrectAnswers((prevCorrectAnswers) => {
       const newCorrectAnswers = isCorrect ? prevCorrectAnswers + 1 : prevCorrectAnswers;
-      //console.log('Wartość zmiennej isCorrect:', isCorrect, newCorrectAnswers);
       correctAnswersScore = newCorrectAnswers;
-  
+
       return newCorrectAnswers;
     });
-  
-    if (currentQuestion + 1 < tasks.length) {
+
+    if (currentQuestion + 1 < quizData?.tasks.length) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
-      setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
+      setQuestionTime(quizData?.tasks[currentQuestion + 1]?.duration || 0);
       resetTimer();
     } else {
       alertEnd();
@@ -126,21 +159,21 @@ const QuizScreen = ({ navigation }) => {
   return (
     <View style={styles.containerQuiz}>
       <View style={styles.textContainer}>
-        <Text style={styles.questionNumbersText}>{`Question ${currentQuestion + 1} of ${tasks.length}`}</Text>
+        <Text style={styles.questionNumbersText}>{`Question ${currentQuestion + 1} of ${quizData?.tasks.length || 0}`}</Text>
         <Text style={styles.timeText}>Time: {questionTime - timeElapsed} sec</Text>
       </View>
       <View style={styles.progressBarContainer}>
         <View style={{ backgroundColor: 'yellow', height: 10, width: `${progress * 100}%` }} />
       </View>
       <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>{tasks[currentQuestion]?.question}</Text>
+        <Text style={styles.questionText}>{quizData?.tasks[currentQuestion]?.question}</Text>
       </View>
       <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionText}>{description}</Text>
+        <Text style={styles.descriptionText}>{quizData?.description}</Text>
       </View>
       <View style={styles.answersContainer}>
         <View style={styles.buttonRow}>
-          {tasks[currentQuestion]?.answers.map((answer, index) => (
+          {quizData?.tasks[currentQuestion]?.answers.map((answer, index) => (
             <TouchableOpacity key={index} style={styles.answersButton} onPress={() => handleAnswer(index)}>
               <Text style={styles.answersButtonText}>{`${answer.content}`}</Text>
             </TouchableOpacity>
