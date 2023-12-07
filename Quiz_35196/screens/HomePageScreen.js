@@ -52,6 +52,7 @@ const HomePageScreen = ({ navigation }) => {
               tasks: item.tasks,
               description: item.description,
             })
+            //console.log(`Pressed ${item.id}`)
           }
         >
           <View style={[styles.testItem, styles.regularItem]}>
