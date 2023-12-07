@@ -16,7 +16,7 @@ const QuizScreen = ({ navigation }) => {
   const intervalRef = useRef(null);
   const prevTitleRef = useRef(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
-  const { testId ,titleTest } = useRoute().params || {};
+  const { testId ,titleTest, total } = useRoute().params || {};
   const [quizData, setQuizData] = useState(null);
   const [ quizDescription, setQuizDescription] = useState(null);
   const [ totalQuestions, setTotalQuestions ] = useState(null)
@@ -32,7 +32,6 @@ const QuizScreen = ({ navigation }) => {
         setQuizData(data); // Set the entire data received from the API
         navigation.setOptions({ title: data.name });
         setQuizDescription(data.description)
-        setTotalQuestions(quizData?.tasks.length)
         //console.log(data.name);
       } else {
         console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
@@ -49,7 +48,7 @@ const QuizScreen = ({ navigation }) => {
       prevTitleRef.current = titleTest;
       resetQuiz();
     }
-    setQuestionTime(quizData?.tasks[currentQuestion]?.duration || 0); // Update this line
+    setQuestionTime(quizData?.tasks[currentQuestion]?.duration || 0); 
     resetTimer();
   }, [titleTest, currentQuestion, quizData, resetQuizFlag]);
 
@@ -71,6 +70,7 @@ const QuizScreen = ({ navigation }) => {
   );
 
   const startTimer = () => {
+    setTotalQuestions(quizData?.tasks.length)
     if (questionTime > 0) {
       intervalRef.current = setInterval(() => {
         setTimeElapsed((prevTime) => {

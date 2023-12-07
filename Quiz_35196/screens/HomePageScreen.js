@@ -49,7 +49,6 @@ const HomePageScreen = ({ navigation }) => {
               testId: item.id,
               titleTest: item.name,
             })
-            //console.log(`Pressed ${item.id}`)
           }
         >
           <View style={[styles.testItem, styles.regularItem]}>
