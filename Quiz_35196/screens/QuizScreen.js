@@ -31,6 +31,7 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
       const data = await response.json();
       if (data.name && data.tags && data.description && data.tasks) {
         setQuizData(data); // Set the entire data received from the API
+        navigation.setOptions({ title: data.name });
         console.log(data.name);
       } else {
         console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
@@ -43,7 +44,6 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
   useEffect(() => {
     if (titleTest && titleTest !== prevTitleRef.current) {
       fetchData();
-      navigation.setOptions({ title: titleTest });
       setResetQuizFlag(true);
       prevTitleRef.current = titleTest;
       resetQuiz();
