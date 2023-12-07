@@ -18,6 +18,7 @@ const QuizScreen = ({ navigation }) => {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const { titleTest, description, tasks } = useRoute().params || {};
   const [quizData, setQuizData] = useState(null);
+  const [ quizDescription, setQuizDescription] = useState(null);
 
 
   // Utwórz adres URL dla zapytania GET
@@ -32,7 +33,8 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
       if (data.name && data.tags && data.description && data.tasks) {
         setQuizData(data); // Set the entire data received from the API
         navigation.setOptions({ title: data.name });
-        console.log(data.name);
+        setQuizDescription(data.description)
+        //console.log(data.name);
       } else {
         console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
       }
@@ -70,22 +72,23 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
   );
 
   const startTimer = () => {
-    intervalRef.current = setInterval(() => {
-      setTimeElapsed((prevTime) => {
-        const newTime = prevTime + 1;
-        setProgress((prevProgress) => newTime / questionTime);
-
-        if (newTime === questionTime) {
-          clearInterval(intervalRef.current);
-          console.log('Koniec czasu');
-          handleAnswer(null);
-        }
-
-        return newTime;
-      });
-    }, 1000);
+    if (questionTime > 0) {
+      intervalRef.current = setInterval(() => {
+        setTimeElapsed((prevTime) => {
+          const newTime = prevTime + 1;
+          setProgress((prevProgress) => newTime / questionTime);
+  
+          if (newTime === questionTime) {
+            clearInterval(intervalRef.current);
+            console.log('Koniec czasu');
+            handleAnswer(null);
+          }
+  
+          return newTime;
+        });
+      }, 1000);
+    }
   };
-
   const resetTimer = () => {
     clearInterval(intervalRef.current);
     setTimeElapsed(0);
@@ -158,7 +161,7 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
         <Text style={styles.questionText}>{quizData?.tasks[currentQuestion]?.question}</Text>
       </View>
       <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionText}>{description}</Text>
+        <Text style={styles.descriptionText}>{quizDescription}</Text>
       </View>
       <View style={styles.answersContainer}>
         <View style={styles.buttonRow}>
