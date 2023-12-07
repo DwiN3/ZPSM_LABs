@@ -38,7 +38,8 @@ const DrawerContent = ({ navigation }) => {
         onPress={() =>
           navigation.navigate('Test', {
             testId: test.id,
-              titleTest: test.name,
+            titleTest: test.name,
+            typeTest: test.type,
           })
         }
       >

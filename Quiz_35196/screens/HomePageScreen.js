@@ -48,6 +48,7 @@ const HomePageScreen = ({ navigation }) => {
             navigation.navigate('Test', {
               testId: item.id,
               titleTest: item.name,
+              typeTest: item.type,
             })
           }
         >
