@@ -5,7 +5,6 @@ import styles from '../styles/QuizEndStyle';
 const QuizEndScreen = ({ route, navigation }) => {
   const { textTitle, correctAnswersScore, totalQuestions, types } = route.params;
 
-  // Function to send POST request
   const sendResultsToServer = async () => {
     const url = 'http://tgryl.pl/quiz/results';
     const payload = {
@@ -34,16 +33,19 @@ const QuizEndScreen = ({ route, navigation }) => {
     }
   };
 
-  useEffect(() => {
+  // Call sendResultsToServer when the button is pressed
+  const handleButtonPress = () => {
     sendResultsToServer();
-  }, []);
+    navigation.navigate('Home Page');
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Congratulations!!!</Text>
       <Text style={styles.titleTest}>{textTitle}</Text>
       <Text style={styles.text}>Correct Answers: {correctAnswersScore} out of {totalQuestions}</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Home Page')}>
+      {/* Use handleButtonPress when the button is pressed */}
+      <TouchableOpacity onPress={handleButtonPress}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Go to Home Page</Text>
         </View>
