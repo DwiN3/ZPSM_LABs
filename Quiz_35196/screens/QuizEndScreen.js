@@ -12,7 +12,7 @@ const QuizEndScreen = ({ route, navigation }) => {
       nick: 'niwd',
       score: correctAnswersScore,
       total: totalQuestions,
-      type: types[1],
+      type: types[0],
     };
 
     try {
