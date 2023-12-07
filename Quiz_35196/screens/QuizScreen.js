@@ -17,29 +17,33 @@ const QuizScreen = ({ navigation }) => {
   const prevTitleRef = useRef(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const { titleTest, description, tasks } = useRoute().params || {};
+  const [quizData, setQuizData] = useState(null);
 
 
   // Utwórz adres URL dla zapytania GET
 const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
 
 // Wywołaj funkcję fetch, aby pobrać dane z serwera
-fetch(apiUrl)
-  .then(response => response.json())
-  .then(data => {
-    // Upewnij się, że dane zawierają oczekiwane pola (name, tags, description, tasks)
-    if (data.name && data.tags && data.description && data.tasks) {
-      // Przykład tworzenia obiektu Tests
-      const quiz = new Tests(data.name, data.tags, data.description, data.tasks);
-      
-      console.log(data.name);
-    } else {
-      console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+      if (data.name && data.tags && data.description && data.tasks) {
+        const quiz = new Tests(data.name, data.tags, data.description, data.tasks);
+        setQuizData(quiz);
+        console.log(data.name);
+      } else {
+        console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
+      }
+    } catch (error) {
+      console.error('Błąd pobierania danych:', error);
     }
-  })
-  .catch(error => console.error('Błąd pobierania danych:', error));
+  };
 
   useEffect(() => {
     if (titleTest && titleTest !== prevTitleRef.current) {
+      fetchData();
       navigation.setOptions({ title: titleTest });
       setResetQuizFlag(true);
       prevTitleRef.current = titleTest;
