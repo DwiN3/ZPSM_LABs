@@ -30,8 +30,7 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
       const response = await fetch(apiUrl);
       const data = await response.json();
       if (data.name && data.tags && data.description && data.tasks) {
-        const quiz = new Tests(data.name, data.tags, data.description, data.tasks);
-        setQuizData(quiz);
+        setQuizData(data); // Set the entire data received from the API
         console.log(data.name);
       } else {
         console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
@@ -49,9 +48,9 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
       prevTitleRef.current = titleTest;
       resetQuiz();
     }
-    setQuestionTime(tasks[currentQuestion]?.duration || 0);
+    setQuestionTime(quizData?.tasks[currentQuestion]?.duration || 0); // Update this line
     resetTimer();
-  }, [titleTest, currentQuestion, tasks, resetQuizFlag]);
+  }, [titleTest, currentQuestion, quizData, resetQuizFlag]);
 
   useEffect(() => {
     if (shouldStartTimer) {
@@ -129,19 +128,17 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
   };
 
   const moveToNextQuestion = (selectedAnswer) => {
-    const isCorrect = tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
-  
+    const isCorrect = quizData?.tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
+
     setCorrectAnswers((prevCorrectAnswers) => {
       const newCorrectAnswers = isCorrect ? prevCorrectAnswers + 1 : prevCorrectAnswers;
-      //console.log('Wartość zmiennej isCorrect:', isCorrect, newCorrectAnswers);
       correctAnswersScore = newCorrectAnswers;
-  
       return newCorrectAnswers;
     });
-  
-    if (currentQuestion + 1 < tasks.length) {
+
+    if (currentQuestion + 1 < quizData?.tasks.length) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
-      setQuestionTime(tasks[currentQuestion + 1]?.duration || 0);
+      setQuestionTime(quizData?.tasks[currentQuestion + 1]?.duration || 0);
       resetTimer();
     } else {
       alertEnd();
@@ -158,18 +155,18 @@ const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
         <View style={{ backgroundColor: 'yellow', height: 10, width: `${progress * 100}%` }} />
       </View>
       <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>{tasks[currentQuestion]?.question}</Text>
+        <Text style={styles.questionText}>{quizData?.tasks[currentQuestion]?.question}</Text>
       </View>
       <View style={styles.descriptionContainer}>
         <Text style={styles.descriptionText}>{description}</Text>
       </View>
       <View style={styles.answersContainer}>
         <View style={styles.buttonRow}>
-          {tasks[currentQuestion]?.answers.map((answer, index) => (
+        {quizData?.tasks[currentQuestion]?.answers.map((answer, index) => (
             <TouchableOpacity key={index} style={styles.answersButton} onPress={() => handleAnswer(index)}>
-              <Text style={styles.answersButtonText}>{`${answer.content}`}</Text>
-            </TouchableOpacity>
-          ))}
+            <Text style={styles.answersButtonText}>{`${answer.content}`}</Text>
+          </TouchableOpacity>
+        ))}
         </View>
       </View>
     </View>
