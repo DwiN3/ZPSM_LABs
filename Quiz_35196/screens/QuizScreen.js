@@ -16,18 +16,15 @@ const QuizScreen = ({ navigation }) => {
   const intervalRef = useRef(null);
   const prevTitleRef = useRef(null);
   const [correctAnswers, setCorrectAnswers] = useState(0);
-  const { titleTest } = useRoute().params || {};
+  const { testId ,titleTest } = useRoute().params || {};
   const [quizData, setQuizData] = useState(null);
   const [ quizDescription, setQuizDescription] = useState(null);
   const [ totalQuestions, setTotalQuestions ] = useState(null)
 
 
-  // Utwórz adres URL dla zapytania GET
-const apiUrl = `https://tgryl.pl/quiz/test/62032610069ef9b2616c761e`;
-
-// Wywołaj funkcję fetch, aby pobrać dane z serwera
 
   const fetchData = async () => {
+    const apiUrl = `https://tgryl.pl/quiz/test/${testId}`;
     try {
       const response = await fetch(apiUrl);
       const data = await response.json();
