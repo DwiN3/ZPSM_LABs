@@ -42,6 +42,7 @@ const HomePageScreen = ({ navigation }) => {
         </View>
       );
     } else {
+      const maxDescriptionLength = item.name.length > 30 ? 50 : 100;
       return (
         <TouchableOpacity
           onPress={() =>
@@ -61,7 +62,7 @@ const HomePageScreen = ({ navigation }) => {
                 </TouchableOpacity>
               ))}
             </View>
-            <Text style={styles.description}>{truncateText(item.description, 100)}</Text>
+            <Text style={styles.description}>{truncateText(item.description, maxDescriptionLength)}</Text>
           </View>
         </TouchableOpacity>
       );
