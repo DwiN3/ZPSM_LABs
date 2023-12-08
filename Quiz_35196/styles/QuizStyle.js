@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   questionContainer: {
     marginTop: 5,
     //backgroundColor: 'pink',
-    height: 150, 
+    height: 'auto', 
   },
   questionText: {
     marginTop: 18,
@@ -45,38 +45,40 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   descriptionContainer: {
-    height: 150,
-    //backgroundColor: 'red',
-    marginTop: -50,  
+    height: 'auto',
+    //backgroundColor: 'red',  
   },
   descriptionText: {
     fontSize: 13,
     textAlign: 'justify',
     marginLeft: 10,
     marginRight: 10,
+    marginTop: 15,
   },
   answersContainer: {
+   // backgroundColor: 'blue',
     borderWidth: 2,
     borderColor: 'black',
     borderRadius: 3,
-    marginTop: 20,
-    padding: 25,
+    padding: 15,
     marginLeft: 5,
     marginRight: 5,
+    marginTop: 15,
   },
   answersButton: {
     backgroundColor: '#808080',
     borderWidth: 2,
     borderColor: 'black',
     borderRadius: 3,
-    padding: 10,
     margin: 5,
     alignItems: 'center',
-    height: 45,
+    justifyContent: 'center',
+    height: 85,
     width: 160,
   },
   answersButtonText: {
     fontSize: 15,
+    
   },
   buttonRow: {
     flexDirection: 'row',
