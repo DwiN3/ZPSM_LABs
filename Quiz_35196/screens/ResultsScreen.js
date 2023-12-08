@@ -39,10 +39,10 @@ const ResultsScreen = () => {
       )}
       ListHeaderComponent={() => (
         <View style={[styles.row, styles.header]}>
-          <Text style={styles.cell}>Nick</Text>
-          <Text style={styles.cell}>Point</Text>
-          <Text style={styles.cell}>Type</Text>
-          <Text style={styles.cell}>Date</Text>
+          <Text style={styles.headerCell}>Nick</Text>
+          <Text style={styles.headerCell}>Point</Text>
+          <Text style={styles.headerCell}>Type</Text>
+          <Text style={styles.headerCell}>Date</Text>
         </View>
       )}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
