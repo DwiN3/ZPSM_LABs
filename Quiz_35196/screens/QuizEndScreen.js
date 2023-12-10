@@ -6,7 +6,7 @@ const QuizEndScreen = ({ route, navigation }) => {
   const { textTitle, correctAnswersScore, totalQuestions, types } = route.params;
 
   const sendResultsToServer = async () => {
-    const url = 'http://tgryl.pl/quiz/results';
+    const url = 'https://tgryl.pl/quiz/result';
     const payload = {
       nick: 'niwd',
       score: correctAnswersScore,
@@ -44,7 +44,6 @@ const QuizEndScreen = ({ route, navigation }) => {
       <Text style={styles.title}>Congratulations!!!</Text>
       <Text style={styles.titleTest}>{textTitle}</Text>
       <Text style={styles.text}>Correct Answers: {correctAnswersScore} out of {totalQuestions}</Text>
-      {/* Use handleButtonPress when the button is pressed */}
       <TouchableOpacity onPress={handleButtonPress}>
         <View style={styles.button}>
           <Text style={styles.buttonText}>Go to Home Page</Text>

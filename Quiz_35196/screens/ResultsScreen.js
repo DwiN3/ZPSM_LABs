@@ -8,7 +8,7 @@ const ResultsScreen = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('https://tgryl.pl/quiz/results');
+      const response = await fetch('https://tgryl.pl/quiz/results?last=20');
       const result = await response.json();
       setData(result);
     } catch (error) {
