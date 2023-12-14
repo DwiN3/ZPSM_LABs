@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../styles/HomePageStyle';
-import { TestsList } from '../data/Tests'; 
 
 const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {
@@ -23,11 +23,26 @@ const HomePageScreen = ({ navigation }) => {
       const data = await response.json();
       const shuffledTests = [...data].sort(() => Math.random() - 0.5);
       const testsWithResults = [...shuffledTests, { resultsItem: true }];
+
+      await AsyncStorage.setItem('tests', JSON.stringify(testsWithResults));
       setTestsList(testsWithResults);
     } catch (error) {
       console.error('Error fetching tests:', error);
     } finally {
-      setIsRefreshing(false); 
+      setIsRefreshing(false);
+    }
+  };
+
+  const loadTestsFromStorage = async () => {
+    try {
+      const storedTests = await AsyncStorage.getItem('tests');
+      if (storedTests) {
+        setTestsList(JSON.parse(storedTests));
+      } else {
+        fetchTests();
+      }
+    } catch (error) {
+      console.error('Error loading tests from storage:', error);
     }
   };
 
@@ -37,7 +52,7 @@ const HomePageScreen = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    fetchTests();
+    loadTestsFromStorage();
   }, []);
 
   const renderResultsItem = ({ item }) => {

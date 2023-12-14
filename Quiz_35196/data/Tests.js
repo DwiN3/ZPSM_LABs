@@ -51,4 +51,4 @@ const savedTasksList = [
 
 ];
 
-export { Tests, TestsList };
+export { Tests, TestsList, savedTestList, savedIDTest, savedTasksList };
