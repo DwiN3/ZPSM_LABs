@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native'; 
 import { useFocusEffect, useRoute } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Tests } from '../data/Tests';
 import styles from '../styles/QuizStyle';
 
@@ -21,21 +22,29 @@ const QuizScreen = ({ navigation }) => {
   const [ quizDescription, setQuizDescription] = useState(null);
   const [ totalQuestions, setTotalQuestions ] = useState(null)
   const [ types, setTypes ] = useState(null)
-
-
-
+  
   const fetchData = async () => {
-    const apiUrl = `https://tgryl.pl/quiz/test/${testId}`;
     try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
-      if (data.name && data.tags && data.description) {
-        setQuizData(data); // Set the entire data received from the API
-        navigation.setOptions({ title: data.name });
-        setQuizDescription(data.description)
-        setTypes(data.tags);
+      const offlineDataString = await AsyncStorage.getItem(`testData_${testId}`);
+      if (offlineDataString) {
+        const offlineData = JSON.parse(offlineDataString);
+        setQuizData(offlineData); 
+        navigation.setOptions({ title: offlineData.name });
+        setQuizDescription(offlineData.description);
+        setTypes(offlineData.tags);
       } else {
-        console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
+        const apiUrl = `https://tgryl.pl/quiz/test/${testId}`;
+        console.log("zle")
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        if (data.name && data.tags && data.description) {
+          setQuizData(data);
+          navigation.setOptions({ title: data.name });
+          setQuizDescription(data.description);
+          setTypes(data.tags);
+        } else {
+          console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
+        }
       }
     } catch (error) {
       console.error('Błąd pobierania danych:', error);

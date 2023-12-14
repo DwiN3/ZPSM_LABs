@@ -110,11 +110,13 @@ const HomePageScreen = ({ navigation }) => {
               //     typeTest: item.type,
               //   })
               // }
-              onPress={() => {
-                if (!item.resultsItem) {
-                  handleTestPress(item.id, item.name);
+              onPress={() =>
+                  navigation.navigate('Test', {
+                    testId: item.id,
+                    titleTest: item.name,
+                    typeTest: "rower",
+                  })
                 }
-              }}
             >
               <View style={[styles.testItem, styles.regularItem]}>
                 <Text style={styles.titleTest}>{item.name}</Text>
