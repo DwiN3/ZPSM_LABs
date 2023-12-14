@@ -68,6 +68,14 @@ const HomePageScreen = ({ navigation }) => {
       unsubscribe();
     };
   }, []);
+  
+
+ const testIds = testsList.filter(item => !item.resultsItem).map(item => item.id);
+
+  const handleTestPress = (testId, testName) => {
+    console.log(`Pressed test ID: ${testId}, Test Name: ${testName}`);
+  };
+
 
   const renderResultsItem = ({ item }) => {
     if (isOnline) {
@@ -84,13 +92,18 @@ const HomePageScreen = ({ navigation }) => {
             </>
           ) : (
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Test', {
-                  testId: item.id,
-                  titleTest: item.name,
-                  typeTest: item.type,
-                })
-              }
+              // onPress={() =>
+              //   navigation.navigate('Test', {
+              //     testId: item.id,
+              //     titleTest: item.name,
+              //     typeTest: item.type,
+              //   })
+              // }
+              onPress={() => {
+                if (!item.resultsItem) {
+                  handleTestPress(item.id, item.name);
+                }
+              }}
             >
               <View style={[styles.testItem, styles.regularItem]}>
                 <Text style={styles.titleTest}>{item.name}</Text>
