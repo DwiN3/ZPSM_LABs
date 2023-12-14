@@ -71,14 +71,9 @@ const HomePageScreen = ({ navigation }) => {
 
   const renderResultsItem = ({ item }) => {
     if (!isOnline) {
-      const storedTests = testsList.filter(test => !test.resultsItem);
       return (
         <View style={styles.resultsItem}>
-          <FlatList
-            data={storedTests}
-            renderItem={renderTestItem}
-            keyExtractor={(item) => item.name || 'resultsItem'}
-          />
+          
         </View>
       );
     } else if (item.resultsItem) {
@@ -132,33 +127,6 @@ const HomePageScreen = ({ navigation }) => {
         }
       />
     </View>
-  );
-};
-
-const renderTestItem = ({ item }) => {
-  const maxDescriptionLength = item.name.length > 30 ? 50 : 100;
-  return (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate('Test', {
-          testId: item.id,
-          titleTest: item.name,
-          typeTest: item.type,
-        })
-      }
-    >
-      <View style={[styles.testItem, styles.regularItem]}>
-        <Text style={styles.titleTest}>{item.name}</Text>
-        <View style={styles.tagsContainer}>
-          {item.tags.map((tag, index) => (
-            <TouchableOpacity key={index} onPress={() => console.log(`Pressed ${tag}`)}>
-              <Text style={styles.tag}>{tag}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <Text style={styles.description}>{truncateText(item.description, maxDescriptionLength)}</Text>
-      </View>
-    </TouchableOpacity>
   );
 };
 
