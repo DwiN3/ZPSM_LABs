@@ -70,10 +70,41 @@ const HomePageScreen = ({ navigation }) => {
   }, []);
 
   const renderResultsItem = ({ item }) => {
-    if (!isOnline) {
+    if (isOnline) {
       return (
-        <View style={styles.resultsItem}>
-          
+        <View >
+          {item.resultsItem ? (
+            <>
+              <Text style={styles.resultsItemText}>Get to know your ranking result</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Results')}>
+                <View style={styles.resultsItemButton}>
+                  <Text style={styles.resultsItemButtonText}>Check!</Text>
+                </View>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('Test', {
+                  testId: item.id,
+                  titleTest: item.name,
+                  typeTest: item.type,
+                })
+              }
+            >
+              <View style={[styles.testItem, styles.regularItem]}>
+                <Text style={styles.titleTest}>{item.name}</Text>
+                <View style={styles.tagsContainer}>
+                  {item.tags.map((tag, index) => (
+                    <TouchableOpacity key={index} onPress={() => console.log(`Pressed ${tag}`)}>
+                      <Text style={styles.tag}>{tag}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                <Text style={styles.description}>{truncateText(item.description, 50)}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
       );
     } else if (item.resultsItem) {
@@ -88,6 +119,7 @@ const HomePageScreen = ({ navigation }) => {
         </View>
       );
     } else {
+      // Render online tests as before
       const maxDescriptionLength = item.name.length > 30 ? 50 : 100;
       return (
         <TouchableOpacity
@@ -113,7 +145,7 @@ const HomePageScreen = ({ navigation }) => {
         </TouchableOpacity>
       );
     }
-  };
+  };  
 
   return (
     <View style={styles.containerHome}>
