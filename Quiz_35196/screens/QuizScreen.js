@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native'; 
 import { useFocusEffect, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import { Tests } from '../data/Tests';
 import styles from '../styles/QuizStyle';
 
@@ -25,26 +26,34 @@ const QuizScreen = ({ navigation }) => {
   
   const fetchData = async () => {
     try {
+      const netInfoState = await NetInfo.fetch();
+      const isOnline = netInfoState.isConnected;
+
       const offlineDataString = await AsyncStorage.getItem(`testData_${testId}`);
-      if (offlineDataString) {
-        const offlineData = JSON.parse(offlineDataString);
-        setQuizData(offlineData); 
-        navigation.setOptions({ title: offlineData.name });
-        setQuizDescription(offlineData.description);
-        setTypes(offlineData.tags);
-      } else {
+
+      if (!isOnline) {
         const apiUrl = `https://tgryl.pl/quiz/test/${testId}`;
-        console.log("zle")
         const response = await fetch(apiUrl);
         const data = await response.json();
+  
         if (data.name && data.tags && data.description) {
           setQuizData(data);
           navigation.setOptions({ title: data.name });
           setQuizDescription(data.description);
           setTypes(data.tags);
+          // Save the online data to offline storage
+          await AsyncStorage.setItem(`testData_${testId}`, JSON.stringify(data));
         } else {
           console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
         }
+      } else if (offlineDataString) {
+        const offlineData = JSON.parse(offlineDataString);
+        setQuizData(offlineData);
+        navigation.setOptions({ title: offlineData.name });
+        setQuizDescription(offlineData.description);
+        setTypes(offlineData.tags);
+      } else {
+        console.error('Błąd: Brak dostępu do danych offline.');
       }
     } catch (error) {
       console.error('Błąd pobierania danych:', error);
