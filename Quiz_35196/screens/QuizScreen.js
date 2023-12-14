@@ -42,6 +42,15 @@ const QuizScreen = ({ navigation }) => {
     }
   };
 
+  const shuffleArray = (array) => {
+    const shuffledArray = array.slice(); // Create a copy of the array
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  };
+
   useEffect(() => {
     if (titleTest && titleTest !== prevTitleRef.current) {
       fetchData();
@@ -61,6 +70,15 @@ const QuizScreen = ({ navigation }) => {
     return () => clearInterval(intervalRef.current);
   }, [questionTime, shouldStartTimer]);
 
+  useEffect(() => {
+  if (quizData && resetQuizFlag) {
+    const shuffledTasks = shuffleArray(quizData.tasks);
+    const shuffledQuizData = { ...quizData, tasks: shuffledTasks };
+    setQuizData(shuffledQuizData);
+    setResetQuizFlag(false);
+  }
+}, [quizData, resetQuizFlag]);
+
   useFocusEffect(
     React.useCallback(() => {
       setShouldStartTimer(true);
@@ -68,7 +86,7 @@ const QuizScreen = ({ navigation }) => {
         clearInterval(intervalRef.current);
       };
     }, [])
-  );
+  )
 
   const startTimer = () => {
     setTotalQuestions(quizData?.tasks.length);
