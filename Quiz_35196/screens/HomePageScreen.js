@@ -22,8 +22,20 @@ const HomePageScreen = ({ navigation }) => {
       const response = await fetch('https://tgryl.pl/quiz/tests');
       const data = await response.json();
       const shuffledTests = [...data].sort(() => Math.random() - 0.5);
+      
       const testsWithResults = [...shuffledTests, { resultsItem: true }];
-
+  
+      const testIds = testsWithResults.filter(item => !item.resultsItem).map(item => item.id);
+      await AsyncStorage.setItem('testIds', JSON.stringify(testIds));
+  
+      const testsDataPromises = testsWithResults.map(async (test) => {
+        if (!test.resultsItem) {
+          const testResponse = await fetch(`https://tgryl.pl/quiz/test/${test.id}`);
+          const testData = await testResponse.json();
+          await AsyncStorage.setItem(`testData_${test.id}`, JSON.stringify(testData));
+        }
+      });
+      await Promise.all(testsDataPromises);
       await AsyncStorage.setItem('tests', JSON.stringify(testsWithResults));
       setTestsList(testsWithResults);
       setIsOnline(true);
@@ -68,7 +80,6 @@ const HomePageScreen = ({ navigation }) => {
       unsubscribe();
     };
   }, []);
-  
 
  const testIds = testsList.filter(item => !item.resultsItem).map(item => item.id);
 
