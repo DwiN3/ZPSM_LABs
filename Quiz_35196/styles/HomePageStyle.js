@@ -1,18 +1,18 @@
 // HomePageStyle.js
 
 import { StyleSheet } from 'react-native';
-import * as Font from 'expo-font';
+// import * as Font from 'expo-font';
 
-const getFonts = async () => {
-  await Font.loadAsync({
-    'oswald-regular': require('../assets/fonts/Oswald-Regular.ttf'),
-    'oswald-bold': require('../assets/fonts/Oswald-Bold.ttf'),
-    'roboto-regular': require('../assets/fonts/Roboto-Regular.ttf'),
-    'roboto-bold': require('../assets/fonts/Roboto-Bold.ttf'),
-  });
-};
+// const getFonts = async () => {
+//   await Font.loadAsync({
+//     'oswald-regular': require('../assets/fonts/Oswald-Regular.ttf'),
+//     'oswald-bold': require('../assets/fonts/Oswald-Bold.ttf'),
+//     'roboto-regular': require('../assets/fonts/Roboto-Regular.ttf'),
+//     'roboto-bold': require('../assets/fonts/Roboto-Bold.ttf'),
+//   });
+// };
 
-getFonts();
+// getFonts();
 
 const styles = StyleSheet.create({
   resultsItem: {
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
     marginTop: -9,
     fontSize: 22,
     marginBottom: 5,
-    fontFamily: 'oswald-bold',
+    // fontFamily: 'oswald-bold',
+    fontWeight: 'bold',
   },
   tagsContainer: {
     flexDirection: 'row',

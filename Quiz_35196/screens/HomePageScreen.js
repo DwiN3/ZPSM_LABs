@@ -1,7 +1,6 @@
-// HomePageScreen.js
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../styles/HomePageStyle';
 
@@ -16,6 +15,7 @@ const truncateText = (text, maxLength) => {
 const HomePageScreen = ({ navigation }) => {
   const [testsList, setTestsList] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
 
   const fetchTests = async () => {
     try {
@@ -26,8 +26,10 @@ const HomePageScreen = ({ navigation }) => {
 
       await AsyncStorage.setItem('tests', JSON.stringify(testsWithResults));
       setTestsList(testsWithResults);
+      setIsOnline(true);
     } catch (error) {
       console.error('Error fetching tests:', error);
+      setIsOnline(false);
     } finally {
       setIsRefreshing(false);
     }
@@ -52,11 +54,29 @@ const HomePageScreen = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      setIsOnline(state.isConnected);
+    });
+
+    NetInfo.fetch().then((state) => {
+      setIsOnline(state.isConnected);
+    });
+
     loadTestsFromStorage();
+
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const renderResultsItem = ({ item }) => {
-    if (item.resultsItem) {
+    if (!isOnline) {
+      return (
+        <View style={styles.resultsItem}>
+          <Text style={styles.resultsItemText}>You are currently offline. Please check your internet connection.</Text>
+        </View>
+      );
+    } else if (item.resultsItem) {
       return (
         <View style={styles.resultsItem}>
           <Text style={styles.resultsItemText}>Get to know your ranking result</Text>
