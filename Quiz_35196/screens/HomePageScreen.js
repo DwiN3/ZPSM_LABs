@@ -1,7 +1,7 @@
 // HomePageScreen.js
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import styles from '../styles/HomePageStyle';
 
 const truncateText = (text, maxLength) => {
@@ -14,18 +14,28 @@ const truncateText = (text, maxLength) => {
 
 const HomePageScreen = ({ navigation }) => {
   const [testsList, setTestsList] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const fetchTests = async () => {
+    try {
+      const response = await fetch('https://tgryl.pl/quiz/tests');
+      const data = await response.json();
+      const shuffledTests = [...data].sort(() => Math.random() - 0.5);
+      const testsWithResults = [...shuffledTests, { resultsItem: true }];
+      setTestsList(testsWithResults);
+    } catch (error) {
+      console.error('Error fetching tests:', error);
+    } finally {
+      setIsRefreshing(false); 
+    }
+  };
+
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+    fetchTests();
+  }, []);
 
   useEffect(() => {
-    const fetchTests = async () => {
-      try {
-        const response = await fetch('https://tgryl.pl/quiz/tests');
-        const data = await response.json();
-        setTestsList([...data, { resultsItem: true }]);
-      } catch (error) {
-        console.error('Error fetching tests:', error);
-      }
-    };
-
     fetchTests();
   }, []);
 
@@ -76,6 +86,9 @@ const HomePageScreen = ({ navigation }) => {
         renderItem={renderResultsItem}
         keyExtractor={(item) => item.name || 'resultsItem'}
         contentContainerStyle={styles.flatListContainer}
+        refreshControl={
+          <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
   );

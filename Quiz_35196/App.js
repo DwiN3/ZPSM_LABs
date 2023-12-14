@@ -31,8 +31,14 @@ const DrawerContent = ({ navigation }) => {
     fetchTests();
   }, []);
 
+  const shuffleTests = () => {
+    return testsList.sort(() => Math.random() - 0.5);
+  };
+
   const renderTestButtons = () => {
-    return testsList.map((test) => (
+    const shuffledTests = shuffleTests();
+
+    return shuffledTests.map((test) => (
       <TouchableOpacity
         key={test.id}
         onPress={() =>
