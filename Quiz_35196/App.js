@@ -17,6 +17,19 @@ const Drawer = createDrawerNavigator();
 const DrawerContent = ({ navigation }) => {
   const [testsList, setTestsList] = useState([]);
 
+  const handleRandomTest = () => {
+    const shuffledTests = shuffleTests();
+    const randomTest = shuffledTests[0];
+
+    if (randomTest) {
+      navigation.navigate('Test', {
+        testId: randomTest.id,
+        titleTest: randomTest.name,
+        typeTest: randomTest.type,
+      });
+    }
+  };
+
   useEffect(() => {
     const fetchTests = async () => {
       try {
@@ -65,9 +78,14 @@ const DrawerContent = ({ navigation }) => {
           <Button title="Home Page" onPress={() => navigation.navigate('Home Page')} color="#808080" />
           <View style={styles.buttonSpacer} />
           <Button title="Results" onPress={() => navigation.navigate('Results')} color="#808080" />
+          <TouchableOpacity onPress={handleRandomTest}>
+          <View style={styles.drawerDrawerButton}>
+            <Text style={styles.drawerRandomButtonText}>RANDOM TEST</Text>
+          </View>
+        </TouchableOpacity>
           <Text style={styles.divider}></Text>
           {renderTestButtons()}
-        </View>
+      </View>
       </View>
     </ScrollView>
   );

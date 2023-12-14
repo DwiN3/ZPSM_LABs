@@ -52,6 +52,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 4,
   },
+  drawerDrawerButton: {
+    backgroundColor: '#808080',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 2,
+    marginTop: 18,
+  },
+  drawerRandomButtonText: {
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
+    color: 'white',
+  },
 });
 
 export default styles;
