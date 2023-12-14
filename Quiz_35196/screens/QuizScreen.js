@@ -71,13 +71,16 @@ const QuizScreen = ({ navigation }) => {
   }, [questionTime, shouldStartTimer]);
 
   useEffect(() => {
-  if (quizData && resetQuizFlag) {
-    const shuffledTasks = shuffleArray(quizData.tasks);
-    const shuffledQuizData = { ...quizData, tasks: shuffledTasks };
-    setQuizData(shuffledQuizData);
-    setResetQuizFlag(false);
-  }
-}, [quizData, resetQuizFlag]);
+    if (quizData && resetQuizFlag) {
+      const shuffledTasks = quizData.tasks.map(task => {
+        const shuffledAnswers = shuffleArray(task.answers);
+        return { ...task, answers: shuffledAnswers };
+      });
+      const shuffledQuizData = { ...quizData, tasks: shuffledTasks };
+      setQuizData(shuffledQuizData);
+      setResetQuizFlag(false);
+    }
+  }, [quizData, resetQuizFlag]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -152,13 +155,13 @@ const QuizScreen = ({ navigation }) => {
 
   const moveToNextQuestion = (selectedAnswer) => {
     const isCorrect = quizData?.tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
-
+  
     setCorrectAnswers((prevCorrectAnswers) => {
       const newCorrectAnswers = isCorrect ? prevCorrectAnswers + 1 : prevCorrectAnswers;
       correctAnswersScore = newCorrectAnswers;
       return newCorrectAnswers;
     });
-
+  
     if (currentQuestion + 1 < quizData?.tasks.length) {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
       setQuestionTime(quizData?.tasks[currentQuestion + 1]?.duration || 0);
