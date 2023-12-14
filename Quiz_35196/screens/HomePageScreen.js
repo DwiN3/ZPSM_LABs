@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import styles from '../styles/HomePageStyle';
+import { TestsList } from '../data/Tests'; 
 
 const truncateText = (text, maxLength) => {
   if (text.length > maxLength) {
