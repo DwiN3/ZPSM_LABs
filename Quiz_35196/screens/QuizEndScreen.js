@@ -1,9 +1,24 @@
-import React, { useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import styles from '../styles/QuizEndStyle';
 
 const QuizEndScreen = ({ route, navigation }) => {
   const { textTitle, correctAnswersScore, totalQuestions, types } = route.params;
+  const [isOnline, setIsOnline] = useState(true);
+
+  useEffect(() => {
+    const checkInternetConnection = async () => {
+      try {
+        const netInfoState = await NetInfo.fetch();
+        setIsOnline(netInfoState.isConnected);
+      } catch (error) {
+        console.error('Error checking internet connection:', error);
+      }
+    };
+
+    checkInternetConnection();
+  }, []);
 
   const sendResultsToServer = async () => {
     const url = 'https://tgryl.pl/quiz/result';
@@ -33,9 +48,10 @@ const QuizEndScreen = ({ route, navigation }) => {
     }
   };
 
-  // Call sendResultsToServer when the button is pressed
   const handleButtonPress = () => {
-    sendResultsToServer();
+    if (!isOnline) {
+      sendResultsToServer();
+    } 
     navigation.navigate('Home Page');
   };
 
@@ -43,12 +59,16 @@ const QuizEndScreen = ({ route, navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Congratulations!!!</Text>
       <Text style={styles.titleTest}>{textTitle}</Text>
-      <Text style={styles.text}>Correct Answers: {correctAnswersScore} out of {totalQuestions}</Text>
-      <TouchableOpacity onPress={handleButtonPress}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Go to Home Page</Text>
-        </View>
-      </TouchableOpacity>
+      <Text style={styles.text}>
+        Correct Answers: {correctAnswersScore} out of {totalQuestions}
+      </Text>
+      {isOnline && (
+        <TouchableOpacity onPress={handleButtonPress}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>Go to Home Page</Text>
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
