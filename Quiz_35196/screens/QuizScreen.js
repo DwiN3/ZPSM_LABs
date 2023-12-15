@@ -60,7 +60,7 @@ const QuizScreen = ({ navigation }) => {
   };
 
   const shuffleArray = (array) => {
-    const shuffledArray = array.slice(); // Create a copy of the array
+    const shuffledArray = array.slice();
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
@@ -89,11 +89,11 @@ const QuizScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (quizData && resetQuizFlag) {
-      const shuffledTasks = quizData.tasks.map(task => {
+      const shuffledTasks = shuffleArray(quizData.tasks);
+      const shuffledQuizData = { ...quizData, tasks: shuffledTasks.map(task => {
         const shuffledAnswers = shuffleArray(task.answers);
         return { ...task, answers: shuffledAnswers };
-      });
-      const shuffledQuizData = { ...quizData, tasks: shuffledTasks };
+      })};
       setQuizData(shuffledQuizData);
       setResetQuizFlag(false);
     }

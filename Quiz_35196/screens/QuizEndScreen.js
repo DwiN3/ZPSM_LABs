@@ -49,7 +49,8 @@ const QuizEndScreen = ({ route, navigation }) => {
   };
 
   const handleButtonPress = () => {
-    if (!isOnline) {
+    if (isOnline) {
+      console.log("jestem online")
       sendResultsToServer();
     } 
     navigation.navigate('Home Page');
