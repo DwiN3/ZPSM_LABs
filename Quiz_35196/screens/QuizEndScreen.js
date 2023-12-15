@@ -62,13 +62,11 @@ const QuizEndScreen = ({ route, navigation }) => {
       <Text style={styles.text}>
         Correct Answers: {correctAnswersScore} out of {totalQuestions}
       </Text>
-      {isOnline && (
         <TouchableOpacity onPress={handleButtonPress}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>Go to Home Page</Text>
           </View>
         </TouchableOpacity>
-      )}
     </View>
   );
 };

@@ -4,20 +4,31 @@ import React, { useRef, useState, useEffect } from 'react';
 import { ScrollView, Button, Text, View, Image, TouchableOpacity } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import WelcomeScreen from './screens/WelcomeScreen'; 
 import HomePageScreen from './screens/HomePageScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import QuizEndScreen from './screens/QuizEndScreen';
 import QuizScreen from './screens/QuizScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage'; 
-import NetInfo from '@react-native-community/netinfo';
 import styles from './styles/DrawerStyle';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerContent = ({ navigation }) => {
   const [testsList, setTestsList] = useState([]);
-  const [isOnline, setIsOnline] = useState(true);
+
+  const handleRandomTest = () => {
+    const shuffledTests = shuffleTests();
+    const randomTest = shuffledTests[0];
+
+    if (randomTest) {
+      navigation.navigate('Test', {
+        testId: randomTest.id,
+        titleTest: randomTest.name,
+        typeTest: randomTest.type,
+      });
+    }
+  };
 
   useEffect(() => {
     const fetchTests = async () => {
@@ -31,94 +42,31 @@ const DrawerContent = ({ navigation }) => {
     };
 
     fetchTests();
-
-    const unsubscribe = NetInfo.addEventListener((state) => {
-      setIsOnline(state.isConnected);
-    });
-
-    NetInfo.fetch().then((state) => {
-      setIsOnline(state.isConnected);
-    });
-
-    return () => {
-      unsubscribe();
-    };
   }, []);
-
-  const handleRandomTest = () => {
-    if (isOnline) {
-      const shuffledTests = shuffleTests();
-      const randomTest = shuffledTests[0];
-
-      if (randomTest) {
-        navigation.navigate('Test', {
-          testId: randomTest.id,
-          titleTest: randomTest.name,
-          typeTest: randomTest.type,
-        });
-      }
-    } else {
-      const storedTests = AsyncStorage.getItem('tests');
-      if (storedTests) {
-        const storedTestsList = JSON.parse(storedTests);
-        const shuffledTests = shuffleTests(storedTestsList);
-        const randomTest = shuffledTests[0];
-
-        if (randomTest) {
-          navigation.navigate('Test', {
-            testId: randomTest.id,
-            titleTest: randomTest.name,
-            typeTest: randomTest.type,
-          });
-        }
-      }
-    }
-  };
 
   const shuffleTests = () => {
     return testsList.sort(() => Math.random() - 0.5);
   };
 
   const renderTestButtons = () => {
-    if (isOnline) {
-      return testsList.map((test) => (
-        <TouchableOpacity
-          key={test.id}
-          onPress={() =>
-            navigation.navigate('Test', {
-              testId: test.id,
-              titleTest: test.name,
-              typeTest: test.type,
-            })
-          }
-        >
-          <View style={styles.drawerButton}>
-            <Text style={styles.drawerButtonText}>{test.name}</Text>
-          </View>
-        </TouchableOpacity>
-      ));
-    } else {
-      const storedTests = AsyncStorage.getItem('tests');
-      if (storedTests) {
-        const storedTestsList = JSON.parse(storedTests);
-        return shuffleTests(storedTestsList).map((test) => (
-          <TouchableOpacity
-            key={test.id}
-            onPress={() =>
-              navigation.navigate('Test', {
-                testId: test.id,
-                titleTest: test.name,
-                typeTest: test.type,
-              })
-            }
-          >
-            <View style={styles.drawerButton}>
-              <Text style={styles.drawerButtonText}>{test.name}</Text>
-            </View>
-          </TouchableOpacity>
-        ));
-      }
-    }
+    const shuffledTests = shuffleTests();
+
+    return shuffledTests.map((test) => (
+      <TouchableOpacity
+        key={test.id}
+        onPress={() =>
+          navigation.navigate('Test', {
+            testId: test.id,
+            titleTest: test.name,
+            typeTest: test.type,
+          })
+        }
+      >
+        <View style={styles.drawerButton}>
+          <Text style={styles.drawerButtonText}>{test.name}</Text>
+        </View>
+      </TouchableOpacity>
+    ));
   };
 
   return (
@@ -131,10 +79,10 @@ const DrawerContent = ({ navigation }) => {
           <View style={styles.buttonSpacer} />
           <Button title="Results" onPress={() => navigation.navigate('Results')} color="#808080" />
           <TouchableOpacity onPress={handleRandomTest}>
-            <View style={styles.drawerDrawerButton}>
-              <Text style={styles.drawerRandomButtonText}>RANDOM TEST</Text>
-            </View>
-          </TouchableOpacity>
+          <View style={styles.drawerDrawerButton}>
+            <Text style={styles.drawerRandomButtonText}>RANDOM TEST</Text>
+          </View>
+        </TouchableOpacity>
           <Text style={styles.divider}></Text>
           {renderTestButtons()}
       </View>
