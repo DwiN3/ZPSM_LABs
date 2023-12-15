@@ -98,12 +98,6 @@ const HomePageScreen = ({ navigation }) => {
         <View >
           {item.resultsItem ? (
             <>
-              <Text style={styles.resultsItemText}>Get to know your ranking result</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Results')}>
-                <View style={styles.resultsItemButton}>
-                  <Text style={styles.resultsItemButtonText}>Check!</Text>
-                </View>
-              </TouchableOpacity>
             </>
           ) : (
             <TouchableOpacity
