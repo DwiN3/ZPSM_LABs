@@ -1,3 +1,5 @@
+// HomePageScreen.js
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, FlatList, RefreshControl } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
@@ -52,7 +54,8 @@ const HomePageScreen = ({ navigation }) => {
       const storedTests = await AsyncStorage.getItem('tests');
       if (storedTests) {
         setTestsList(JSON.parse(storedTests));
-      } else {
+      }
+      if (isOnline) {
         fetchTests();
       }
     } catch (error) {
@@ -89,7 +92,7 @@ const HomePageScreen = ({ navigation }) => {
 
 
   const renderResultsItem = ({ item }) => {
-    if (isOnline) {
+    if (!isOnline) {
       return (
         <View >
           {item.resultsItem ? (

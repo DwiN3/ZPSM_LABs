@@ -31,7 +31,7 @@ const QuizScreen = ({ navigation }) => {
 
       const offlineDataString = await AsyncStorage.getItem(`testData_${testId}`);
 
-      if (!isOnline) {
+      if (isOnline) {
         const apiUrl = `https://tgryl.pl/quiz/test/${testId}`;
         const response = await fetch(apiUrl);
         const data = await response.json();
@@ -41,7 +41,6 @@ const QuizScreen = ({ navigation }) => {
           navigation.setOptions({ title: data.name });
           setQuizDescription(data.description);
           setTypes(data.tags);
-          // Save the online data to offline storage
           await AsyncStorage.setItem(`testData_${testId}`, JSON.stringify(data));
         } else {
           console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
