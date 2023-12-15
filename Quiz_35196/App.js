@@ -14,8 +14,41 @@ import styles from './styles/DrawerStyle';
 
 const Drawer = createDrawerNavigator();
 
+const fetchTests = async (setTestsList, setIsOnline, setIsRefreshing) => {
+  try {
+    const response = await fetch('https://tgryl.pl/quiz/tests');
+    const data = await response.json();
+    const shuffledTests = [...data].sort(() => Math.random() - 0.5);
+    
+    const testsWithResults = [...shuffledTests, { resultsItem: true }];
+
+    const testIds = testsWithResults.filter(item => !item.resultsItem).map(item => item.id);
+    await AsyncStorage.setItem('testIds', JSON.stringify(testIds));
+
+    const testsDataPromises = testsWithResults.map(async (test) => {
+      if (!test.resultsItem) {
+        const testResponse = await fetch(`https://tgryl.pl/quiz/test/${test.id}`);
+        const testData = await testResponse.json();
+        await AsyncStorage.setItem(`testData_${test.id}`, JSON.stringify(testData));
+      }
+    });
+    await Promise.all(testsDataPromises);
+    await AsyncStorage.setItem('tests', JSON.stringify(testsWithResults));
+    console.log("Testy pobrane")
+    setTestsList(testsWithResults);
+    setIsOnline(true);
+  } catch (error) {
+    console.error('Error fetching tests:', error);
+    setIsOnline(false);
+  } finally {
+    setIsRefreshing(false);
+  }
+};
+
 const DrawerContent = ({ navigation }) => {
   const [testsList, setTestsList] = useState([]);
+  const [isOnline, setIsOnline] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleRandomTest = () => {
     const shuffledTests = shuffleTests();
@@ -28,6 +61,11 @@ const DrawerContent = ({ navigation }) => {
         typeTest: randomTest.type,
       });
     }
+  };
+
+  const handleSaveTestsToStorage = async () => {
+    setIsRefreshing(true);
+    await fetchTests(setTestsList, setIsOnline, setIsRefreshing);
   };
 
   useEffect(() => {
@@ -50,24 +88,31 @@ const DrawerContent = ({ navigation }) => {
 
   const renderTestButtons = () => {
     const shuffledTests = shuffleTests();
-
-    return shuffledTests.map((test) => (
-      <TouchableOpacity
-        key={test.id}
-        onPress={() =>
-          navigation.navigate('Test', {
-            testId: test.id,
-            titleTest: test.name,
-            typeTest: test.type,
-          })
-        }
-      >
-        <View style={styles.drawerButton}>
-          <Text style={styles.drawerButtonText}>{test.name}</Text>
-        </View>
-      </TouchableOpacity>
-    ));
+    const testIds = shuffledTests.filter(item => !item.resultsItem).map(item => item.id);
+  
+    return testIds.map((testId) => {
+      const test = shuffledTests.find(item => item.id === testId);
+  
+      return (
+        <TouchableOpacity
+          key={testId}
+          onPress={() =>
+            navigation.navigate('Test', {
+              testId: test.id,
+              titleTest: test.name,
+              typeTest: test.type,
+            })
+          }
+        >
+          <View style={styles.drawerButton}>
+            <Text style={styles.drawerButtonText}>{test.name}</Text>
+          </View>
+        </TouchableOpacity>
+      );
+    });
   };
+  
+  
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -81,6 +126,11 @@ const DrawerContent = ({ navigation }) => {
           <TouchableOpacity onPress={handleRandomTest}>
           <View style={styles.drawerDrawerButton}>
             <Text style={styles.drawerRandomButtonText}>RANDOM TEST</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleSaveTestsToStorage}>
+          <View style={styles.drawerDrawerButton}>
+            <Text style={styles.drawerRandomButtonText}>SAVE TESTS TO STORAGE</Text>
           </View>
         </TouchableOpacity>
           <Text style={styles.divider}></Text>

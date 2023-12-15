@@ -39,6 +39,7 @@ const HomePageScreen = ({ navigation }) => {
       });
       await Promise.all(testsDataPromises);
       await AsyncStorage.setItem('tests', JSON.stringify(testsWithResults));
+      console.log("Testy pobrane")
       setTestsList(testsWithResults);
       setIsOnline(true);
     } catch (error) {
