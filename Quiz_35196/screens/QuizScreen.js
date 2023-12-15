@@ -28,32 +28,42 @@ const QuizScreen = ({ navigation }) => {
     try {
       const netInfoState = await NetInfo.fetch();
       const isOnline = netInfoState.isConnected;
-
+  
       const offlineDataString = await AsyncStorage.getItem(`testData_${testId}`);
-
+  
+      let data;
+  
       if (isOnline) {
         const apiUrl = `https://tgryl.pl/quiz/test/${testId}`;
         const response = await fetch(apiUrl);
-        const data = await response.json();
+        data = await response.json();
   
         if (data.name && data.tags && data.description) {
-          setQuizData(data);
-          navigation.setOptions({ title: data.name });
-          setQuizDescription(data.description);
-          setTypes(data.tags);
           await AsyncStorage.setItem(`testData_${testId}`, JSON.stringify(data));
         } else {
           console.error('Błąd: Otrzymane dane nie zawierają oczekiwanych pól.');
+          return;
         }
       } else if (offlineDataString) {
-        const offlineData = JSON.parse(offlineDataString);
-        setQuizData(offlineData);
-        navigation.setOptions({ title: offlineData.name });
-        setQuizDescription(offlineData.description);
-        setTypes(offlineData.tags);
+        data = JSON.parse(offlineDataString);
       } else {
         console.error('Błąd: Brak dostępu do danych offline.');
+        return;
       }
+  
+      const shuffledTasks = shuffleArray(data.tasks);
+      const shuffledQuizData = {
+        ...data,
+        tasks: shuffledTasks.map((task) => {
+          const shuffledAnswers = shuffleArray(task.answers);
+          return { ...task, answers: shuffledAnswers };
+        }),
+      };
+  
+      setQuizData(shuffledQuizData);
+      navigation.setOptions({ title: shuffledQuizData.name });
+      setQuizDescription(shuffledQuizData.description);
+      setTypes(shuffledQuizData.tags);
     } catch (error) {
       console.error('Błąd pobierania danych:', error);
     }
@@ -86,18 +96,6 @@ const QuizScreen = ({ navigation }) => {
     }
     return () => clearInterval(intervalRef.current);
   }, [questionTime, shouldStartTimer]);
-
-  useEffect(() => {
-    if (quizData && resetQuizFlag) {
-      const shuffledTasks = shuffleArray(quizData.tasks);
-      const shuffledQuizData = { ...quizData, tasks: shuffledTasks.map(task => {
-        const shuffledAnswers = shuffleArray(task.answers);
-        return { ...task, answers: shuffledAnswers };
-      })};
-      setQuizData(shuffledQuizData);
-      setResetQuizFlag(false);
-    }
-  }, [quizData, resetQuizFlag]);
 
   useFocusEffect(
     React.useCallback(() => {
