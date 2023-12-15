@@ -7,17 +7,20 @@ const QuizEndScreen = ({ route, navigation }) => {
   const { textTitle, correctAnswersScore, totalQuestions, types } = route.params;
   const [isOnline, setIsOnline] = useState(true);
 
-  const checkInternetConnection = async () => {
-    try {
-      const netInfoState = await NetInfo.fetch();
-      setIsOnline(netInfoState.isConnected);
-    } catch (error) {
-      console.error('Error checking internet connection:', error);
-    }
-  };
+  useEffect(() => {
+    const checkInternetConnection = async () => {
+      try {
+        const netInfoState = await NetInfo.fetch();
+        setIsOnline(netInfoState.isConnected);
+      } catch (error) {
+        console.error('Error checking internet connection:', error);
+      }
+    };
+
+    checkInternetConnection();
+  }, []);
 
   const sendResultsToServer = async () => {
-    checkInternetConnection();
     const url = 'https://tgryl.pl/quiz/result';
     const payload = {
       nick: 'niwd',
