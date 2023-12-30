@@ -145,29 +145,6 @@ const QuizScreen = ({ navigation }) => {
     moveToNextQuestion(selectedAnswer);
   };
 
-  let correctAnswersScore = 0;
-  const alertEnd = () => {
-    clearInterval(intervalRef.current); 
-
-    Alert.alert(
-      'Quiz Finish',
-      'Congratulations! You have completed the quiz.',
-      [
-        {
-          text: 'Go to Results',
-          onPress: () => {
-            navigation.navigate('Quiz Completed', { 
-              textTitle: titleTest,
-              correctAnswersScore: correctAnswersScore,
-              totalQuestions: totalQuestions,
-              types: types,
-            });
-          },
-        },
-      ],
-    );
-  };
-
   const moveToNextQuestion = (selectedAnswer) => {
     const isCorrect = quizData?.tasks[currentQuestion]?.answers[selectedAnswer]?.isCorrect || false;
   
@@ -182,7 +159,12 @@ const QuizScreen = ({ navigation }) => {
       setQuestionTime(quizData?.tasks[currentQuestion + 1]?.duration || 0);
       resetTimer();
     } else {
-      alertEnd();
+      navigation.navigate('Quiz Completed', { 
+        textTitle: titleTest,
+        correctAnswersScore: correctAnswersScore,
+        totalQuestions: totalQuestions,
+        types: types,
+      });
     }
   };
 
@@ -191,9 +173,6 @@ const QuizScreen = ({ navigation }) => {
       <View style={styles.textContainer}>
         <Text style={styles.questionNumbersText}>{`Question ${currentQuestion + 1} of ${totalQuestions}`}</Text>
         <Text style={styles.timeText}>Time: {questionTime - timeElapsed} sec</Text>
-      </View>
-      <View style={styles.progressBarContainer}>
-        <View style={{ backgroundColor: 'yellow', height: 10, width: `${progress * 100}%` }} />
       </View>
       <View style={styles.questionContainer}>
         <Text style={styles.questionText}>{quizData?.tasks[currentQuestion]?.question}</Text>

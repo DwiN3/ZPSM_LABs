@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   textContainer: {
-    //backgroundColor: 'blue',
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
@@ -25,17 +24,8 @@ const styles = StyleSheet.create({
     marginRight: 25,
     fontSize: 18,
   },
-  progressBarContainer:{
-    marginTop: 20,
-    width: '80%',
-    borderWidth: 2,
-    borderBlockColor: 'black',
-    borderRadius: 30,
-    alignSelf: 'center',
-  },
   questionContainer: {
     marginTop: 5,
-    //backgroundColor: 'pink',
     height: 'auto', 
   },
   questionText: {
@@ -46,7 +36,6 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     height: 'auto',
-    //backgroundColor: 'red',  
   },
   descriptionText: {
     fontSize: 13,
@@ -56,10 +45,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   answersContainer: {
-   // backgroundColor: 'blue',
-    borderWidth: 2,
-    borderColor: 'black',
-    borderRadius: 3,
     padding: 15,
     marginLeft: 5,
     marginRight: 5,

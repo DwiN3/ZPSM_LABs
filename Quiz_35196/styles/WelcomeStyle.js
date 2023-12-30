@@ -12,9 +12,6 @@ const styles = StyleSheet.create({
     padding: 10,
     width: '100%', 
   },
-  label: {
-    fontWeight: 'bold',
-  },
   checkboxContainer: {
     marginTop: 20,
     flexDirection: 'row',

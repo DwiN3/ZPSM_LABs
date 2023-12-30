@@ -27,14 +27,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ecf0f1',
     padding: 20,
   },
-  drawerTitle: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   drawerIcon: {
-    width: 150,
-    height: 150,
+    width: 190,
+    height: 165,
     alignSelf: 'center',
     marginVertical: 20,
   },

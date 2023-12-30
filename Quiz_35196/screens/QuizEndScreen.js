@@ -20,10 +20,23 @@ const QuizEndScreen = ({ route, navigation }) => {
     checkInternetConnection();
   }, []);
 
+  useEffect(() => {
+    const checkInternetConnection = async () => {
+      try {
+        const netInfoState = await NetInfo.fetch();
+        setIsOnline(netInfoState.isConnected);
+      } catch (error) {
+        console.error('Error checking internet connection:', error);
+      }
+    };
+
+    checkInternetConnection();
+  }, []);
+
   const sendResultsToServer = async () => {
     const url = 'https://tgryl.pl/quiz/result';
     const payload = {
-      nick: 'niwd',
+      nick: '123',
       score: correctAnswersScore,
       total: totalQuestions,
       type: types[0],
@@ -39,9 +52,9 @@ const QuizEndScreen = ({ route, navigation }) => {
       });
 
       if (response.ok) {
-        console.log('Results sent successfully!');
+        console.log('Send!');
       } else {
-        console.error('Failed to send results.');
+        console.error('Not Send.');
       }
     } catch (error) {
       console.error('Error while sending results:', error);
@@ -57,14 +70,13 @@ const QuizEndScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Congratulations!!!</Text>
       <Text style={styles.titleTest}>{textTitle}</Text>
       <Text style={styles.text}>
-        Correct Answers: {correctAnswersScore} out of {totalQuestions}
+        {correctAnswersScore}/{totalQuestions}
       </Text>
         <TouchableOpacity onPress={handleButtonPress}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>Go to Home Page</Text>
+            <Text style={styles.buttonText}>Send results</Text>
           </View>
         </TouchableOpacity>
     </View>

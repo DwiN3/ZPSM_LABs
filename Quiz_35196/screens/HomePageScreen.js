@@ -39,7 +39,6 @@ const HomePageScreen = ({ navigation }) => {
       });
       await Promise.all(testsDataPromises);
       await AsyncStorage.setItem('tests', JSON.stringify(testsWithResults));
-      console.log("Testy pobrane")
       setTestsList(testsWithResults);
       setIsOnline(true);
     } catch (error) {
@@ -87,11 +86,6 @@ const HomePageScreen = ({ navigation }) => {
 
  const testIds = testsList.filter(item => !item.resultsItem).map(item => item.id);
 
-  const handleTestPress = (testId, testName) => {
-    console.log(`Pressed test ID: ${testId}, Test Name: ${testName}`);
-  };
-
-
   const renderResultsItem = ({ item }) => {
     if (!isOnline) {
       return (
@@ -101,18 +95,11 @@ const HomePageScreen = ({ navigation }) => {
             </>
           ) : (
             <TouchableOpacity
-              // onPress={() =>
-              //   navigation.navigate('Test', {
-              //     testId: item.id,
-              //     titleTest: item.name,
-              //     typeTest: item.type,
-              //   })
-              // }
               onPress={() =>
                   navigation.navigate('Test', {
                     testId: item.id,
                     titleTest: item.name,
-                    typeTest: "rower",
+                    typeTest: ".",
                   })
                 }
             >
@@ -120,7 +107,7 @@ const HomePageScreen = ({ navigation }) => {
                 <Text style={styles.titleTest}>{item.name}</Text>
                 <View style={styles.tagsContainer}>
                   {item.tags.map((tag, index) => (
-                    <TouchableOpacity key={index} onPress={() => console.log(`Pressed ${tag}`)}>
+                    <TouchableOpacity key={index} >
                       <Text style={styles.tag}>{tag}</Text>
                     </TouchableOpacity>
                   ))}
@@ -132,18 +119,7 @@ const HomePageScreen = ({ navigation }) => {
         </View>
       );
     } else if (item.resultsItem) {
-      return (
-        <View style={styles.resultsItem}>
-          <Text style={styles.resultsItemText}>Get to know your ranking result</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Results')}>
-            <View style={styles.resultsItemButton}>
-              <Text style={styles.resultsItemButtonText}>Check!</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      // Render online tests as before
+      } else {
       const maxDescriptionLength = item.name.length > 30 ? 50 : 100;
       return (
         <TouchableOpacity
@@ -159,7 +135,7 @@ const HomePageScreen = ({ navigation }) => {
             <Text style={styles.titleTest}>{item.name}</Text>
             <View style={styles.tagsContainer}>
               {item.tags.map((tag, index) => (
-                <TouchableOpacity key={index} onPress={() => console.log(`Pressed ${tag}`)}>
+                <TouchableOpacity key={index} >
                   <Text style={styles.tag}>{tag}</Text>
                 </TouchableOpacity>
               ))}

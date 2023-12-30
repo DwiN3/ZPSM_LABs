@@ -30,7 +30,7 @@ const ResultsScreen = () => {
       data={data}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({ item, index }) => (
-        <View style={[styles.row, index % 2 === 0 ? styles.evenRow : styles.oddRow]}>
+        <View style={[styles.row, styles.evenRow]}>
           <Text style={styles.cell}>{item.nick}</Text>
           <Text style={styles.cell}>{item.score}/{item.total}</Text>
           <Text style={styles.cell}>{item.type}</Text>

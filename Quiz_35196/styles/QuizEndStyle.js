@@ -8,14 +8,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
   },
-  title: {
-    marginTop: 20,
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
   titleTest:
   {
+    marginTop: 50,
     fontSize: 20,
   },
   text: {

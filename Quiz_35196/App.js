@@ -113,27 +113,24 @@ const DrawerContent = ({ navigation }) => {
   };
   
   
-
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={[styles.containerDrawer, styles.navigationContainer]}>
-        <Text style={styles.drawerTitle}>Quiz App</Text>
-        <Image source={require('./assets/icon_choose.png')} style={styles.drawerIcon} />
+        <Image source={require('./assets/quiz.png')} style={styles.drawerIcon} />
         <View style={styles.buttonContainer}>
-          <Button title="Home Page" onPress={() => navigation.navigate('Home Page')} color="#808080" />
+          <Button title="Home" onPress={() => navigation.navigate('Home Page')} color="#808080" />
           <View style={styles.buttonSpacer} />
           <Button title="Results" onPress={() => navigation.navigate('Results')} color="#808080" />
           <TouchableOpacity onPress={handleRandomTest}>
           <View style={styles.drawerDrawerButton}>
-            <Text style={styles.drawerRandomButtonText}>RANDOM TEST</Text>
+            <Text style={styles.drawerRandomButtonText}>RANDOM</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleSaveTestsToStorage}>
           <View style={styles.drawerDrawerButton}>
-            <Text style={styles.drawerRandomButtonText}>SAVE TESTS TO STORAGE</Text>
+            <Text style={styles.drawerRandomButtonText}>SAVE</Text>
           </View>
         </TouchableOpacity>
-          <Text style={styles.divider}></Text>
           {renderTestButtons()}
       </View>
       </View>

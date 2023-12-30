@@ -21,7 +21,6 @@ const WelcomeScreen = ({ onRegulationAccepted }) => {
   return (
     <View style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.label}>Aby korzystać z aplikacji, musisz zaakceptować regulamin</Text>
         <TouchableOpacity onPress={handleAcceptanceToggle}>
           <View style={styles.checkboxContainer}>
             <View style={[styles.checkbox, isRegulationAccepted && styles.checkedBox]} />
