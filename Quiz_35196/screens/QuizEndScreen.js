@@ -1,3 +1,5 @@
+// QuizEndScreen.js
+
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';

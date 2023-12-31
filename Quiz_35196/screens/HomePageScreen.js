@@ -91,7 +91,6 @@ const HomePageScreen = ({ navigation }) => {
     console.log(`Pressed test ID: ${testId}, Test Name: ${testName}`);
   };
 
-
   const renderResultsItem = ({ item }) => {
     if (!isOnline) {
       return (
@@ -101,13 +100,6 @@ const HomePageScreen = ({ navigation }) => {
             </>
           ) : (
             <TouchableOpacity
-              // onPress={() =>
-              //   navigation.navigate('Test', {
-              //     testId: item.id,
-              //     titleTest: item.name,
-              //     typeTest: item.type,
-              //   })
-              // }
               onPress={() =>
                   navigation.navigate('Test', {
                     testId: item.id,
@@ -143,7 +135,6 @@ const HomePageScreen = ({ navigation }) => {
         </View>
       );
     } else {
-      // Render online tests as before
       const maxDescriptionLength = item.name.length > 30 ? 50 : 100;
       return (
         <TouchableOpacity

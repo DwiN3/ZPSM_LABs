@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
     marginTop: -9,
     fontSize: 22,
     marginBottom: 5,
-    // fontFamily: 'oswald-bold',
     fontWeight: 'bold',
   },
   tagsContainer: {

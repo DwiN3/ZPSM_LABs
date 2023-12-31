@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   questionContainer: {
-    marginTop: 5,
     //backgroundColor: 'pink',
+    marginTop: 5,
     height: 'auto', 
   },
   questionText: {
@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   descriptionContainer: {
-    height: 'auto',
     //backgroundColor: 'red',  
+    height: 'auto',
   },
   descriptionText: {
     fontSize: 13,

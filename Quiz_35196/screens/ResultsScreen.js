@@ -1,3 +1,5 @@
+// ResultsScreen.js
+
 import React, { useState, useEffect } from 'react';
 import { FlatList, View, Text, RefreshControl } from 'react-native';
 import styles from '../styles/ResultsStyle';

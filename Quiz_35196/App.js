@@ -112,8 +112,6 @@ const DrawerContent = ({ navigation }) => {
     });
   };
   
-  
-
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={[styles.containerDrawer, styles.navigationContainer]}>
