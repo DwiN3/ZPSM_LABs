@@ -8,7 +8,11 @@ const DevicesScreen = () => {
 
   const renderItem = ({ item, index }) => {
     const isLastItem = index === extendedDevicesList.length - 1;
-    const itemContainerStyle = isLastItem ? styles.lastItemContainer : styles.itemContainer;
+    const backgroundColor = isLastItem ? 'white' : item.color;
+    const itemContainerStyle = {
+      ...styles.itemContainer,
+      backgroundColor: backgroundColor,
+    };
     const itemNameStyle = isLastItem ? styles.lastItemName : styles.itemName;
     const itemTextStyle = isLastItem ? styles.lastItemText : styles.itemText;
 
