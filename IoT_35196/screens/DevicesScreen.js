@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 
 const DevicesScreen = () => {
   return (
-    <View><Text>Hello, world!</Text></View>
+    <View><Text>Device</Text></View>
   );
 };
 export default DevicesScreen;
