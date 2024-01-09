@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 10,
-    flexDirection: 'row', 
-    flexWrap: 'wrap', 
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
   itemContainer: {
@@ -21,6 +21,25 @@ const styles = StyleSheet.create({
     marginRight: 10,
     backgroundColor: 'yellow',
     marginBottom: 10,
+  },
+  lastItemContainer: {
+    height: 170,
+    width: 170,
+    borderWidth: 2,
+    borderColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    backgroundColor: 'white', 
+  },
+  lastItemName: {
+    fontSize: 70,
+    fontWeight: 'bold',
+    color: 'grey',
   },
   itemName: {
     fontSize: 20,

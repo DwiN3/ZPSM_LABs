@@ -4,19 +4,28 @@ import { devicesList } from '../data/devices';
 import styles from '../styles/DevicesStyle';
 
 const DevicesScreen = () => {
-  const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <Text style={styles.itemName}>{item.name}</Text>
-      <Text style={styles.itemText}>{item.place}</Text>
-    </View>
-  );
+  const extendedDevicesList = [...devicesList, { id: '+', name: '+', place: '' }];
+
+  const renderItem = ({ item, index }) => {
+    const isLastItem = index === extendedDevicesList.length - 1;
+    const itemContainerStyle = isLastItem ? styles.lastItemContainer : styles.itemContainer;
+    const itemNameStyle = isLastItem ? styles.lastItemName : styles.itemName;
+    const itemTextStyle = isLastItem ? styles.lastItemText : styles.itemText;
+
+    return (
+      <View style={itemContainerStyle}>
+        <Text style={itemNameStyle}>{item.name}</Text>
+        <Text style={itemTextStyle}>{item.place}</Text>
+      </View>
+    );
+  };
 
   return (
     <FlatList
-      data={devicesList}
+      data={extendedDevicesList}
       renderItem={renderItem}
       keyExtractor={item => item.id}
-      contentContainerStyle={styles.container} // Change style to contentContainerStyle
+      contentContainerStyle={styles.container}
     />
   );
 };
