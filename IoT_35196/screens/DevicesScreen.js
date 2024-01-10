@@ -10,11 +10,23 @@ const DevicesScreen = () => {
   const [devicesList, setDevicesList] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
+  const extendedDevicesList = [...devicesList, { id: '+', name: '+', place: '' }];
+
   useEffect(() => {
     loadDevices();
   }, []);
 
-  const extendedDevicesList = [...devicesList, { id: '+', name: '+', place: '' }];
+  useFocusEffect(
+    useCallback(() => {
+      const refreshData = async () => {
+        setRefreshing(true);
+        await loadDevices();
+        setRefreshing(false);
+      };
+
+      refreshData();
+    }, [])
+  );
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
