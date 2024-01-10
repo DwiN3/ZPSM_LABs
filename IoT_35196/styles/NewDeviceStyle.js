@@ -12,19 +12,21 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   colorsContainer: {
+    height: 55,
+    borderRadius: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 170,
+    backgroundColor: "grey",
   },
   circleOneColor: {
     width: 40,
     height: 40,
     borderRadius: 20,
     borderWidth: 2,
+    margin: 7,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
   },
@@ -32,7 +34,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 2,
     backgroundColor: 'transparent',
-    width: '48%', // Adjust the width as needed
+    width: '100%',
     height: 40,
     fontWeight: '600',
     alignItems: 'center',

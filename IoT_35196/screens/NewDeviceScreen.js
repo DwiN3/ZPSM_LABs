@@ -9,7 +9,7 @@ const NewDeviceScreen = () => {
   const [command, setCommand] = useState('');
   const [color, setColor] = useState('');
 
-  const Colors = ["blue", "yellow", "pink", "red", "green", "purple", "orange", "grey" ]
+  const Colors = ["blue", "yellow", "pink", "red", "green", "purple", "orange" ]
 
   const navigation = useNavigation();
 
@@ -49,20 +49,21 @@ const NewDeviceScreen = () => {
         onChangeText={(text) => setCommand(text)}
       />
 
-<View style={styles.colorsContainer}>
-  {Colors.map((c) => (
-    <TouchableHighlight
-      key={c}
-      style={[
-        styles.circleOneColor,
-        { backgroundColor: c, borderWidth: color === c ? 4 : 0 },
-      ]}
-      onPress={() => handleColorSelect(c)}
-    >
-      <View style={{ width: 40, height: 40, borderRadius: 20 }} />
-    </TouchableHighlight>
-  ))}
-</View>
+    <View><Text style={{ fontSize:20, marginVertical:12 }} >Colors</Text></View>
+    <View style={styles.colorsContainer}>
+    {Colors.map((c) => (
+        <TouchableHighlight
+        key={c}
+        style={[
+            styles.circleOneColor,
+            { backgroundColor: c, borderWidth: color === c ? 2 : 0 },
+        ]}
+        onPress={() => handleColorSelect(c)}
+        >
+        <View style={{ width: 40, height: 40, borderRadius: 20 }} />
+        </TouchableHighlight>
+    ))}
+    </View>
 
       <TouchableHighlight
         style={[styles.buttonContainer, styles.button, { backgroundColor: 'green' }]}
