@@ -1,19 +1,25 @@
 // Apps.js
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text, TouchableOpacity } from 'react-native'; 
+import { View, Text, TouchableOpacity, State } from 'react-native'; 
 import DevicesScreen from './screens/DevicesScreen';
 import NewDeviceScreen from './screens/NewDeviceScreen';
 import ConnectionScreen from './screens/ConnectionScreen';
 import EditDeviceScreen from './screens/EditDeviceScreen';
+import SplashScreen from 'react-native-splash-screen'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  useEffect(() => {
+    if(Platform.OS=== 'android') 
+    SplashScreen.hide();
+  }, []);
+
   return (
     <Tab.Navigator 
       screenOptions={{
