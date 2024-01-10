@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 
 const ConnectionScreen = () => {
   return (
-    <View><Text>Connection</Text></View>
+    <View></View>
   );
 };
 export default ConnectionScreen;

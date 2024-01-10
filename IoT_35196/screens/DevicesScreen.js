@@ -50,6 +50,13 @@ const DevicesScreen = () => {
     }
   };
 
+  const deleteItem = async (index) => {
+    const updatedDevicesList = [...devicesList];
+    updatedDevicesList.splice(index, 1);
+    setDevicesList(updatedDevicesList);
+    await saveDevices(updatedDevicesList);
+  };
+
   const renderItem = ({ item, index }) => {
     const isLastItem = index === extendedDevicesList.length - 1;
     const backgroundColor = isLastItem ? 'white' : item.color;
@@ -64,20 +71,26 @@ const DevicesScreen = () => {
       if (isLastItem) {
         navigation.navigate('New Device');
       } else {
-        clearAllData();
+
       }
+    };
+
+    const onPressToDelete = () => {
+        deleteItem(index);
     };
   
     return (
       <TouchableOpacity onPress={onPressItem}>
         <View style={itemContainerStyle}>
-          {!isLastItem && (  
+          {!isLastItem && (
+            <TouchableOpacity onPress={onPressToDelete}>
             <View style={styles.deleteItemX}>
               <Image
                 source={require('../img/icon_x.png')}
                 style={{ width: 38, height: 38 }}
               />
             </View>
+            </TouchableOpacity>  
           )}
           <Text style={itemNameStyle}>{item.name}</Text>
           <Text style={itemTextStyle}>{item.place}</Text>

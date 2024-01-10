@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
   deleteItemX: {
     width: 38,
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: -59,
+    right: -83,
   },
   lastItemContainer: {
     height: 170,
