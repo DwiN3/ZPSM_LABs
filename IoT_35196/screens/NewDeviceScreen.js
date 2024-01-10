@@ -16,29 +16,35 @@ const NewDeviceScreen = () => {
   const navigation = useNavigation();
 
   const handleSave = async () => {
-    const newDevice = new devices(
-      (devicesList.length + 1).toString(),
-      name,
-      place,
-      command,
-      color
-    );
-
-    // Update local state
-    devicesList.push(newDevice);
-
-    // Save to AsyncStorage
     try {
-      await AsyncStorage.setItem('devicesList', JSON.stringify(devicesList));
+      // Retrieve existing devices from AsyncStorage
+      const existingDevicesString = await AsyncStorage.getItem('devicesList');
+      const existingDevices = existingDevicesString ? JSON.parse(existingDevicesString) : [];
+  
+      // Create a new device
+      const newDevice = new devices(
+        (existingDevices.length + 1).toString(),
+        name,
+        place,
+        command,
+        color
+      );
+  
+      // Update existing devices with the new device
+      existingDevices.push(newDevice);
+  
+      // Save updated devices back to AsyncStorage
+      await AsyncStorage.setItem('devicesList', JSON.stringify(existingDevices));
+  
+      console.log('Name:', name);
+      console.log('Place:', place);
+      console.log('Command:', command);
+      console.log('Color:', color);
+  
+      navigation.navigate('Devices');
     } catch (error) {
-      console.error('Error saving devices:', error);
+      console.error('Error saving device:', error);
     }
-
-    console.log('Name:', name);
-    console.log('Place:', place);
-    console.log('Command:', command);
-    console.log('Color:', color);
-    navigation.navigate('Devices');
   };
 
   const exit = () => {
