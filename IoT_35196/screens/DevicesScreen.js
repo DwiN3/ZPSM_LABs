@@ -1,9 +1,12 @@
 import React from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { devicesList } from '../data/devices';
 import styles from '../styles/DevicesStyle';
 
 const DevicesScreen = () => {
+  const navigation = useNavigation();
+
   const extendedDevicesList = [...devicesList, { id: '+', name: '+', place: '' }];
 
   const renderItem = ({ item, index }) => {
@@ -16,21 +19,33 @@ const DevicesScreen = () => {
     const itemNameStyle = isLastItem ? styles.lastItemName : styles.itemName;
     const itemTextStyle = isLastItem ? styles.lastItemText : styles.itemText;
 
+    const onPressItem = () => {
+      if (isLastItem) {
+        navigation.navigate('New Device');
+      } else {
+        // Handle press for other items if needed
+      }
+    };
+
     return (
-      <View style={itemContainerStyle}>
-        <Text style={itemNameStyle}>{item.name}</Text>
-        <Text style={itemTextStyle}>{item.place}</Text>
-      </View>
+      <TouchableOpacity onPress={onPressItem}>
+        <View style={itemContainerStyle}>
+          <Text style={itemNameStyle}>{item.name}</Text>
+          <Text style={itemTextStyle}>{item.place}</Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 
   return (
-    <FlatList
-      data={extendedDevicesList}
-      renderItem={renderItem}
-      keyExtractor={item => item.id}
-      contentContainerStyle={styles.container}
-    />
+    <View style={styles.container}>
+        <FlatList
+          data={extendedDevicesList}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          numColumns={2} 
+        />
+    </View>
   );
 };
 
