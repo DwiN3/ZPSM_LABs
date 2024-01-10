@@ -3,6 +3,8 @@ import { Text, View, TextInput, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../styles/NewDeviceStyle';
 
+import { devices, devicesList } from '../data/devices';
+
 const NewDeviceScreen = () => {
   const [name, setName] = useState('');
   const [place, setPlace] = useState('');
@@ -13,10 +15,22 @@ const NewDeviceScreen = () => {
   const navigation = useNavigation();
 
   const handleSave = () => {
+    const newDevice = new devices(
+      (devicesList.length + 1).toString(), // Auto-increment ID
+      name,
+      place,
+      command,
+      color
+    );
+
+    devicesList.push(newDevice); // Add the new device to the list
+
     console.log('Name:', name);
     console.log('Place:', place);
     console.log('Command:', command);
     console.log('Color:', color);
+
+    // You might want to save the updated devicesList to persistent storage here
   };
 
   const exit = () => {
