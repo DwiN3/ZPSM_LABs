@@ -1,3 +1,5 @@
+// DeviceScreen.js
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { Text, View, FlatList, TouchableOpacity, RefreshControl, Image } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
@@ -6,7 +8,6 @@ import styles from '../styles/DevicesStyle';
 
 const DevicesScreen = () => {
   const navigation = useNavigation();
-
   const [devicesList, setDevicesList] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -78,17 +79,17 @@ const DevicesScreen = () => {
     };
     const itemNameStyle = isLastItem ? styles.lastItemName : styles.itemName;
     const itemTextStyle = isLastItem ? styles.lastItemText : styles.itemText;
-  
+
     const onPressItem = () => {
       if (isLastItem) {
         navigation.navigate('New Device');
       } else {
-
+        navigation.navigate('Edit Device', { deviceToEdit: item });
       }
     };
 
     const onPressToDelete = () => {
-        deleteItem(index);
+      deleteItem(index);
     };
   
     return (
@@ -96,13 +97,13 @@ const DevicesScreen = () => {
         <View style={itemContainerStyle}>
           {!isLastItem && (
             <TouchableOpacity onPress={onPressToDelete}>
-            <View style={styles.deleteItemX}>
-              <Image
-                source={require('../img/icon_x.png')}
-                style={{ width: 38, height: 38 }}
-              />
-            </View>
-            </TouchableOpacity>  
+              <View style={styles.deleteItemX}>
+                <Image
+                  source={require('../img/icon_x.png')}
+                  style={{ width: 38, height: 38 }}
+                />
+              </View>
+            </TouchableOpacity>
           )}
           <Text style={itemNameStyle}>{item.name}</Text>
           <Text style={itemTextStyle}>{item.place}</Text>
@@ -116,7 +117,7 @@ const DevicesScreen = () => {
       <FlatList
         data={extendedDevicesList}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         numColumns={2}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

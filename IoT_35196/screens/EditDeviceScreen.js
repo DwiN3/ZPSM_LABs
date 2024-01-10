@@ -1,42 +1,53 @@
-// NewDeviceScreen.js
+// EditDeviceScreen.js
 
 import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableHighlight } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from '../styles/NewDeviceStyle';
-import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { devices, devicesList } from '../data/devices';
 
-const NewDeviceScreen = () => {
+const EditDeviceScreen = () => {
   const [name, setName] = useState('');
   const [place, setPlace] = useState('');
   const [command, setCommand] = useState('');
+  const [color, setColor] = useState('');
   const Colors = ["blue", "yellow", "pink", "red", "green", "purple", "orange"];
-  const [color, setColor] = useState(Colors[0]);
 
   const navigation = useNavigation();
+  const route = useRoute();
+  const { deviceToEdit } = route.params || {}; 
+
+  useEffect(() => {
+    if (deviceToEdit) {
+      setName(deviceToEdit.name || '');
+      setPlace(deviceToEdit.place || '');
+      setCommand(deviceToEdit.command || '');
+      setColor(deviceToEdit.color || Colors[0]);
+    }
+  }, [deviceToEdit]);
 
   const handleSave = async () => {
     try {
-      const existingDevicesString = await AsyncStorage.getItem('devicesList');
-      const existingDevices = existingDevicesString ? JSON.parse(existingDevicesString) : [];
-  
-      const newDevice = new devices(
-        (existingDevices.length + 1).toString(),
+      const updatedDevice = {
         name,
         place,
         command,
-        color
-      );
+        color,
+      };
+      const storedDevicesList = await AsyncStorage.getItem('devicesList');
+      let updatedDevicesList = storedDevicesList ? JSON.parse(storedDevicesList) : [];
   
-      existingDevices.push(newDevice);
-      await AsyncStorage.setItem('devicesList', JSON.stringify(existingDevices));
-  
-      // console.log('Name:', name);
-      // console.log('Place:', place);
-      // console.log('Command:', command);
-      // console.log('Color:', color);
-      console.log('Dodanie udane');
+      if (deviceToEdit) {
+        updatedDevicesList = updatedDevicesList.map((device) =>
+          device.id === deviceToEdit.id ? { ...device, ...updatedDevice } : device
+        );
+      } else {
+        const newDevice = { ...updatedDevice, id: Date.now().toString() };
+        updatedDevicesList.push(newDevice);
+      }
+      await AsyncStorage.setItem('devicesList', JSON.stringify(updatedDevicesList));
+      console.log('Edycja udana');
       navigation.navigate('Devices');
     } catch (error) {
       console.error('Error saving device:', error);
@@ -105,4 +116,4 @@ const NewDeviceScreen = () => {
   );
 };
 
-export default NewDeviceScreen;
+export default EditDeviceScreen;

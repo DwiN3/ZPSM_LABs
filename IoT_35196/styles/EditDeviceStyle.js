@@ -1,4 +1,4 @@
-// NewDeviceStyle.js
+// EditDeviceStyle.js
 
 import { StyleSheet } from 'react-native';
 
