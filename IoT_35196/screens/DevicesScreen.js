@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback,  useFocusEffect } from 'react';
-import { Text, View, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Text, View, FlatList, TouchableOpacity, RefreshControl, Image } from 'react-native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import styles from '../styles/DevicesStyle';
 
@@ -59,7 +59,7 @@ const DevicesScreen = () => {
     };
     const itemNameStyle = isLastItem ? styles.lastItemName : styles.itemName;
     const itemTextStyle = isLastItem ? styles.lastItemText : styles.itemText;
-
+  
     const onPressItem = () => {
       if (isLastItem) {
         navigation.navigate('New Device');
@@ -67,10 +67,18 @@ const DevicesScreen = () => {
         clearAllData();
       }
     };
-
+  
     return (
       <TouchableOpacity onPress={onPressItem}>
         <View style={itemContainerStyle}>
+          {!isLastItem && (  
+            <View style={styles.deleteItemX}>
+              <Image
+                source={require('../img/icon_x.png')}
+                style={{ width: 38, height: 38 }}
+              />
+            </View>
+          )}
           <Text style={itemNameStyle}>{item.name}</Text>
           <Text style={itemTextStyle}>{item.place}</Text>
         </View>

@@ -22,6 +22,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'yellow',
     marginBottom: 10,
   },
+  deleteItemX: {
+    width: 38,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
   lastItemContainer: {
     height: 170,
     width: 170,
