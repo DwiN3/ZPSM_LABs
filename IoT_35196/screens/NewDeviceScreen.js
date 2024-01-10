@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import styles from '../styles/NewDeviceStyle';
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 
 import { devices, devicesList } from '../data/devices';
 
@@ -14,23 +15,30 @@ const NewDeviceScreen = () => {
 
   const navigation = useNavigation();
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const newDevice = new devices(
-      (devicesList.length + 1).toString(), // Auto-increment ID
+      (devicesList.length + 1).toString(),
       name,
       place,
       command,
       color
     );
 
-    devicesList.push(newDevice); // Add the new device to the list
+    // Update local state
+    devicesList.push(newDevice);
+
+    // Save to AsyncStorage
+    try {
+      await AsyncStorage.setItem('devicesList', JSON.stringify(devicesList));
+    } catch (error) {
+      console.error('Error saving devices:', error);
+    }
 
     console.log('Name:', name);
     console.log('Place:', place);
     console.log('Command:', command);
     console.log('Color:', color);
-
-    // You might want to save the updated devicesList to persistent storage here
+    navigation.navigate('Devices');
   };
 
   const exit = () => {

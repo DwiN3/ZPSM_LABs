@@ -1,13 +1,54 @@
-import React from 'react';
-import { Text, View, FlatList, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState, useCallback,  useFocusEffect } from 'react';
+import { Text, View, FlatList, TouchableOpacity, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { devicesList } from '../data/devices';
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
 import styles from '../styles/DevicesStyle';
 
 const DevicesScreen = () => {
   const navigation = useNavigation();
 
+  const [devicesList, setDevicesList] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    loadDevices();
+  }, []);
+
   const extendedDevicesList = [...devicesList, { id: '+', name: '+', place: '' }];
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await loadDevices();
+    setRefreshing(false);
+  }, []);
+
+  const loadDevices = async () => {
+    try {
+      const storedDevices = await AsyncStorage.getItem('devicesList');
+      if (storedDevices) {
+        setDevicesList(JSON.parse(storedDevices));
+      }
+    } catch (error) {
+      console.error('Error loading devices:', error);
+    }
+  };
+
+  const saveDevices = async (updatedDevicesList) => {
+    try {
+      await AsyncStorage.setItem('devicesList', JSON.stringify(updatedDevicesList));
+    } catch (error) {
+      console.error('Error saving devices:', error);
+    }
+  };
+
+  const clearAllData = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('AsyncStorage cleared successfully');
+    } catch (error) {
+      console.error('Error clearing AsyncStorage:', error);
+    }
+  };
 
   const renderItem = ({ item, index }) => {
     const isLastItem = index === extendedDevicesList.length - 1;
@@ -23,7 +64,7 @@ const DevicesScreen = () => {
       if (isLastItem) {
         navigation.navigate('New Device');
       } else {
-        // Handle press for other items if needed
+        clearAllData();
       }
     };
 
@@ -39,12 +80,15 @@ const DevicesScreen = () => {
 
   return (
     <View style={styles.container}>
-        <FlatList
-          data={extendedDevicesList}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          numColumns={2} 
-        />
+      <FlatList
+        data={extendedDevicesList}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        numColumns={2}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
     </View>
   );
 };
