@@ -11,9 +11,16 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         paddingLeft: 8,
       },
+      colorsContainer: {
+
+      },
+    
+       circleColor:{
+        
+      },
       buttonContainer: {
         flexDirection: 'row', 
-    justifyContent: 'space-between',
+        justifyContent: 'space-between',
         width: 50,
         alignItems: 'center',  
         justifyContent: 'center',

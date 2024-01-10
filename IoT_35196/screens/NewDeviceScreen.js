@@ -9,6 +9,8 @@ const NewDeviceScreen = () => {
   const [command, setCommand] = useState('');
   const [color, setColor] = useState('');
 
+  const Colors = ["blue", "yellow", "pink", "red", "green", "purple", "orange", "grey" ]
+
   const navigation = useNavigation();
 
   const handleSave = () => {
