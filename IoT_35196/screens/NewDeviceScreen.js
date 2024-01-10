@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {Text, View, TextInput, Button, Picker} from 'react-native';
-import DevicesScreen from './DevicesScreen';
+import React, { useState } from 'react';
+import { Text, View, TextInput, TouchableHighlight } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import styles from '../styles/NewDeviceStyle';
 
 const NewDeviceScreen = () => {
   const [name, setName] = useState('');
@@ -23,31 +23,45 @@ const NewDeviceScreen = () => {
   };
 
   const handleCancel = () => {
-
     console.log('Cancelled');
   };
 
-
   return (
-    <View>
-        <TextInput
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
         placeholder="Name"
         value={name}
         onChangeText={(text) => setName(text)}
-        />
-        <TextInput
-        placeholder="Place"
-        value={name}
-        onChangeText={(text) => setName(text)}
-        />
+      />
       <TextInput
+        style={styles.input}
+        placeholder="Place"
+        value={place}
+        onChangeText={(text) => setPlace(text)}
+      />
+      <TextInput
+        style={styles.input}
         placeholder="Command"
         value={command}
         onChangeText={(text) => setCommand(text)}
       />
-       <Button title="Save" onPress={handleSave} ></Button>
-       <Button title="Cancel" onPress={exit} ></Button>
+
+      <TouchableHighlight
+        style={[styles.buttonContainer, styles.button, { backgroundColor: 'green' }]}
+        onPress={handleSave}
+      >
+        <Text style={styles.buttonText}>Save</Text>
+      </TouchableHighlight>
+
+      <TouchableHighlight
+        style={[styles.buttonContainer, styles.button, { backgroundColor: 'red' }]}
+        onPress={exit}
+      >
+        <Text style={styles.buttonText}>Cancel</Text>
+      </TouchableHighlight>
     </View>
   );
 };
+
 export default NewDeviceScreen;
