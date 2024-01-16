@@ -54,19 +54,19 @@ const NewDeviceScreen = () => {
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.input}
+        style={{...styles.input, color:'black'}}
         placeholder="Name"
         value={name}
         onChangeText={(text) => setName(text)}
       />
       <TextInput
-        style={styles.input}
+        style={{...styles.input, color:'black'}}
         placeholder="Place"
         value={place}
         onChangeText={(text) => setPlace(text)}
       />
       <TextInput
-        style={styles.input}
+        style={{...styles.input, color:'black'}}
         placeholder="Command"
         value={command}
         onChangeText={(text) => setCommand(text)}

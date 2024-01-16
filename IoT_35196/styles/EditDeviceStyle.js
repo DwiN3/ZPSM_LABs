@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingLeft: 8,
+    color: 'red',
   },
   colorsContainer: {
     height: 55,
