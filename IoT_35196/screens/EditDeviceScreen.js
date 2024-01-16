@@ -12,7 +12,7 @@ const EditDeviceScreen = () => {
   const [place, setPlace] = useState('');
   const [command, setCommand] = useState('');
   const [color, setColor] = useState('');
-  const Colors = ["blue", "yellow", "pink", "red", "green", "purple", "orange"];
+  const Colors = ["lightblue", "yellow", "pink", "red", "green", "purple", "orange"];
 
   const navigation = useNavigation();
   const route = useRoute();

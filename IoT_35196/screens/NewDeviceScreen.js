@@ -11,7 +11,7 @@ const NewDeviceScreen = () => {
   const [name, setName] = useState('');
   const [place, setPlace] = useState('');
   const [command, setCommand] = useState('');
-  const Colors = ["blue", "yellow", "pink", "red", "green", "purple", "orange"];
+  const Colors = ["lightblue", "yellow", "pink", "red", "green", "purple", "orange"];
   const [color, setColor] = useState(Colors[0]);
 
   const navigation = useNavigation();
