@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Button , TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from '../styles/ConnectionStyle';
@@ -33,36 +33,40 @@ class ConnectScreen extends Component {
       console.log('Found device:', device);
       if (device.name === 'MLT-BT05') {
         this.manager.stopDeviceScan();
-        device.connect()
-          .then((connectedDevice) => {
-            return connectedDevice.discoverAllServicesAndCharacteristics();
-          })
-          .then((characteristic) => {
-            console.log('Device connected and characteristics discovered:', characteristic);
-
-            const deviceInfo = {
-              id: device.id,
-              serviceUUID: 'FFE0', 
-              characteristicUUID: 'FFE1', 
-            };
-
-            AsyncStorage.setItem('device', JSON.stringify(deviceInfo)).then(() => {
-              this.props.navigation.navigate('Devices');
-            });
-          })
-          .catch((error) => {
-            console.log('Error connecting to device:', error);
-          });
+        this.connectToDevice(device);
       }
     });
   }
 
+  connectToDevice(device) {
+    device.connect()
+      .then((connectedDevice) => {
+        return connectedDevice.discoverAllServicesAndCharacteristics();
+      })
+      .then((characteristic) => {
+        console.log('Device connected and characteristics discovered:', characteristic);
+
+        const deviceInfo = {
+          id: device.id,
+          serviceUUID: 'FFE0',
+          characteristicUUID: 'FFE1',
+        };
+
+        AsyncStorage.setItem('device', JSON.stringify(deviceInfo)).then(() => {
+          this.props.navigation.navigate('Devices');
+        });
+      })
+      .catch((error) => {
+        console.log('Error connecting to device:', error);
+      });
+  }
+
   sendCommandToDevice(command) {
-    AsyncStorage.getItem('device').then(device => {
-      device = JSON.parse(device);
-      if (device) {
+    AsyncStorage.getItem('device').then(deviceInfo => {
+      deviceInfo = JSON.parse(deviceInfo);
+      if (deviceInfo) {
         this.manager.writeCharacteristicWithResponseForDevice(
-          device.id, device.serviceUUID, device.characteristicUUID, btoa(command)
+          deviceInfo.id, deviceInfo.serviceUUID, deviceInfo.characteristicUUID, btoa(command)
         ).then(response => {
           console.log(`Command "${command}" sent successfully. Response:`, response);
         }).catch((error) => {
@@ -73,11 +77,11 @@ class ConnectScreen extends Component {
   }
 
   receiveDataFromDevice() {
-    AsyncStorage.getItem('device').then(device => {
-      device = JSON.parse(device);
-      if (device) {
+    AsyncStorage.getItem('device').then(deviceInfo => {
+      deviceInfo = JSON.parse(deviceInfo);
+      if (deviceInfo) {
         this.manager.monitorCharacteristicForDevice(
-          device.id, device.serviceUUID, device.characteristicUUID, async (error, response) => {
+          deviceInfo.id, deviceInfo.serviceUUID, deviceInfo.characteristicUUID, async (error, response) => {
             const value = response && response.value ? atob(response.value) : null;
             console.log('Received and decoded value:', value);
             if (error) {
@@ -102,9 +106,9 @@ class ConnectScreen extends Component {
           <Text style={styles.buttonText}>Scan and Connect</Text>
         </TouchableOpacity>
         <TouchableOpacity
-            style={[styles.buttonScan, { marginTop: -30 }]}
-            onPress={() => this.receiveDataFromDevice()}
-          >
+          style={[styles.buttonScan, { marginTop: -30 }]}
+          onPress={() => this.receiveDataFromDevice()}
+        >
           <Text style={styles.buttonText}>Receive Data</Text>
         </TouchableOpacity>
         <View style={styles.buttonContainer}>
@@ -137,6 +141,5 @@ class ConnectScreen extends Component {
     );
   }
 }
-
 
 export default ConnectScreen;
