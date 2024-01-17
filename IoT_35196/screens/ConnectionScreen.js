@@ -57,16 +57,35 @@ class ConnectScreen extends Component {
     });
   }
 
-  changeDevice(command) {
+  sendCommandToDevice(command) {
     AsyncStorage.getItem('device').then(device => {
       device = JSON.parse(device);
       if (device) {
         this.manager.writeCharacteristicWithResponseForDevice(
           device.id, device.serviceUUID, device.characteristicUUID, btoa(command)
         ).then(response => {
-          console.log('response', response);
+          console.log(`Command "${command}" sent successfully. Response:`, response);
         }).catch((error) => {
-          console.log('Error', error);
+          console.log('Error:', error);
+        });
+      }
+    });
+  }
+
+  receiveDataFromDevice() {
+    AsyncStorage.getItem('device').then(device => {
+      device = JSON.parse(device);
+      if (device) {
+        this.manager.monitorCharacteristicForDevice(
+          device.id, device.serviceUUID, device.characteristicUUID, async (error, response) => {
+            const value = response && response.value ? atob(response.value) : null;
+            console.log('Received and decoded value:', value);
+            if (error) {
+              console.log('Error receiving data:', error);
+            }
+          }
+        ).catch(error => {
+          console.log('Error monitoring characteristic:', error);
         });
       }
     });
@@ -82,29 +101,34 @@ class ConnectScreen extends Component {
         >
           <Text style={styles.buttonText}>Scan and Connect</Text>
         </TouchableOpacity>
-
+        <TouchableOpacity
+            style={[styles.buttonScan, { marginTop: -30 }]}
+            onPress={() => this.receiveDataFromDevice()}
+          >
+          <Text style={styles.buttonText}>Receive Data</Text>
+        </TouchableOpacity>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={[styles.button, styles.redButton]}
-            onPress={() => this.changeDevice('red')}
+            onPress={() => this.sendCommandToDevice('red')}
           >
             <Text style={styles.buttonText}>Red</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.greenButton]}
-            onPress={() => this.changeDevice('green')}
+            onPress={() => this.sendCommandToDevice('green')}
           >
             <Text style={styles.buttonText}>Green</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.blueButton]}
-            onPress={() => this.changeDevice('blue')}
+            onPress={() => this.sendCommandToDevice('blue')}
           >
             <Text style={styles.buttonText}>Blue</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.offButton]}
-            onPress={() => this.changeDevice('off')}
+            onPress={() => this.sendCommandToDevice('off')}
           >
             <Text style={styles.buttonText}>Turn Off</Text>
           </TouchableOpacity>
