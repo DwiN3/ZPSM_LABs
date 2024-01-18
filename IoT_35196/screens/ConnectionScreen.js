@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-
 import styles from '../styles/ConnectionStyle';
 
 class ConnectionScreen extends Component {

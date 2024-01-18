@@ -62,6 +62,10 @@ const EditDeviceScreen = () => {
     setColor(selectedColor);
   };
 
+  const handleComend = () => {
+
+  }
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -98,6 +102,13 @@ const EditDeviceScreen = () => {
           </TouchableHighlight>
         ))}
       </View>
+
+      <TouchableHighlight
+        style={[styles.buttonContainer, styles.button, { backgroundColor: 'blue' }]}
+        onPress={handleComend}
+      >
+        <Text style={styles.buttonText}>Send Comend</Text>
+      </TouchableHighlight>
 
       <TouchableHighlight
         style={[styles.buttonContainer, styles.button, { backgroundColor: 'green' }]}

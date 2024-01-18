@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 170,
+    marginBottom: 100,
     backgroundColor: "grey",
   },
   circleOneColor: {
@@ -48,9 +48,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  textColor: {
-    color: 'grey',
-  }
 });
 
 export default styles;
