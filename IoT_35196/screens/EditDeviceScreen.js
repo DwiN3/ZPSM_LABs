@@ -1,11 +1,11 @@
 // EditDeviceScreen.js
 
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, TouchableHighlight } from 'react-native';
+import { Text, View, TextInput, TouchableHighlight, ToastAndroid } from 'react-native'; // Added ToastAndroid for displaying messages
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from '../styles/EditDeviceStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { devices, devicesList } from '../data/devices';
+import { BleManager } from 'react-native-ble-plx';
 
 const EditDeviceScreen = () => {
   const [name, setName] = useState('');
@@ -16,7 +16,19 @@ const EditDeviceScreen = () => {
 
   const navigation = useNavigation();
   const route = useRoute();
-  const { deviceToEdit } = route.params || {}; 
+  const { deviceToEdit } = route.params || {};
+
+  const manager = new BleManager();
+
+  const checkBluetoothState = () => {
+    const subscription = manager.onStateChange((state) => {
+      if (state === 'PoweredOn') {
+        // Bluetooth is on, you can perform operations here if needed
+      } else {
+        // Bluetooth is off or in another state
+      }
+    }, true);
+  };
 
   useEffect(() => {
     if (deviceToEdit) {
@@ -37,7 +49,7 @@ const EditDeviceScreen = () => {
       };
       const storedDevicesList = await AsyncStorage.getItem('devicesList');
       let updatedDevicesList = storedDevicesList ? JSON.parse(storedDevicesList) : [];
-  
+
       if (deviceToEdit) {
         updatedDevicesList = updatedDevicesList.map((device) =>
           device.id === deviceToEdit.id ? { ...device, ...updatedDevice } : device
@@ -47,7 +59,7 @@ const EditDeviceScreen = () => {
         updatedDevicesList.push(newDevice);
       }
       await AsyncStorage.setItem('devicesList', JSON.stringify(updatedDevicesList));
-      console.log('Edycja udana');
+      console.log('Edit successful');
       navigation.navigate('Devices');
     } catch (error) {
       console.error('Error saving device:', error);
@@ -62,9 +74,26 @@ const EditDeviceScreen = () => {
     setColor(selectedColor);
   };
 
-  const handleComend = () => {
+  const handleCommandSend = async () => {
+    if (deviceToEdit) {
+      try {
+        await changeDevice(command);
+        ToastAndroid.show('Command sent successfully', ToastAndroid.SHORT);
+      } catch (error) {
+        console.log('Error sending command:', error);
+        ToastAndroid.show('Error sending command', ToastAndroid.SHORT);
+      }
+    }
+  };
 
-  }
+  const changeDevice = async (command) => {
+    await manager.writeCharacteristicWithResponseForDevice(
+      deviceToEdit.id,
+      deviceToEdit.serviceUUID,
+      deviceToEdit.characteristicUUID,
+      btoa(command)
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -105,9 +134,9 @@ const EditDeviceScreen = () => {
 
       <TouchableHighlight
         style={[styles.buttonContainer, styles.button, { backgroundColor: 'blue' }]}
-        onPress={handleComend}
+        onPress={handleCommandSend}
       >
-        <Text style={styles.buttonText}>Send Comend</Text>
+        <Text style={styles.buttonText}>Send Command</Text>
       </TouchableHighlight>
 
       <TouchableHighlight
