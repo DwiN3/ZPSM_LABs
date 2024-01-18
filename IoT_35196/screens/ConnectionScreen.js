@@ -54,7 +54,8 @@ class ConnectionScreen extends Component {
         this.handleScannedDevice(device);
       }
   
-      if (device.name === 'BLE EF1020') {
+      // My headphones: BLE EF1020 / MLT-BT05
+      if (device.name === 'MLT-BT05') {
         this.manager.stopDeviceScan();
         this.setState({ scannedDevicesList: [] });
   
