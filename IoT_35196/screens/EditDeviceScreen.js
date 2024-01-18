@@ -84,7 +84,7 @@ const EditDeviceScreen = () => {
       );
       console.log('Response ', response);
     } catch (error) {
-      console.log('Error ', error);
+      console.log('Error', error);
     }
   };
   
