@@ -12,6 +12,7 @@ class ConnectionScreen extends Component {
     this.manager = new BleManager();
     this.state = {
       scannedDevicesList: [],
+      showCommandButtons: false,
     };
   }
   id_connect = 1;
@@ -28,6 +29,7 @@ class ConnectionScreen extends Component {
   }
 
   scanDevices() {
+    this.showCommandButtons(false);
     this.manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         console.log('error', error);
@@ -77,13 +79,19 @@ class ConnectionScreen extends Component {
             characteristicUUID: characteristicUUID,
           };
   
+          this.showCommandButtons(true);
           this.handleSaveDevice(deviceInfo.id, device.name, serviceUUID, characteristicUUID);
           console.log('MLT-BT05 is Added');
+
       } catch (error) {
         console.log('Error', error);
       }
       }
     });
+  }
+
+  showCommandButtons(show) {
+    this.setState({ showCommandButtons: show });
   }
 
   handleSaveDevice = async (deviceId, deviceName, serviceUUID_, characteristicUUID_) => {
@@ -140,30 +148,34 @@ class ConnectionScreen extends Component {
           <Text style={styles.buttonText}>Connect with MLT-BT05</Text>
         </TouchableOpacity>
         <View style={[styles.buttonContainer, styles.commandButtonsContainer]}>
-          <TouchableOpacity
-            style={[styles.buttonCommends, styles.redButton]}
-            onPress={() => this.changeDevice('red')}
-          >
-            <Text style={styles.buttonText}>Red</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonCommends, styles.greenButton]}
-            onPress={() => this.changeDevice('green')}
-          >
-            <Text style={styles.buttonText}>Green</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonCommends, styles.blueButton]}
-            onPress={() => this.changeDevice('blue')}
-          >
-            <Text style={styles.buttonText}>Blue</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonCommends, styles.offButton]}
-            onPress={() => this.changeDevice('off')}
-          >
-            <Text style={styles.buttonText}>Turn Off</Text>
-          </TouchableOpacity>
+          {this.state.showCommandButtons && ( 
+            <>
+              <TouchableOpacity
+                style={[styles.buttonCommends, styles.redButton]}
+                onPress={() => this.changeDevice('red')}
+              >
+                <Text style={styles.buttonText}>Red</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.buttonCommends, styles.greenButton]}
+                onPress={() => this.changeDevice('green')}
+              >
+                <Text style={styles.buttonText}>Green</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.buttonCommends, styles.blueButton]}
+                onPress={() => this.changeDevice('blue')}
+              >
+                <Text style={styles.buttonText}>Blue</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.buttonCommends, styles.offButton]}
+                onPress={() => this.changeDevice('off')}
+              >
+                <Text style={styles.buttonText}>Turn Off</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
         
         <FlatList
