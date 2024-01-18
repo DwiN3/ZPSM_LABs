@@ -14,7 +14,7 @@ class ConnectionScreen extends Component {
       scannedDevicesList: [],
     };
   }
-  connected_id;
+  connected_id = 1;
 
   checkBluetoothState() {
     const subscription = this.manager.onStateChange((state) => {

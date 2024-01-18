@@ -48,6 +48,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  idText: {
+    color: 'black',
+    fontSize: 16,
+  },
+  placeholder: {
+    color: 'grey',
+  },
 });
 
 export default styles;

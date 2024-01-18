@@ -71,21 +71,25 @@ const EditDeviceScreen = () => {
       <TextInput
         style={styles.input}
         placeholder="Name"
+        placeholderTextColor={styles.placeholder.color}
         value={name}
         onChangeText={(text) => setName(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Place"
+        placeholderTextColor={styles.placeholder.color}
         value={place}
         onChangeText={(text) => setPlace(text)}
       />
       <TextInput
         style={styles.input}
         placeholder="Command"
+        placeholderTextColor={styles.placeholder.color}
         value={command}
         onChangeText={(text) => setCommand(text)}
       />
+      <Text style={styles.idText}>ID: {deviceToEdit.id}</Text>
 
       <View><Text style={{color: 'grey', fontSize:20, marginVertical:12 }} >Colors</Text></View>
       <View style={styles.colorsContainer}>

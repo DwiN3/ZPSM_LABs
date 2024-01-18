@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  textColor: {
+  placeholder: {
     color: 'grey',
-  }
+  },
 });
 
 export default styles;
