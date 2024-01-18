@@ -14,7 +14,9 @@ class ConnectionScreen extends Component {
       scannedDevicesList: [],
     };
   }
-  connected_id = 1;
+  id_connect = 1;
+  serviceUUID_connect = "";
+  characteristicUUID_connect = "";
 
   checkBluetoothState() {
     const subscription = this.manager.onStateChange((state) => {
@@ -50,7 +52,7 @@ class ConnectionScreen extends Component {
         this.handleScannedDevice(device);
       }
   
-      if (device.name === 'MLT-BT05') {
+      if (device.name === 'BLE EF1020') {
         this.manager.stopDeviceScan();
         this.setState({ scannedDevicesList: [] });
   
@@ -58,21 +60,24 @@ class ConnectionScreen extends Component {
           const connectedDevice = await device.connect();
           await connectedDevice.discoverAllServicesAndCharacteristics();
 
-          // const services = connectedDevice.services();
-          // const characteristics = connectedDevice.characteristics();
-          // const serviceUUID = services[0].uuid;
-          // const characteristicUUID = characteristics[0].uuid;
+          const services = await connectedDevice.services();
+          const serviceUUID = services[0].uuid;
+          const characteristics = await connectedDevice.characteristicsForService(serviceUUID)
+          const characteristicUUID = characteristics[0].uuid;
 
-          // console.log('serviceUUID: '+connectedDevice.serviceUUID+'\nconnectedDevice: '+connectedDevice.characteristicUUID);
-          connected_id = connectedDevice.id;
+          console.log('serviceUUID: ' + serviceUUID + '\ncharacteristicUUID: ' + characteristicUUID);
+          // console.log('serviceUUID: '+connectedDevice.serviceUUID+'\ncharacteristicUUID: '+connectedDevice.characteristicUUID);
+          id_connect = connectedDevice.id;
+          serviceUUID_connect = serviceUUID;
+          characteristicUUID_connect = characteristicUUID;
 
           const deviceInfo = {
             id: connectedDevice.id,
-            serviceUUID: 'FFE0',
-            characteristicUUID: 'FFE1'
+            serviceUUID: serviceUUID,
+            characteristicUUID: characteristicUUID,
           };
   
-          this.handleSaveDevice(deviceInfo.id, device.name);
+          this.handleSaveDevice(deviceInfo.id, device.name, serviceUUID, characteristicUUID);
           console.log('MLT-BT05 is Added');
       } catch (error) {
         console.log('Error', error);
@@ -81,14 +86,14 @@ class ConnectionScreen extends Component {
     });
   }
 
-  handleSaveDevice = async (deviceId, deviceName) => {
+  handleSaveDevice = async (deviceId, deviceName, serviceUUID_, characteristicUUID_) => {
     try {
       const existingDevicesString = await AsyncStorage.getItem('devicesList');
       const existingDevices = existingDevicesString ? JSON.parse(existingDevicesString) : [];
       const existingDevice = existingDevices.find((d) => d.id === deviceId);
 
       if (!existingDevice) {
-        const newDevice = { id: deviceId, name: deviceName, color: 'yellow' };
+        const newDevice = { id: deviceId, name: deviceName, color: 'yellow', serviceUUID: serviceUUID_, characteristicUUID: characteristicUUID_};
         existingDevices.push(newDevice);
         await AsyncStorage.setItem('devicesList', JSON.stringify(existingDevices));
       }
@@ -110,7 +115,7 @@ class ConnectionScreen extends Component {
 
   changeDevice(command) {
         this.manager.writeCharacteristicWithResponseForDevice(
-          connected_id, 'FFE0', 'FFE1', encode(command)
+          id_connect, serviceUUID_connect, characteristicUUID_connect, encode(command)
         ).then(response => {
           console.log('response', response);
         }).catch((error) => {
