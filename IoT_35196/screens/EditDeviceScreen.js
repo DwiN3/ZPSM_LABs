@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, TouchableHighlight } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import styles from '../styles/NewDeviceStyle';
+import styles from '../styles/EditDeviceStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { devices, devicesList } from '../data/devices';
 
@@ -83,7 +83,7 @@ const EditDeviceScreen = () => {
         onChangeText={(text) => setCommand(text)}
       />
 
-      <View><Text style={{ fontSize:20, marginVertical:12 }} >Colors</Text></View>
+      <View><Text style={{color: 'grey', fontSize:20, marginVertical:12 }} >Colors</Text></View>
       <View style={styles.colorsContainer}>
         {Colors.map((c) => (
           <TouchableHighlight

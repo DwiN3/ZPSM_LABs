@@ -1,4 +1,4 @@
-// EditDeviceStyle.js
+// EditAndNewDeviceStyle.js
 
 import { StyleSheet } from 'react-native';
 
@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingLeft: 8,
+    color: 'black',
   },
   colorsContainer: {
     height: 55,
@@ -47,6 +48,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  textColor: {
+    color: 'grey',
+  }
 });
 
 export default styles;

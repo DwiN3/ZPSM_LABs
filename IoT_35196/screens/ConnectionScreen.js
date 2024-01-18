@@ -1,145 +1,142 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
 import styles from '../styles/ConnectionStyle';
 
-class ConnectScreen extends Component {
+class ConnectionScreen extends Component {
+  
   constructor(props) {
     super(props);
     this.manager = new BleManager();
-  }
-
-  componentDidMount() {
-    this.checkBluetoothState();
+    this.state = {
+      scannedDevicesList: [],
+    };
   }
 
   checkBluetoothState() {
     const subscription = this.manager.onStateChange((state) => {
       if (state === 'PoweredOn') {
-        this.scanAndConnect();
+        this.scanDevices();
         subscription.remove();
       }
     }, true);
   }
 
-  scanAndConnect() {
+  scanDevices() {
     this.manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
-        console.log('Error during scanning:', error);
+        console.log('error', error);
         return;
       }
+      this.handleScannedDevice(device);
+    });
+  }
 
-      console.log('Found device:', device);
+  addDeviceMLT() {
+    this.manager.startDeviceScan(null, null, async (error, device) => {
+      if (error) {
+        console.log('error', error);
+        return;
+      }
+  
+      //console.log('DEVICE', device);
+  
+      const existingDeviceIndex = this.state.scannedDevicesList.findIndex((d) => d.id === device.id);
+  
+      if (existingDeviceIndex === -1) {
+        this.handleScannedDevice(device);
+      }
+  
       if (device.name === 'MLT-BT05') {
         this.manager.stopDeviceScan();
-        this.connectToDevice(device);
+        this.setState({ scannedDevicesList: [] });
+  
+        try {
+          const connectedDevice = await device.connect();
+          await connectedDevice.discoverAllServicesAndCharacteristics();
+
+          // const services = connectedDevice.services();
+          // const characteristics = connectedDevice.characteristics();
+          // const serviceUUID = services[0].uuid;
+          // const characteristicUUID = characteristics[0].uuid;
+  
+          const deviceInfo = {
+            id: connectedDevice.id,
+            serviceUUID: 'FFE0',
+            characteristicUUID: 'FFE1'
+          };
+  
+          this.handleSaveDevice(deviceInfo.id, device.name);
+          console.log('MLT-BT05 is Added');
+      } catch (error) {
+        console.log('Error', error);
+      }
       }
     });
   }
 
-  connectToDevice(device) {
-    device.connect()
-      .then((connectedDevice) => {
-        return connectedDevice.discoverAllServicesAndCharacteristics();
-      })
-      .then((characteristic) => {
-        console.log('Device connected and characteristics discovered:', characteristic);
+  handleSaveDevice = async (deviceId, deviceName) => {
+    try {
+      const existingDevicesString = await AsyncStorage.getItem('devicesList');
+      const existingDevices = existingDevicesString ? JSON.parse(existingDevicesString) : [];
+      const existingDevice = existingDevices.find((d) => d.id === deviceId);
 
-        const deviceInfo = {
-          id: device.id,
-          serviceUUID: 'FFE0',
-          characteristicUUID: 'FFE1',
-        };
-
-        AsyncStorage.setItem('device', JSON.stringify(deviceInfo)).then(() => {
-          this.props.navigation.navigate('Devices');
-        });
-      })
-      .catch((error) => {
-        console.log('Error connecting to device:', error);
-      });
-  }
-
-  sendCommandToDevice(command) {
-    AsyncStorage.getItem('device').then(deviceInfo => {
-      deviceInfo = JSON.parse(deviceInfo);
-      if (deviceInfo) {
-        this.manager.writeCharacteristicWithResponseForDevice(
-          deviceInfo.id, deviceInfo.serviceUUID, deviceInfo.characteristicUUID, btoa(command)
-        ).then(response => {
-          console.log(`Command "${command}" sent successfully. Response:`, response);
-        }).catch((error) => {
-          console.log('Error:', error);
-        });
+      if (!existingDevice) {
+        const newDevice = { id: deviceId, name: deviceName, color: 'yellow' };
+        existingDevices.push(newDevice);
+        await AsyncStorage.setItem('devicesList', JSON.stringify(existingDevices));
       }
-    });
-  }
+    } catch (error) {
+      console.error('Error saving device:', error);
+    }
+  };
 
-  receiveDataFromDevice() {
-    AsyncStorage.getItem('device').then(deviceInfo => {
-      deviceInfo = JSON.parse(deviceInfo);
-      if (deviceInfo) {
-        this.manager.monitorCharacteristicForDevice(
-          deviceInfo.id, deviceInfo.serviceUUID, deviceInfo.characteristicUUID, async (error, response) => {
-            const value = response && response.value ? atob(response.value) : null;
-            console.log('Received and decoded value:', value);
-            if (error) {
-              console.log('Error receiving data:', error);
-            }
-          }
-        ).catch(error => {
-          console.log('Error monitoring characteristic:', error);
-        });
-      }
-    });
+  handleScannedDevice(device) {
+    const { id, name } = device;
+    const existingDeviceIndex = this.state.scannedDevicesList.findIndex((d) => d.id === id);
+
+    if (existingDeviceIndex === -1) {
+      const newDeviceName = name || `Device ${this.state.scannedDevicesList.length + 1}`;
+      const newScannedDevicesList = [...this.state.scannedDevicesList, { id, name: newDeviceName }];
+      this.setState({ scannedDevicesList: newScannedDevicesList });
+    }
   }
 
   render() {
     return (
-      <View>
-        <Text style={{ color: 'white' }}></Text>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[styles.buttonScan, { marginTop: 10 }]}
+          onPress={() => this.scanDevices()}
+        >
+          <Text style={styles.buttonText}>Scan Device</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonScan}
-          onPress={() => this.scanAndConnect()}
+          onPress={() => this.addDeviceMLT()}
         >
-          <Text style={styles.buttonText}>Scan and Connect</Text>
+          <Text style={styles.buttonText}>Connect with MLT-BT05</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonScan, { marginTop: -30 }]}
-          onPress={() => this.receiveDataFromDevice()}
-        >
-          <Text style={styles.buttonText}>Receive Data</Text>
-        </TouchableOpacity>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={[styles.button, styles.redButton]}
-            onPress={() => this.sendCommandToDevice('red')}
-          >
-            <Text style={styles.buttonText}>Red</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.greenButton]}
-            onPress={() => this.sendCommandToDevice('green')}
-          >
-            <Text style={styles.buttonText}>Green</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.blueButton]}
-            onPress={() => this.sendCommandToDevice('blue')}
-          >
-            <Text style={styles.buttonText}>Blue</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.offButton]}
-            onPress={() => this.sendCommandToDevice('off')}
-          >
-            <Text style={styles.buttonText}>Turn Off</Text>
-          </TouchableOpacity>
-        </View>
+        
+        <FlatList
+          data={this.state.scannedDevicesList}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => this.handleSaveDevice(item.id, item.name)}>
+              <View style={styles.itemContainer}>
+                <Text style={styles.itemName}>{item.name}</Text>
+                <Text style={styles.itemText}>{item.id}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          numColumns={2}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     );
   }
 }
 
-export default ConnectScreen;
+export default ConnectionScreen;
