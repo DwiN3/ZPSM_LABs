@@ -70,9 +70,12 @@ class ConnectionScreen extends Component {
 
           console.log('serviceUUID: ' + serviceUUID + '\ncharacteristicUUID: ' + characteristicUUID);
           // console.log('serviceUUID: '+connectedDevice.serviceUUID+'\ncharacteristicUUID: '+connectedDevice.characteristicUUID);
+
           id_connect = connectedDevice.id;
           serviceUUID_connect = serviceUUID;
           characteristicUUID_connect = characteristicUUID;
+          // serviceUUID_connect = 'FFE0';
+          // characteristicUUID_connect = 'FFE1';
 
           const deviceInfo = {
             id: connectedDevice.id,

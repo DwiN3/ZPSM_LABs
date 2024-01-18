@@ -5,7 +5,6 @@ import { Text, View, TextInput, TouchableHighlight } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from '../styles/EditDeviceStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { devices, devicesList } from '../data/devices';
 
 const EditDeviceScreen = () => {
   const [name, setName] = useState('');
