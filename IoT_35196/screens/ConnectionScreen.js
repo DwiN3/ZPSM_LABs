@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, FlatList, Image } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import styles from '../styles/ConnectionStyle';
+import { encode } from 'base-64';
 
 class ConnectionScreen extends Component {
   
@@ -14,6 +14,7 @@ class ConnectionScreen extends Component {
       scannedDevicesList: [],
     };
   }
+  connected_id;
 
   checkBluetoothState() {
     const subscription = this.manager.onStateChange((state) => {
@@ -61,7 +62,10 @@ class ConnectionScreen extends Component {
           // const characteristics = connectedDevice.characteristics();
           // const serviceUUID = services[0].uuid;
           // const characteristicUUID = characteristics[0].uuid;
-  
+
+          // console.log('serviceUUID: '+connectedDevice.serviceUUID+'\nconnectedDevice: '+connectedDevice.characteristicUUID);
+          connected_id = connectedDevice.id;
+
           const deviceInfo = {
             id: connectedDevice.id,
             serviceUUID: 'FFE0',
@@ -104,6 +108,17 @@ class ConnectionScreen extends Component {
     }
   }
 
+  changeDevice(command) {
+        this.manager.writeCharacteristicWithResponseForDevice(
+          connected_id, 'FFE0', 'FFE1', encode(command)
+        ).then(response => {
+          console.log('response', response);
+        }).catch((error) => {
+          console.log('Error', error);
+        });
+  }
+
+
   render() {
     return (
       <View style={styles.buttonContainer}>
@@ -119,6 +134,32 @@ class ConnectionScreen extends Component {
         >
           <Text style={styles.buttonText}>Connect with MLT-BT05</Text>
         </TouchableOpacity>
+        <View style={[styles.buttonContainer, styles.commandButtonsContainer]}>
+          <TouchableOpacity
+            style={[styles.buttonCommends, styles.redButton]}
+            onPress={() => this.changeDevice('red')}
+          >
+            <Text style={styles.buttonText}>Red</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonCommends, styles.greenButton]}
+            onPress={() => this.changeDevice('green')}
+          >
+            <Text style={styles.buttonText}>Green</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonCommends, styles.blueButton]}
+            onPress={() => this.changeDevice('blue')}
+          >
+            <Text style={styles.buttonText}>Blue</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonCommends, styles.offButton]}
+            onPress={() => this.changeDevice('off')}
+          >
+            <Text style={styles.buttonText}>Turn Off</Text>
+          </TouchableOpacity>
+        </View>
         
         <FlatList
           data={this.state.scannedDevicesList}

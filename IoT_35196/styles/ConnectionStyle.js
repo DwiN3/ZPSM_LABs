@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
+  buttonCommends: {
+    width: 80,
+    height: 50,
+  },
   button: {
     padding: 10,
     alignItems: 'center',
@@ -40,7 +44,12 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
   },
-
+  commandButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: -10,
+    marginBottom: 10,
+  },
 
   container: {
     flexGrow: 1,
