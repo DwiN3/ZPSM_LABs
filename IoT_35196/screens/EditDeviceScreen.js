@@ -5,6 +5,9 @@ import { Text, View, TextInput, TouchableHighlight } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from '../styles/EditDeviceStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BleManager } from 'react-native-ble-plx';
+import { encode } from 'base-64';
+
 
 const EditDeviceScreen = () => {
   const [name, setName] = useState('');
@@ -12,10 +15,11 @@ const EditDeviceScreen = () => {
   const [command, setCommand] = useState('');
   const [color, setColor] = useState('');
   const Colors = ["blue", "yellow", "pink", "red", "green", "purple", "orange"];
-
   const navigation = useNavigation();
   const route = useRoute();
   const { deviceToEdit } = route.params || {}; 
+  const bleManager = new BleManager();
+
 
   useEffect(() => {
     if (deviceToEdit) {
@@ -61,9 +65,29 @@ const EditDeviceScreen = () => {
     setColor(selectedColor);
   };
 
-  const handleComend = () => {
+  const handleComend = async () => {
+    try {
+      const id = deviceToEdit.id;
+      const serviceUUID = deviceToEdit.serviceUUID;
+      const characteristicUUID = deviceToEdit.characteristicUUID;
 
-  }
+      const connectedDevices = await bleManager.connectedDevices([serviceUUID]);
+      const isConnected = connectedDevices.some(device => device.id === id);
+  
+      if (!isConnected) {
+        const connectedDevice = await bleManager.connectToDevice(id, {autoConnect: true});
+        await connectedDevice.discoverAllServicesAndCharacteristics();
+      }
+  
+      const response = await bleManager.writeCharacteristicWithResponseForDevice(
+        id, serviceUUID, characteristicUUID, encode(command)
+      );
+      console.log('Response ', response);
+    } catch (error) {
+      console.log('Error ', error);
+    }
+  };
+  
 
   return (
     <View style={styles.container}>
