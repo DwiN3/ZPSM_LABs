@@ -1,7 +1,7 @@
 // EditDeviceScreen.js
 
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, TouchableHighlight, ToastAndroid } from 'react-native'; // Added ToastAndroid for displaying messages
+import { Text, View, TextInput, TouchableHighlight, ToastAndroid } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import styles from '../styles/EditDeviceStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,22 +13,9 @@ const EditDeviceScreen = () => {
   const [command, setCommand] = useState('');
   const [color, setColor] = useState('');
   const Colors = ["blue", "yellow", "pink", "red", "green", "purple", "orange"];
-
   const navigation = useNavigation();
   const route = useRoute();
   const { deviceToEdit } = route.params || {};
-
-  const manager = new BleManager();
-
-  const checkBluetoothState = () => {
-    const subscription = manager.onStateChange((state) => {
-      if (state === 'PoweredOn') {
-        // Bluetooth is on, you can perform operations here if needed
-      } else {
-        // Bluetooth is off or in another state
-      }
-    }, true);
-  };
 
   useEffect(() => {
     if (deviceToEdit) {
@@ -87,12 +74,7 @@ const EditDeviceScreen = () => {
   };
 
   const changeDevice = async (command) => {
-    await manager.writeCharacteristicWithResponseForDevice(
-      deviceToEdit.id,
-      deviceToEdit.serviceUUID,
-      deviceToEdit.characteristicUUID,
-      btoa(command)
-    );
+    
   };
 
   return (
