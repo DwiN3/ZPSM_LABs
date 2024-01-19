@@ -55,7 +55,7 @@ class ConnectionScreen extends Component {
       }
   
       // My headphones: BLE EF1020 / MLT-BT05
-      if (device.name === 'MLT-BT05') {
+      if (device.name === 'GR_3') {
         this.manager.stopDeviceScan();
         this.setState({ scannedDevicesList: [] });
   
@@ -72,19 +72,19 @@ class ConnectionScreen extends Component {
           // console.log('serviceUUID: '+connectedDevice.serviceUUID+'\ncharacteristicUUID: '+connectedDevice.characteristicUUID);
 
           id_connect = connectedDevice.id;
-          serviceUUID_connect = serviceUUID;
-          characteristicUUID_connect = characteristicUUID;
+          serviceUUID_connect = 'FFE0';
+          characteristicUUID_connect = 'FFE1';
           // serviceUUID_connect = 'FFE0';
           // characteristicUUID_connect = 'FFE1';
 
           const deviceInfo = {
             id: connectedDevice.id,
-            serviceUUID: serviceUUID,
-            characteristicUUID: characteristicUUID,
+            serviceUUID: serviceUUID_connect,
+            characteristicUUID: characteristicUUID_connect,
           };
   
           this.showCommandButtons(true);
-          this.handleSaveDevice(deviceInfo.id, device.name, serviceUUID, characteristicUUID);
+          this.handleSaveDevice(deviceInfo.id, device.name, serviceUUID_connect, characteristicUUID_connect);
           console.log('MLT-BT05 is Added');
 
       } catch (error) {
